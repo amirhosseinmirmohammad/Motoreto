@@ -1,0 +1,60 @@
+﻿@model DataLayer.Models.Application
+@{
+    ViewBag.Title = "راهنمای سفارش";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Metas{
+    <meta name="description" content="موتورتو تولید کننده و صادر کننده انواع خرما مرغوب ایرانی است . خرمای مضافتی ، و خرمای عسلی از بهترین محصولات موتورتو است .">
+    <meta name="keywords" content="موتورتو , رومانتا , romanta , datepalm , خرمای ایرانی , خرما مضافتي">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content="http://gladcherry.com">
+    <meta name="Designer" content="Design, Develope by, GladCherry, Co. Email : info@gladcherry.com">
+    <meta name="copyright" content="http://gladcherry.com, 2017 - software company">
+    <meta name="expires" content="never">
+    <meta name="rating" content="Safe For Kids">
+    <meta name="og:site_name" content="موتورتو" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:url" content="http://romanta.ir/" />
+    <meta name="robots" content="INDEX,FOLLOW">
+    <meta name="googlebot" content="index">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="موتورتو | برترین خرمای ایرانی">
+    <meta name="twitter:title" content="موتورتو | برترین خرمای ایرانی">
+    <meta name="twitter:domain" content="موتورتو | برترین خرمای ایرانی">
+}
+
+@section Styles{
+}
+
+<div class="container blog_header">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-right">
+                <h1">راهنمای سفارش</h1">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--second :: explain-->
+<div class="DEfinitionAboutUs" id="about">
+    <div class="container">
+        <div class="col-md-12 col-xs-12 pull-right">
+            @if (Model.Orders != null)
+            {
+                @Html.Raw(Model.Orders)
+            }
+            else
+            {
+                <p>راهنمای سفارش</p>
+            }
+        </div>
+        @*<div class="col-md-2 col-xs-12 pull-right">
+                <div class="text-center">
+                    <img src="~/images/debit-card.png" />
+                </div>
+            </div>*@
+    </div>
+</div>

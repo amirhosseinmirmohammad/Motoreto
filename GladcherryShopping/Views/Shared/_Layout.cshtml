@@ -1,0 +1,564 @@
+﻿@{ GladcherryShopping.Models.ApplicationDbContext content = new GladcherryShopping.Models.ApplicationDbContext();}
+@using Microsoft.AspNet.Identity;
+@using System.Web.Mvc;
+@using System.Data.Entity;
+@using GladcherryShopping.Models;
+@using DataLayer.Models;
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fa-ir" xml:lang="fa-ir" prefix="og: http://ogp.me/ns#">
+<head>
+    <title>@ViewBag.Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+    <link rel="canonical" href="/">
+    <link rel="alternate" href="/" hreflang="fa-ir" />
+    @RenderSection("Metas", false)
+    <meta name="author" content="Motorbaz">
+    <meta name="Designer" content="Design, Develope by, Motoreto Group, Co. Email : info@motoreto.ir">
+    <meta name="DC.Subject" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" />
+    <meta name="copyright" content="https://gladcherry.org, 2020 - software company">
+    <meta name="expires" content="never">
+    <meta name="rating" content="Safe For Kids">
+    <meta name=language content=fa_ir />
+    <meta name=geo.region content=ir>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="og:site_name" content="موتورتو">
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fa_ir">
+    <meta property="og:image" content="http://motoreto.ir/images/sadr_logo.png" />
+    <meta property="og:image:secure_url" content="http://motoreto.ir/images/sadr_logo.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="248" />
+    <meta property="og:image:height" content="249" />
+    <meta property="og:image:alt" content="motoreto.ir" />
+    <meta name="email" content="info@motoreto.ir" />
+    <meta name="document-type" content="Public" />
+    <meta name="document-rating" content="General" />
+    <meta name="classification" content="Consumer" />
+    <meta name="robots" content="INDEX,FOLLOW">
+    <meta name="googlebot" content="index">
+    <meta property="place:location:latitude" content="35.806362" />
+    <meta property="place:location:longitude" content="51.4296549" />
+    <meta property="business:contact_data:street_address" content="تجریش خیابان شهرداری ساختمان 110" />
+    <meta property="business:contact_data:locality" content="تهران" />
+    <meta property="business:contact_data:country_name" content="ایران" />
+    <meta property="business:contact_data:phone_number" content="+98 21 22735588 " />
+    <meta property="business:contact_data:website" content="http://motoreto.ir" />
+    <meta property="business:contact_data:email" content="info@motoreto.ir" />
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="فروش آنلاین قطعات خودرو | Motorbaz">
+    <meta name="twitter:domain" content="فروش آنلاین قطعات خودرو | Motorbaz">
+    <meta property="twitter:app:country" content="ir" />
+    <meta name="theme-color" content="#00016e" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#00016e">
+    <meta name="msapplication-navbutton-color" content="#00016e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" sizes="57x57" href="~/images/sadr_logo.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="~/images/sadr_logo.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="~/images/sadr_logo.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="~/images/sadr_logo.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="~/images/sadr_logo.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/images/sadr_logo.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/images/sadr_logo.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/images/sadr_logo.png">
+    <link rel="icon" type="image/png" href="~/images/sadr_logo.png" sizes="196x196">
+    <link rel="icon" type="image/png" href="~/images/sadr_logo.png" sizes="160x160">
+    <link rel="icon" type="image/png" href="~/images/sadr_logo.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="~/images/sadr_logo.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="~/images/sadr_logo.png" sizes="32x32">
+    <!-- Bootstrap -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Content/css/font-awesome.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/Content/css/owl.carousel.css">
+    <link rel="stylesheet" href="~/Content/style.css">
+    <link href="~/Content/css/nav.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />*@
+    @RenderSection("Styles", required: false)
+</head>
+<body id="totop">
+    <div id="header-area" class="header_area">
+        <div class="header_bottom">
+            <div class="container">
+                <div class="row">
+                    <nav role="navigation" class="navbar navbar-default mainmenu">
+                        <div class="navbar-header">
+                            @*<a href="/"><img src="~/images/sadr_logo.png" title="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" alt="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" id="main_logo" /></a>*@
+                            <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div id="navbarCollapse" class="collapse navbar-collapse">
+                            <ul id="fresponsive" class="nav navbar-nav dropdown">
+                                <li><a href="/">صفحه اصلی</a></li>
+                                <li class="dropdown">
+                                    <a data-toggle="dropdown" class="dropdown-toggle">بیشتر<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li class="drop-menu"><a href="/aboutus">درباره ما</a></li>
+                                        @*<li class="drop-menu"><a href="/gallery">گالری</a></li>*@
+                                        <li class="drop-menu"><a href="/app">دانلود اپلیکیشن</a></li>
+                                        <li class="drop-menu"><a href="/faq">سوالات متداول</a></li>
+                                        <li class="drop-menu"><a href="/terms">قوانین و مقررات</a></li>
+                                        <li class="drop-menu"><a href="/contactus">تماس با ما</a></li>
+                                        @*<li class="drop-menu"><a href="/Cooperation">همکاری با ما</a></li>*@
+                                    </ul>
+                                </li>
+                                <li><a href="/blog/all">وبلاگ</a></li>
+                                @*<li class="dropdown">
+                                    <a data-toggle="dropdown" class="dropdown-toggle">محصولات<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        @foreach (var item in content.Categories.ToList())
+                                        {
+                                            <li class="drop-menu"><a href="/product/all/@item.Id">@item.PersianName</a></li>
+                                        }
+                                    </ul>
+                                </li>*@
+                                <li class="dropdown">
+                                    <a data-toggle="dropdown" class="dropdown-toggle">حساب کاربری<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            string UserId = User.Identity.GetUserId();
+                                            var Adminrole = content.Roles.Where(p => p.Name == "Administrator").FirstOrDefault();
+                                            var Userrole = content.Roles.Where(p => p.Name == "User").FirstOrDefault();
+                                            ApplicationUser user = content.Users.Where(current => current.Id == UserId).Include(current => current.Roles).FirstOrDefault();
+                                            if (user != null)
+                                            {
+                                                if (user.Roles.FirstOrDefault().RoleId == Adminrole.Id)
+                                                {
+                                                    <li class="drop-menu">
+                                                        <a href="/Account/AdminPanel">
+                                                            پنل مدیریت
+                                                        </a>
+                                                    </li>
+                                                }
+                                                else if (user.Roles.FirstOrDefault().RoleId == Userrole.Id)
+                                                {
+                                                    <li class="drop-menu">
+                                                        <a href="/Account/UserAccount">
+                                                            پنل کاربری
+                                                        </a>
+                                                    </li>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <li class="drop-menu">
+                                                <a href="/account/loginaccount">
+                                                    ورود
+                                                </a>
+                                            </li>
+                                            <li class="drop-menu">
+                                                <a href="/account/registeraccount">
+                                                    ثبت نام
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="/Home/Cart">
+                                        <i style="font-size:30px !important;" class="glyphicon glyphicon-shopping-cart"></i>
+                                        <span class="product-count" id="shoppingCount">
+                                            @{Html.RenderAction("CartCount", "Home");}
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    @RenderBody()
+    @*<div class="map">
+        <div id="map" style="width:100%;height:300px"></div>
+    </div>*@
+    <div class="footer-top-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-12 col-xs-12 pull-right newsletter">
+                    <div class="content">
+                        <div class="footer-menu">
+                            <h2 class="footer-wid-title">عضویت در خبرنامه</h2>
+                            <div class="footer-menu">
+                                <ul>
+                                    <li>با عضویت در خبرنامه از جدیدترین اخبار موتورتو مطلع شوید</li>
+                                </ul>
+                            </div><br />
+                            <div class="input-group">
+                                <input id="textnews2" class="form-control" type="email" placeholder="example@gmail.com" required>
+                                <span class="input-group-btn">
+                                    <input id="btntext2" class="btn" type="submit" value="ثبت">
+                                </span>
+                            </div>
+                            <div class="text-center">
+                                <h6 class="newsletter"><b id="msg2"></b></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="certificates">
+                        <ul>
+                            <li>
+                                <img src="~/images/reza.png" alt="ساماندهی" title="ساماندهی" />
+                            </li>
+                            <li>
+                                <img src="~/images/enamad.png" alt="اینماد" title="اینماد" />
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-12 col-xs-12 pull-right">
+                    <div class="footer-menu">
+                        <h2 class="footer-wid-title">تماس با ما </h2>
+                        <ul>
+                            <li>موبایل : 09128049946</li>
+                            <li>تلفن : 02122735588</li>
+                            <li>ایمیل : info@motoreto.ir</li>
+                            <li>ساعت کاری : شنبه تا چهارشنبه 10 الی 17</li>
+                            <li>
+                                آدرس دفتر مرکزی : تجریش خیابان شهرداری ساختمان 110
+                            </li>
+                        </ul>
+                        <div class="footer-social">
+                            <a href="https://www.instagram.com/motoreto.ir" target="_blank"><i class="fa fa-instagram"></i></a>
+                            <a href="https://telegram.me/motoreto.ir" target="_blank"><i class="fa fa-paper-plane-o"></i></a>
+                            <a href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
+                            <a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
+                        </div>
+                        <div id="dn">
+                            <a href="#">
+                                <img src="/images/bazaar-outline-new.png" width="150" alt="موتورتو" title="موتورتو">
+                            </a>
+                            <a href="#">
+                                <img src="/images/googleplay-outline-new.png" width="150" alt="موتورتو" title="موتورتو">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-12 col-xs-12 pull-right">
+                    <div class="footer-menu">
+                        <h2 class="footer-wid-title">آخرین مقالات</h2>
+                        <ul>
+                            @foreach (var blog in content.Blogs.OrderByDescending(current => current.CreateDate).Where(current => current.IsVisible == true).Take(4).ToList())
+                            {
+                                <li><a href="/blog/@blog.Id/@blog.SefUrl">@blog.Title</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-12 col-xs-12 pull-right">
+                    <div class="footer-menu">
+                        <h2 class="footer-wid-title">لینک ها</h2>
+                        <ul>
+                            <li><a href="/">صفحه اصلی</a></li>
+                            @*<li><a href="/gallery">گالری</a></li>*@
+                            <li><a href="/aboutus">درباره ما</a></li>
+                            <li><a href="/blog/all">وبلاگ</a></li>
+                            <li><a href="/contactus">تماس با ما</a></li>
+                            <li><a href="/app">دانلود اپلیکیشن</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End footer top area -->
+    <div class="footer-bottom-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="copyright">
+                        <p>&copy; تمامی حقوق برای  <span class="footer-brand">موتورتو</span> محفوظ است .</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End footer bottom area -->
+    <div id="error-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="margin-top:10%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> پیغام سایت </h4>
+                </div>
+                <div class="modal-body">
+                    <p class="inner-text"></p>
+                </div>
+                <div class="modal-footer">
+                    <a href="/Home/Cart" class="btn btn-warning" style="background-color:#00016e;border-color:#00016e;margin:10px;">ادامه فرآیند خرید</a>
+                    <a href="/#specialproducts" class="btn btn-warning" style="background-color:#ff6600;border-color:#ff6600">انتخاب محصولات بیشتر</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="scroll-up" style="display: block;"> <a href="#totop"><i class="fa fa-arrow-up"></i></a></div>
+    <div id="menu-wrapper">
+        @*<ul>
+            <li>
+                <a onclick="myFunction()">
+                    <i class="fa fa-close"></i><span>محصولات</span>
+                </a>
+            </li>
+            @foreach (var item in content.Categories.Where(current => current.ParentId == null).Include(current => current.SubCategories).ToList())
+            {
+                <li class="has-megamenu">
+                    <a href="#"><span>@item.PersianName</span></a>
+                    <i class="fa fa-angle-left"></i>
+                    <ul class="megamenu">
+                        <div class="row">
+                            @foreach (var sub in item.SubCategories.ToList())
+                            {
+                                <div class="col-lg-4">
+                                    <div class="subcategory">
+                                        <a href="/product/all/@sub.Id" target="_self">
+                                            <h4>@sub.PersianName</h4>
+                                        </a>
+                                        <ul>
+                                            @foreach (var subzero in content.Categories.Where(curren => curren.ParentId == sub.Id).ToList())
+                                            {
+                                                <li>
+                                                    <a href="/product/all/@subzero.Id" target="_self">
+                                                        @subzero.PersianName
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </ul>
+                </li>
+            }
+        </ul>*@
+    </div>
+    <div id="mobile-tabs">
+        <a class="mobile-tab-wrapper link" href="/">
+            <i class="fa fa-home"></i>
+            <small>خانه</small>
+        </a>
+        <a class="mobile-tab-wrapper" onclick="func2()">
+            <i class="fa fa-bars"></i>
+            <small>محصولات</small>
+        </a>
+        <a class="mobile-tab-wrapper link" href="home/cart">
+            <i class="fa fa-shopping-cart"></i>
+            <small>سبد خرید</small>
+        </a>
+        @*<a class="mobile-tab-wrapper" href="#" title="" target="_self" data-page-id="search">
+                <i class="fa fa-search"></i>
+                <small>جستجو</small>
+            </a>*@
+        <a class="mobile-tab-wrapper link" href="/contactus">
+            <i class="fa fa-user"></i>
+            <small>پشتیبانی</small>
+        </a>
+    </div>
+    <!-- Latest jQuery form server -->
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <!-- Bootstrap JS form CDN -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <!-- jQuery sticky menu -->
+    <script src="~/Content/js/owl.carousel.min.js"></script>
+    <script src="~/Content/js/jquery.sticky.js"></script>
+    <!-- jQuery easing -->
+    <script src="~/Content/js/jquery.easing.1.3.min.js"></script>
+    <!-- Main Script -->
+    <script src="~/Content/js/main.js"></script>
+    <!-- Slider -->
+    <script type="text/javascript" src="~/Content/js/bxslider.min.js"></script>
+    <script type="text/javascript" src="~/Content/js/script.slider.js"></script>
+    @RenderSection("Scripts", required: false)
+    <script>
+        $(document).ready(function () {
+            $(".btncard").click(function (e) {
+                e.preventDefault()
+                var id = $(this).attr("productid");
+                $.ajax({
+                    url: "/Home/AddToShoppingCart",
+                    data: { Id: id },
+                    type: "Post",
+                    dataType: "Json",
+                    success: function (result) {
+                        if (result.Success) {
+
+                            $("#shoppingCount").html(result.CountHtml);
+                            //$("#shoppingPrice").html(result.PriceHtml + " ریال ");
+                            { $('#error-modal .inner-text').html("محصول به سبد شما اضافه شد ."); $('#error-modal').modal(); return false; }
+                            alert('محصول به سبد اضافه شد .');
+                        }
+                        eval(result.Script);
+                    },
+                    error: function () {
+                        alert("خطایی رخ داده است !");
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(".owl-prev").html("قبلی");
+            $(".owl-next").html("بعدی");
+        });
+    </script>
+    <script>
+        $("#btntext").click(function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: "@Url.Action("NewsLetter","Home")",
+                contentType: "application/json; charset=utf-8",
+                data: { text: $("#textnews").val() },
+                dataType: "json",
+                type: "GET",
+                success: function (Data) {
+                    if (Data.status == "1") {
+                        $("#msg").text(Data.text)
+                        $("#msg").css("color", "green");
+                        $("#msg").css("font-size", "larger");
+                        $("#msg").parent("h6").css("padding-top", "20px");
+                    }
+                    if (Data.status == "0") {
+                        $("#msg").text(Data.text)
+                        $("#msg").css("color", "red");
+                        $("#msg").css("font-size", "larger");
+                        $("#msg").parent("h6").css("padding-top", "20px");
+                    }
+                },
+                error: function (jqhxr, statusText, error) { alert("خطایی رخ داده است لطفا دوباره امتحان کنید ."); }
+            });
+        });
+    </script>
+    <script>
+        $("#btntext2").click(function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: "@Url.Action("NewsLetter","Home")",
+                contentType: "application/json; charset=utf-8",
+                data: { text: $("#textnews2").val() },
+                dataType: "json",
+                type: "GET",
+                success: function (Data) {
+                    if (Data.status == "1") {
+                        $("#msg2").text(Data.text)
+                        $("#msg2").css("color", "green");
+                        $("#msg2").css("font-size", "larger");
+                        $("#msg2").parent("h6").css("padding-top", "20px");
+                    }
+                    if (Data.status == "0") {
+                        $("#msg2").text(Data.text)
+                        $("#msg2").css("color", "red");
+                        $("#msg2").css("font-size", "larger");
+                        $("#msg2").parent("h6").css("padding-top", "20px");
+                    }
+                },
+                error: function (jqhxr, statusText, error) { alert("خطایی رخ داده است لطفا دوباره امتحان کنید ."); }
+            });
+        });
+    </script>
+    <script type="text/javascript" src="~/Content/css/jquery-func.js"></script>
+    <script>
+        $(window).load(function () {
+            $(".btn-nav").on("click tap", function () {
+                $(".nav-container").toggleClass("showNav hideNav").removeClass("hidden");
+                $(this).toggleClass("animated");
+            });
+        });
+    </script>
+    <script src="~/Content/css/move-top.js"></script>
+    <script src="~/Content/css/easing.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    @*<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+    <script>
+        var map, newMarker, markerLocation;
+        var theMarker = {};
+        $(function () {
+            map = L.map('map').setView([35.806362, 51.4296549], 15);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'موتورتو',
+                maxZoom: 18
+            }).addTo(map);
+            newMarkerGroup = new L.LayerGroup();
+            map.addLayer(newMarkerGroup);
+            markerLocation = L.marker([35.806362, 51.4296549]).addTo(map)
+            .bindPopup("<div style='text-align:center !important;' id='infoWindow' style='text-align:center;padding:2px;'><img id='logoboxwindow' style='width:30px;padding-top:15px !important;' src='/images/sadr_logo.png'/><p id='infoWindowHeader' style='font-weight:bold;font-size:16px'>موتورتو</p><p id='infoWindowStreetName' style='font-size:14px;border-bottom:1px solid rgba(123,123,123,0.4);padding-bottom:5px;'</p><p id='infoWindowNumber' style='font-size:12px'><span id='mobileNumbebrInfo'>09128049946</span></p><br/><span id='email'>info@@motoreto.ir</span><p id='infoWindowWeb' style='font-size:12px;font-weight:bold'><span id='websiteInfo'></span>&nbsp; &nbsp;<span id='emailInfo'></span></p><p id='infoWindowZipCode' style='font-size:12px'></p></div>")
+            .openPopup();
+        });
+    </script>*@
+    <script>
+        $(window).scroll(function () {
+            if ($(this).scrollTop() <= $('#totop').offset().top) {
+                $('.scroll-up').fadeOut("slow");
+            } else {
+                $('.scroll-up').fadeIn("slow");
+            }
+        });
+    </script>
+    <script>
+        (function ($) {
+            $(document).ready(function () {
+                $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(this).parent().siblings().removeClass('open');
+                    $(this).parent().toggleClass('open');
+                });
+            });
+        })(jQuery);
+    </script>
+    <script src="/Scripts/persianumber.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('body').persiaNumber();
+        });
+    </script>
+    <script>
+        function openSearch() {
+            document.getElementById("myOverlay").style.display = "block";
+        }
+
+        function closeSearch() {
+            document.getElementById("myOverlay").style.display = "none";
+        }
+    </script>
+    <script>
+        function myFunction() {
+            var x = document.getElementById("menu-wrapper");
+            if (x.style.right === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
+    <script>
+        function func2() {
+            var x = document.getElementById("menu-wrapper");
+            x.style.display = "block";
+        }
+    </script>
+</body>
+</html>

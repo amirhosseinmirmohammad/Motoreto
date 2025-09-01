@@ -1,0 +1,221 @@
+﻿@model DataLayer.Models.Application
+@{
+    ViewBag.Title = "همکاری با ما";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Metas{
+<meta name="description" content="فروشگاه اینترنتی موتورتو فعال در زمینه فروش انواع قطعات مصرفی خودرو شامل فیلتر روغن ، فیلتر هوا ، فیلتر بنزین ، فیلتر کابین ، روغن موتور و روانکار و غیره است .">
+<meta name="Keywords" content="قطعات مصرفی خودرو">
+<meta property="og:title" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" />
+<meta property="og:url" content="http://www.motoreto.ir/" />
+<meta property="og:image" content="http://www.motoreto.ir/images/sadr_logo.png" />
+<meta name="twitter:image" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz">
+}
+
+@section Styles{
+}
+
+<div class="container blog_header">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center">
+                <h1>همکاری با ما</h1>
+                @if (TempData["Error"] != null)
+                {
+                    <br />
+                    <br />
+                    <div class="container text-center" style="direction:rtl !important;">
+                        <div class="wrapper wrapper-content animated fadeIn">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <div class="ibox-content">
+                                                <div class="alert alert-danger">
+                                                    @TempData["Error"]
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @if (TempData["Success"] != null)
+                {
+                    <br />
+                    <br />
+                    <div class="container text-center" style="direction:rtl !important;">
+                        <div class="wrapper wrapper-content animated fadeIn">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <div class="ibox-content">
+                                                <div class="alert alert-success">
+                                                    @TempData["Success"]
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="container" style="margin-bottom:40px !important;">
+    <div class="row">
+        <div class="contact-us">
+            <div class="col-md-6 col-xs-12 pull-right">
+                <div class="cooperation">
+                    <div style="border-radius:8px"> محصولات و خدماتی که آماده کرده ایم در مناطق تحت پوشش ما مورد استفاده مشتریان قرار می گیرد، ولی برای ارائه محصولات و خدمات با کیفیت و کمیت بیشتر در دامنه وسیع تر جغرافیایی، نیازمند همکاری علاقمندان موضوع کاری مان در شهرهای مختلف هستیم، برای اینکه همکاری های بلند مدت و پایداری را با طرف های همکاری برقرار کنیم برنامه ریزی گسترده ای صورت داده ایم تا نمایندگان ما بتوانند منافع بالایی را از محل تعامل با ما کسب کنند، نمایندگان ما عضوی از خانواده کسب و کار ما هستند و همواره خود را مکلف به حمایت و پشتیبانی از آنها می دانیم، اگر علاقه دارید تا نماینده ما در شهر محل سکونت خود باشید با ما در ارتباط باشید، امیدواریم بتوانیم باهم به توافق رسیده و همکاری های سودمند و بلند مدتی را آغاز کنیم.<p></p><p>&nbsp;</p><h3><strong>شرایط اعطای نمایندگی</strong></h3><p>• تابعیت دولت جمهوری اسلامی ایران<br> • داشتن شرایط اشتغال به کار طبق قوانین کشور جمهوری اسلامی ایران<br> • نداشتن سوء پیشینه کیفری و همچنین نداشتن سابقه محکومیت<br> • ارائه تضمین های مالی مورد نظر شرکت<br> • داشتن محل فعالیت مناسب<br> • ارائه مجوزهای لازم مربوط به ملک مثل سند، اجاره نامه و …<br> • داشتن حسن شهرت در شهر محل فعالیت<br> • قبول شرایط عمومی نحوه همکاری</p><p>در صورت تمایل به همکاری، فرم درخواست نمایندگی را تکمیل فرمایید تا جزئیات مربوط نحوه ی همکاری در اختیار شما قرار گیرد یا از طریق تلفن با ما تماس بگیرید.</p><p>تلفن : 02122735588<br> موبایل : 09128049946</p><p>&nbsp;</p><h3><strong>فرم درخواست نمایندگی</strong></h3><p>جهت درخواست نمایندگی فروش محصولات معرفی شده در این سایت لطفا فرم ذیل را تکمیل و ارسال فرمایید؛ پس از دریافت درخواست، با شما در ارتباط خواهیم بود.</p><p>امیدواریم افتخار همکاری با شما را داشته باشیم.</p></div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12 pull-right">
+                <div class="submit-msg">
+                    <form method="post" action="/Cooperation/SubmitMessage">
+                        <h4>مشخصات فردی</h4>
+                        @Html.AntiForgeryToken()
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="text" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا نام و نام خانوادگی خود را وارد کنید')" required name="FullName" class="form-control" placeholder="نام و نام خانوادگی *" />
+                            </div>
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="text" name="NationalCode" class="form-control" placeholder="کد ملی" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="text" name="Bithdate" class="form-control" placeholder="تاریخ تولد" />
+                            </div>
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="text" name="Education" class="form-control" placeholder="میزان تحصیلات" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="text" name="Field" class="form-control" placeholder="رشته تحصیلی" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 pull-right">
+                                <textarea style="margin-top:20px !important;" name="Body" class="form-control" placeholder="سوابق شغلی گذشته و مدت فعالیت هر یک (توضیح کوتاه)"></textarea>
+                            </div>
+                        </div>
+                        <h4>اطلاعات شرکت</h4>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="text" name="Company" class="form-control" placeholder="نام شرکت" />
+                            </div>
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="text" name="Duration" class="form-control" placeholder="مدت فعالیت" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="text" name="PhoneCo" class="form-control" placeholder="تلفن شرکت" />
+                            </div>
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="text" name="Fax" class="form-control" placeholder="فکس شرکت" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="email" name="EmailCo" class="form-control" placeholder="پست الکترونیکی شرکت" />
+                            </div>
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="text" name="WebsiteCo" class="form-control" placeholder="آدرس وب سایت شرکت" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="text" name="Instagram" class="form-control" placeholder="آدرس صفحه اینستاگرام" />
+                            </div>
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="text" name="Telegram" class="form-control" placeholder="آدرس کانال تلگرام" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <select name="Situation" style="margin-top:20px !important;" class="form-control">
+                                    <option value="">وضعیت محل فعالیت</option>
+                                    <option value="1">تجاری</option>
+                                    <option value="2">اداری</option>
+                                    <option value="3">مسکونی</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <select name="Type" style="margin-top:20px !important;" class="form-control">
+                                    <option value="">نوع مالکیت</option>
+                                    <option value="1">شخصی</option>
+                                    <option value="2">استیجاری</option>
+                                    <option value="3">سرقفلی</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="text" name="PostalCode" class="form-control" placeholder="کد پستی شرکت" />
+                            </div>
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <select name="Guaranteed" style="margin-top:20px !important;" class="form-control">
+                                    <option value="">تضمین شما در صورت اخد نمایندگی ؟</option>
+                                    <option value="1">نقدی</option>
+                                    <option value="2">چک</option>
+                                    <option value="3">سفته</option>
+                                    <option value="4">سایر</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="text" name="PostalAddress" class="form-control" placeholder="آدرس کامل پستی" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="text" name="Prediction" class="form-control" placeholder="پیش بینی شما از میزان فروشتان در ماه ؟" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 pull-right">
+                                <textarea style="margin-top:20px !important;" name="Agency" class="form-control" placeholder="چنانچه از سایر شرکت‌ها نمایندگی فروش دارید، لطفاً نام و مدت زمان فعالیت را در قسمت ذیل توضیح دهید"></textarea>
+                            </div>
+                        </div>
+                        <h4>اطلاعات تماس شخصی</h4>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" required type="text" name="Phone" class="form-control" placeholder="تلفن *" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا تلفن ثابت خود را وارد کنید')" />
+                            </div>
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" required type="text" name="Mobile" class="form-control" placeholder="موبایل *" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا موبایل خود را وارد کنید')" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="email" name="Email" class="form-control" placeholder="پست الکترونیکی" />
+                            </div>
+                            <div class="col-md-6 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="text" name="Website" class="form-control" placeholder="آدرس وب سایت" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 pull-right">
+                                <input style="margin-top:20px !important;" type="text" name="Address" class="form-control" placeholder="نشانی" />
+                            </div>
+                        </div>
+                        <button type="submit">ارسال</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

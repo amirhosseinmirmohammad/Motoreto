@@ -1,0 +1,259 @@
+﻿@{
+    GladcherryShopping.Models.ApplicationDbContext db = new GladcherryShopping.Models.ApplicationDbContext();
+}
+@using Microsoft.AspNet.Identity;
+@using System.Web.Mvc;
+@using System.Data.Entity;
+@{
+    ViewBag.Title = "پنل کاربری";
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    string UserId = User.Identity.GetUserId();
+    var Orders = db.Orders.Where(current => current.UserId == UserId);
+    var Payments = db.Payments.Where(current => current.UserId == UserId);
+    var userItem = db.Users.Where(current => current.Id == UserId).Include(current => current.Notifications).FirstOrDefault();
+    var messages = userItem.Notifications.OrderByDescending(current => current.ForwardDate).ToList();
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>پیام</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li>
+                                    <a href="#">گزینه 1</a>
+                                </li>
+                                <li>
+                                    <a href="#">گزینه 2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="alert alert-success">
+                                @TempData["Success"]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (TempData["error"] != null)
+{
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>پیام</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li>
+                                    <a href="#">گزینه 1</a>
+                                </li>
+                                <li>
+                                    <a href="#">گزینه 2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="alert alert-danger">
+                                @TempData["error"]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="widget style1">
+                <div class="row">
+                    <div class="col-xs-4 text-center">
+                        <i class="fa fa-calendar-o fa-5x"></i>
+                    </div>
+                    <div class="col-xs-8 text-right">
+                        <span> تاریخ امروز </span>
+                        <h2 class="font-bold">@GladCherryShopping.Helpers.FunctionsHelper.GetPersianDateTime(DateTime.Now, false, false)</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="/User/Orders/Index">
+            <div class="col-lg-3">
+                <div class="widget style1 navy-bg">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <i class="fa fa-list fa-5x"></i>
+                        </div>
+                        <div class="col-xs-8 text-right">
+                            <span> سفارشات </span>
+                            <h2 class="font-bold">@Orders.Count()</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a href="/User/Payments/Index">
+            <div class="col-lg-3">
+                <div class="widget style1 lazur-bg">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <i class="fa fa-money fa-5x"></i>
+                        </div>
+                        <div class="col-xs-8 text-right">
+                            <span>گردش حساب </span>
+                            <h2 class="font-bold">@Payments.Count()</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a href="/User/Notifications/Index">
+            <div class="col-lg-3">
+                <div class="widget style1 yellow-bg">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <i class="fa fa-bell fa-5x"></i>
+                        </div>
+                        <div class="col-xs-8 text-right">
+                            <span>پیام ها </span>
+                            <h2 class="font-bold">@messages.Count()</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="ibox">
+            <div class="ibox-content">
+                <h5>امتیاز شما تا این لحظه :</h5>
+                <div class="stat-percent font-bold text-navy">@userItem.UserScore
+                </div>
+                <small>از ابتدا</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="ibox">
+            <div class="ibox-content">
+                <h5>اعتبار شما تا این لحظه :</h5>
+                <div class="stat-percent font-bold text-navy">
+                    @string.Format("{0:n0}", userItem.Credit) ریال
+                </div>
+                <small>از ابتدا</small>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>اطلاعیه :</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <a href="#">گزینه 1</a>
+                            </li>
+                            <li>
+                                <a href="#">گزینه 2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="alert alert-success" data-animation="fadeInLeftBig">
+                        کاربر گرامی ، شما می‌توانید در صورت مواجه با هر مشکل فنی در این سامانه و یا برای ارائه پیشنهادهای خود به منظور بهبود سیستم ، از طریق فرم تماس با ما با مراجعه به آدرس www.motoreto.ir/contactus نظرات خود را ثبت نموده و حداکثر ظرف مدت 7 روز کاری ، پاسخ آن را دریافت نمایید .
+                    </div>
+                    <div class="alert alert-info" data-animation="fadeInLeftBig">
+                        همچنین جهت پشتیبانی سریع میتوانید با شماره 09128049946 تماس حاصل فرمایید .
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+@if (TempData["error"] != null)
+{
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>پیام</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li>
+                                    <a href="#">گزینه 1</a>
+                                </li>
+                                <li>
+                                    <a href="#">گزینه 2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="alert alert-danger">
+                                @TempData["error"]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

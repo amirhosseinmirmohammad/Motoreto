@@ -1,0 +1,104 @@
+﻿@model DataLayer.ViewModels.PagerViewModel.PagerViewModels<DataLayer.Models.Product>
+@using MvcPager
+@{
+    ViewBag.Title = "لیست محصولات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Metas{
+<meta name="description" content="فروشگاه اینترنتی موتورتو فعال در زمینه فروش انواع قطعات مصرفی خودرو شامل فیلتر روغن ، فیلتر هوا ، فیلتر بنزین ، فیلتر کابین ، روغن موتور و روانکار و غیره است .">
+<meta name="Keywords" content="قطعات مصرفی خودرو">
+<meta property="og:title" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" />
+<meta property="og:url" content="http://www.motoreto.ir/" />
+<meta property="og:image" content="http://www.motoreto.ir/images/sadr_logo.png" />
+<meta name="twitter:image" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz">
+}
+
+@section Styles{
+}
+<br />
+<div class="container blog_header">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center">
+                <h1>لیست محصولات</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="single-product-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+            @if (Model.TotalItemCount > 0)
+            {
+                foreach (var product in Model.data)
+                {
+                    <div class="col-md-3 col-sm-6 pull-right">
+                        <div class="single-shop-product">
+                            <div class="product-upper">
+                                @if (product.SiteFirstImage != null)
+                                {
+                                    <img src="@product.SiteFirstImage" alt="@product.PersianName" title="@product.PersianName">
+                                }
+                                else
+                                {
+                                    <img src="~/images/sadr_logo.png" alt="@product.PersianName" title="@product.PersianName">
+                                }
+                            </div>
+                            <h2><a href="/Product/Details/@product.Id">@product.PersianName</a></h2>
+                            <div class="product-carousel-price">
+                                @if (product.DiscountPercent > 0)
+                                {
+                                    int pricewithdiscount = product.UnitPrice - (product.UnitPrice) * (product.DiscountPercent) / 100;
+
+                                    <ins>@string.Format("{0:n0}", pricewithdiscount) ریال</ins>
+                                    <del>@string.Format("{0:n0}", product.UnitPrice)</del>
+
+                                }
+                                else
+                                {
+                                    <ins>@string.Format("{0:n0}", product.UnitPrice) ریال</ins>
+                                    @*<del>مقطوع</del>*@
+                                }
+                            </div>
+
+                            <div class="product-option-shop">
+                                @if (product.Stock > 0)
+                                {
+                                    <a class="add_to_RMNT_button btncard" data-quantity="1" data-product_sku="" productid="@product.Id" rel="nofollow" href="~/Home/Basket/@product.Id">سبد خرید</a>
+                                }
+                                else
+                                {
+                                    <a class="add_to_RMNT_button" data-quantity="1" data-product_sku="">ناموجود</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+            else
+            {
+                <span>محصولی در این دسته بندی وجود ندارد .</span>
+            }
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-center">
+                    <nav>
+                        <ul class="pagination pagination-sm">
+                            <li>@Html.Pager(10, Model.CurrentPage, Model.TotalItemCount)</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+}

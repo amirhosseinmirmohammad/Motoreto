@@ -1,0 +1,81 @@
+﻿@model DataLayer.Models.PreProduct
+
+@{
+    ViewBag.Title = "ویرایش";
+    Layout = "~/Areas/Administrator/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+    <style>
+        label {
+            text-align: right !important;
+            direction: rtl;
+            color: darkred;
+        }
+    </style>
+}
+
+<h2>مدیریت محصولات اولیه</h2>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5> ویرایش محصول اولیه </h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <a href="#">گزینه 1</a>
+                            </li>
+                            <li>
+                                <a href="#">گزینه 2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    @using (Html.BeginForm("Edit", "PreProducts", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Body, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Body, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="ذخیره اطلاعات" class="btn btn-success btn-md" />
+                                    @Html.ActionLink("بازگشت به لیست", "Index", null, new { @class = "btn btn-default btn-md" })
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        CKEDITOR.replace('Body', {
+            language: 'fa'
+        });
+    </script>
+}

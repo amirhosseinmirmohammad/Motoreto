@@ -1,0 +1,246 @@
+﻿@model DataLayer.ViewModels.ProductDetailViewModel
+@{ GladcherryShopping.Models.ApplicationDbContext content = new GladcherryShopping.Models.ApplicationDbContext();}
+@{
+    ViewBag.Title = Model.product.PersianName + " | موتورتو";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Metas{
+<meta name="description" content="@GladCherryShopping.Helpers.FunctionsHelper.Truncate(Model.product.Description,160)" />
+<meta name="Keywords" content="قطعات مصرفی خودرو">
+<meta property="og:title" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" />
+<meta property="og:url" content="http://www.motoreto.ir/" />
+<meta property="og:image" content="http://www.motoreto.ir/images/sadr_logo.png" />
+<meta name="twitter:image" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz">
+}
+
+@section Styles{
+    <link href="~/Content/zoomifyc.css" rel="stylesheet" />
+    <style type="text/css">
+        #imgBox {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+    </style>
+}
+<br />
+<div class="container blog_header">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center">
+                <h1>@Model.product.PersianName</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="single-product-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                @*<div class="single-sidebar">
+                    <h2 class="sidebar-title">جستجو محصولات</h2>
+                    <form action="/Product/all" method="post">
+                        <input name="Search" type="text" placeholder="جستجو محصولات . . ." required>
+                        <input type="submit" value="جستجو">
+                    </form>
+                </div>*@
+                <div class="sidebar-instagram">
+                    <h4>
+                        اگر می خواهید از جشنواره ها و تخفیف های موتورتو با خبر شوید، صفحه اینستاگرام ما را دنبال کنید.
+                    </h4>
+                    <p> <a href="https://www.instagram.com/motoreto.ir" target="_blank" rel="nofollow"><span class="fa fa-instagram"></span> صفحه اینستاگرام</a></p>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="product-content-right">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="product-images">
+                                <div class="product-main-img">
+                                    @if (Model.product.SiteFirstImage != null)
+                                    {
+                                        <img src="@Model.product.SiteFirstImage" alt="@Model.product.PersianName" title="@Model.product.PersianName">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/sadr_logo.png" alt="@Model.product.PersianName" title="@Model.product.PersianName">
+                                    }
+                                </div>
+                            </div>
+                            <div class="product-gallery" id="imgBox">
+                                <div class="row">
+                                    @if (Model.product.SiteFirstImage != null)
+                                    {
+                                        <div class="col-md-3">
+                                            <img class="img-responsive" src="@Model.product.SiteFirstImage" alt="@Model.product.PersianName" title="@Model.product.PersianName">
+                                        </div>
+                                    }
+                                    @foreach (var item in Model.product.Images.ToList())
+                                    {
+                                        <div class="col-md-3">
+                                            <img class="img-responsive" src="@item.Link" alt="@Model.product.PersianName" title="@Model.product.PersianName">
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="product-inner">
+                                <h2 class="product-name">@Model.product.EnglishName</h2>
+                                @if (Model.product.Min != null & Model.product.Min > 0)
+                                {
+                                    <b>حداقل خرید این محصول @Model.product.Min عدد است .</b><br /><br />
+                                }
+                                <div class="product-inner-price">
+                                    @if (Model.product.DiscountPercent > 0)
+                                    {
+                                        int pricewithdiscount = Model.product.UnitPrice - (Model.product.UnitPrice) * (Model.product.DiscountPercent) / 100;
+
+                                        <ins>@string.Format("{0:n0}", pricewithdiscount) ریال</ins>
+                                        <del>@string.Format("{0:n0}", Model.product.UnitPrice)</del>
+                                    }
+                                    else
+                                    {
+                                        <ins>@string.Format("{0:n0}", Model.product.UnitPrice) ریال</ins>
+                                        @*<del>مقطوع</del>*@
+                                    }
+                                </div>
+
+                                <form action="" class="cart">
+                                    @if (Model.product.Stock > 0)
+                                    {
+                                        <button class="add_to_RMNT_button btncard" productid="@Model.product.Id" href="~/Home/Basket/@Model.product.Id" type="submit">افزودن به سبد خرید</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="add_to_RMNT_button" productid="@Model.product.Id" type="button"><i class="fa fa-link"></i> ناموجود</button>
+                                    }
+                                </form>
+                                <div role="tabpanel">
+                                    <ul class="product-tab" role="tablist"></ul>
+                                    <form method="post" action="/Product/InsertComment">
+                                        @Html.AntiForgeryToken()
+                                        <div class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade in active" id="home">
+                                                <h2>توضیحات محصول</h2><br />
+                                                <p>@Html.Raw(Model.product.Description)</p>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.product.RelatedProducts.Count() > 0)
+                    {
+                        <div class="related-products-wrapper">
+                            <h2 class="related-products-title">محصولات مرتبط</h2>
+                            <div class="related-products-carousel">
+                                @foreach (var item in Model.product.RelatedProducts.ToList())
+                                {
+                                    <div class="single-product">
+                                        <div class="product-f-image">
+                                            @if (item.SiteFirstImage != null)
+                                            {
+                                                <img src="@item.SiteFirstImage" alt="@item.PersianName" title="@item.PersianName" class="recent-thumb">
+                                            }
+                                            else
+                                            {
+                                                <img src="~/images/hand-shake.png" alt="@item.PersianName" title="@item.PersianName" class="recent-thumb">
+                                            }
+                                            <div class="product-hover">
+                                                <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> سبد خرید</a>
+                                                <a href="/Products/Details/@item.Id" class="view-details-link"><i class="fa fa-link"></i>جزئیات</a>
+                                            </div>
+                                        </div>
+                                        <h2><a href="/Products/Details/@item.Id">@item.PersianName</a></h2>
+                                        <div class="product-carousel-price">
+                                            @if (item.DiscountPercent > 0)
+                                            {
+                                                int pricewithdiscount = item.UnitPrice - (item.UnitPrice) * (item.DiscountPercent) / 100;
+
+                                                <ins>@string.Format("{0:n0}", pricewithdiscount) ریال</ins>
+                                                <del>@string.Format("{0:n0}", item.UnitPrice)</del>
+
+                                            }
+                                            else
+                                            {
+                                                <ins>@string.Format("{0:n0}", item.UnitPrice) ریال</ins>
+                                                @*<del>مقطوع</del>*@
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+        <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog" style="margin-top:80px">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">وضعیت سفارش</h4>
+                </div>
+                <div class="modal-body" style="text-align:center;direction:rtl;">
+                    <p class="text-success">@TempData["Success"]</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (TempData["error"] != null)
+{
+        <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog" style="margin-top:80px">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">وضعیت نظر شما</h4>
+                </div>
+                <div class="modal-body" style="text-align:center;direction:rtl;">
+                    <p class="text-danger">@TempData["error"]</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $("#myModal").modal();
+        });
+    </script>
+    <script src="~/Scripts/zoomifyc.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            zoomifyc.init($('#imgBox img'));
+        });
+    </script>
+}

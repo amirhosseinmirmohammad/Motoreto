@@ -1,0 +1,57 @@
+﻿@model DataLayer.Models.Application
+@{
+    ViewBag.Title = "درباره ما";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Metas{
+<meta name="description" content="فروشگاه اینترنتی موتورتو فعال در زمینه فروش انواع قطعات مصرفی خودرو شامل فیلتر روغن ، فیلتر هوا ، فیلتر بنزین ، فیلتر کابین ، روغن موتور و روانکار و غیره است .">
+<meta name="Keywords" content="قطعات مصرفی خودرو">
+<meta property="og:title" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" />
+<meta property="og:url" content="http://www.motoreto.ir/" />
+<meta property="og:image" content="http://www.motoreto.ir/images/sadr_logo.png" />
+<meta name="twitter:image" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz">
+}
+
+@section Styles{
+    <style>
+        ul {
+            direction: rtl;
+            line-height: 30px;
+        }
+    </style>
+}
+
+<br />
+<div class="container blog_header">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center">
+                <h1>درباره ما</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--second :: explain-->
+<div class="DEfinitionAboutUs" id="about">
+    <div class="container">
+        <div class="col-md-12 col-xs-12 pull-right">
+            @if (Model != null)
+            {
+                if (Model.AboutUs != null)
+                {
+                    @Html.Raw(Model.AboutUs)
+                }
+                else
+                {
+                    <p>درباره موتورتو</p>
+                }
+            }
+            else
+            {
+                <p>درباره موتورتو</p>
+            }
+        </div>
+    </div>
+</div>

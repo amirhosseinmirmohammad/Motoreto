@@ -1,0 +1,713 @@
+﻿@{ GladcherryShopping.Models.ApplicationDbContext content = new GladcherryShopping.Models.ApplicationDbContext();}
+@using System.Data.Entity;
+@{
+    ViewBag.Title = "موتورتو | فروش آنلاین قطعات خودرو";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var slider = content.Sliders.Where(current => current.IsApp == false).OrderByDescending(current => current.LastDate);
+    var application = content.Applications.FirstOrDefault();
+    DataLayer.Models.Product wonder = content.Products.Include(current => current.category).Where(current => current.Stock > 0 && current.AppLargeImage != null && current.IsWonderful == true && current.Day != null && current.Minute != null && current.Hour != null).FirstOrDefault();
+}
+@section Metas{
+    <meta name="description" content="فروشگاه اینترنتی موتورتو فعال در زمینه فروش انواع قطعات مصرفی خودرو شامل فیلتر روغن ، فیلتر هوا ، فیلتر بنزین ، فیلتر کابین ، روغن موتور و روانکار و غیره است .">
+    <meta name="Keywords" content="قطعات مصرفی خودرو">
+    <meta property="og:title" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" />
+    <meta property="og:url" content="http://www.motoreto.ir/" />
+    <meta property="og:image" content="http://www.motoreto.ir/images/sadr_logo.png" />
+    <meta name="twitter:image" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz">
+}
+@section Styles{
+    <script type="application/ld+json">
+        {
+        "@@context": "http://schema.org",
+        "@@type": "Organization",
+        "name": "موتورتو",
+        "description": "موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz",
+        "logo": "http://www.motoreto.ir/images/sadr_logo.png",
+        "url": "http://www.motoreto.ir",
+        "sameAs": [ "https://www.instagram.com/motoreto.ir",
+        "https://telegram.me/motoreto.ir"],
+        "address": "تجریش خیابان شهرداری ساختمان 110",
+        "contactPoint": [{
+        "@@type": "ContactPoint",
+        "telephone": ["+98-21-22735588"],
+        "contactType": "customer service"
+        }]
+        }
+    </script>
+    <link rel="stylesheet" type="text/css" href="~/library/engine1/style.css" />
+    <link href="~/Content/Professor/assets/css/form-elements.css" rel="stylesheet" />
+    <link href="~/Content/Professor/assets/css/style.css" rel="stylesheet" />
+    <link href="~/Content/Professor/assets/css/media-queries.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.0/animate.compat.min.css" integrity="sha256-Qj+zEEvubER4lO5l200c3UfufBOsKTgpsgJU0/t3CoU=" crossorigin="anonymous" />
+    <style>
+        .d-md-flex {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+}
+<br />
+<div class="promo-area gold-bg firstshow">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="text-center main_h1">
+            <h1 title="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz">موتورتو ، سامانه جامع تهیه و توزیع قطعات خودرویی | Motorbaz</h1>
+            <h2>هوای ماشینتو داریم</h2>
+            <div class="wow bounceIn">
+                <img src="~/images/sadr_logo.png" width="100" height="100" style="padding-top:unset !important;background-color:#ffffff;border-radius:25px;padding-top:unset !important;" />
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="banner_gldchpvt position-relative">
+    <div class="container rtl-direction">
+        <div class="row">
+            <div class="col-md-12 col-xs-12 pull-right">
+                <div class="d-md-flex">
+                    <div class="gldch_banner_txt">
+                        <h3 class="gldch_pvt-title">هرگونه کالایی را در موتورتو پیدا کنید</h3>
+                        <p class="text-sty-banner">پس از ثبت سفارش با بالاترین سرعت محصولات به دست شما میرسد</p>
+                        <br />
+                        <div class="text-center">
+                            <form autocomplete="off" action="/home/search" method="get" id="main_search">
+                                <div class="autocomplete" style="width:100%;">
+                                    <select class="js-example-data-ajax" name="id" required>
+                                        <option selected value="">به چه محصولاتی نیاز دارید ؟</option>
+                                    </select>
+                                    <button type="submit" class="btn button-style">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div><br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container categories-section">
+    <h3 class="section-title text-center">دسته‌بندی محصولات</h3>
+    <div class="row">
+        @foreach (var cat in content.Categories
+                                   .Where(c => c.ParentId == null)
+                                   .Include(c => c.SubCategories)
+                                   .ToList())
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" style="margin-bottom:18px;">
+                <div class="category-card text-center"
+                     data-toggle="modal"
+                     data-target="#modal-@cat.Id">
+                    <h4 class="category-title">@cat.PersianName</h4>
+                </div>
+
+                <!-- Modal: زیرشاخه‌های همین دسته -->
+                <div class="modal fade subcategory-modal" id="modal-@cat.Id" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title">@cat.PersianName</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="بستن">&times;</button>
+                            </div>
+
+                            <div class="modal-body" id="modal-content-category">
+                                <!-- سرچ داخل مدال (یونیک به کمک data-target) -->
+                                <input type="text"
+                                       class="form-control mb-10 subcat-search"
+                                       placeholder="جستجوی زیرشاخه‌ها..."
+                                       data-target="#list-@cat.Id" />
+
+                                <!-- لیست اسکرول‌دار زیرشاخه‌ها -->
+                                <div id="list-@cat.Id" class="subcat-scroll">
+                                    <ul class="subcat-items">
+                                        @foreach (var sub in cat.SubCategories.OrderBy(s => s.PersianName).ToList())
+                                        {
+                                            <li>
+                                                <a href="/product/all/@sub.Id">
+                                                    <i class="fa fa-angle-left"></i>
+                                                    @sub.PersianName
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /Modal -->
+            </div>
+        }
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="hovereffect">
+                <img class="img-responsive" src="~/images/banner.jpg" alt="موتورتو" title="موتورتو">
+                <div class="overlay">
+                    <h2>یک انتخاب درست</h2>
+                    <a class="info" href="/aboutus">بیشتر</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="hovereffect">
+                <img class="img-responsive" src="~/images/banner1.jpg" alt="موتورتو" title="موتورتو">
+                <div class="overlay">
+                    <h2>با کیفیت و مرغوب</h2>
+                    <a class="info" href="/aboutus">بیشتر</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="hovereffect">
+                <img class="img-responsive" src="~/images/banner2.jpg" alt="موتورتو" title="موتورتو">
+                <div class="overlay">
+                    <h2>سفارش آسان</h2>
+                    <a class="info" href="/aboutus">بیشتر</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (slider.Count() > 0)
+{
+    int i = 0;
+    int j = 0;
+    <!-- Start WOWSlider.com BODY section -->
+    <div id="wowslider-container1">
+        <div class="ws_images">
+            <ul>
+                @foreach (var item in slider.ToList())
+                {
+                    if (string.IsNullOrEmpty(item.Link))
+                    {
+                        <li>
+                            <a href="#">
+                                <img src="@item.Image" alt="موتورتو" title="موتورتو" id="wows1_@i" />
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="@item.Link">
+                                <img src="@item.Image" alt="موتورتو" title="موتورتو" id="wows1_@i" />
+                            </a>
+                        </li>
+                    }
+                    i++;
+                }
+            </ul>
+        </div>
+        <div class="ws_bullets">
+            <div>
+                @foreach (var item in slider.ToList())
+                {
+                    if (string.IsNullOrEmpty(item.Link))
+                    {
+                        <a href="#">
+                            <span>
+                                <img src="@item.Image" alt="موتورتو" title="موتورتو" />
+                            </span>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@item.Link" title="موتورتو">
+                            <span>
+                                <img src="@item.Image" alt="موتورتو" title="موتورتو" />
+                            </span>
+                        </a>
+                    }
+                    j++;
+                }
+            </div>
+        </div>
+        <div class="ws_shadow"></div>
+    </div>
+    <!-- End WOWSlider.com BODY section -->
+}
+
+@if (wonder != null)
+{
+    if (DateTime.Now.Date < wonder.WonderDate.Value.AddDays(Convert.ToDouble(wonder.Day)).AddHours(Convert.ToDouble(wonder.Hour)).AddMinutes(Convert.ToDouble(wonder.Minute)).Date)
+    {
+        <br />
+        <div class="container wow bounceIn" data-wow-delay="0.6s" id="wonder">
+            <div class="py-xl-5 py-lg-3">
+                <h3 class="title-w3 text-bl text-center font-weight-bold">پیشنهاد شگفت انگیز</h3>
+                <p class="title-sub mb-5 text-center">موتورتو</p>
+            </div>
+            <div class="row" style="direction:rtl!important;">
+                <div class="col-md-8 col-xs-12 text-center wond">
+                    <a href="/product/details/@wonder.Id">
+                        <img src="@wonder.AppLargeImage" width="250" alt="@wonder.PersianName" title="@wonder.PersianName" class="img-fluid img-responsive" />
+                        <br />
+                        <b style="direction:rtl">@wonder.PersianName</b>
+                    </a>
+                </div>
+                <div class="col-md-4 col-xs-12 text-center">
+                    <p style="font-size:32px !important; color:#e31e24 !important;padding-top:75px !important; direction:ltr !important;" id="wonderful" class="text-center">
+                    </p>
+                    <span>زمان باقی مانده</span><br />
+                </div>
+            </div>
+        </div>
+        <script>
+            // Set the date we're counting down to
+            @{
+                var finalDate = wonder.WonderDate.Value.AddDays(Convert.ToDouble(wonder.Day)).AddHours(Convert.ToDouble(wonder.Hour)).AddMinutes(Convert.ToDouble(wonder.Minute));
+            }
+
+            var countDownDate = new Date("@string.Format("{0:MMMM dd, yyyy hh:mm:ss}", finalDate)").getTime();
+
+            //August 15, 2019 11:36:5
+
+            // Update the count down every 1 second
+            var x = setInterval(function () {
+
+                // Get today's date and time
+                var now = new Date().getTime();
+
+                // Find the distance between now and the count down date
+                var distance = countDownDate - now;
+
+                // Time calculations for days, hours, minutes and seconds
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Output the result in an element with id="demo"
+                document.getElementById("wonderful").innerHTML = days + " : " + hours + " : "
+                + minutes + " : " + seconds + " ";
+
+                // If the count down is over, write some text
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("wonderful").innerHTML = "EXPIRED";
+                }
+            }, 1000);
+        </script>
+    }
+}
+
+@if (content.Products.Count() > 0)
+{
+    <br />
+    <div class="maincontent-area wow slideInRight" id="specialproducts">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="latest-product">
+                        <h3 class="section-title">محصولات جدید</h3>
+                        <div class="product-carousel">
+                            @foreach (var item in content.Products.OrderByDescending(current => current.CreateDate).Where(currrent => currrent.SiteFirstImage != null).ToList())
+                            {
+                                <div class="single-product">
+                                    <div class="product-f-image">
+                                        <img src="@item.SiteFirstImage" alt="@item.PersianName" title="@item.PersianName">
+                                        <div class="product-hover">
+                                            @if (item.Stock > 0)
+                                            {
+                                                <a class="add-to-cart-link btncard" productid="@item.Id" href="~/Home/Basket/@item.Id"><i class="fa fa-shopping-cart"></i> سبد خرید</a>
+                                            }
+                                            else
+                                            {
+                                                <a class="add-to-cart-link" productid="@item.Id"><i class="fa fa-lock"></i>ناموجود </a>
+                                            }
+                                            <a href="/Product/Details/@item.Id" class="view-details-link"><i class="fa fa-link"></i> جزئیات</a>
+                                        </div>
+                                    </div>
+
+                                    <h2><a href="/Product/Details/@item.Id">@item.PersianName</a></h2>
+
+                                    <div class="product-carousel-price">
+                                        @if (item.DiscountPercent > 0)
+                                        {
+                                            int pricewithdiscount = item.UnitPrice - (item.UnitPrice) * (item.DiscountPercent) / 100;
+
+                                            <ins>@string.Format("{0:n0}", pricewithdiscount) ریال</ins>
+                                            <del>@string.Format("{0:n0}", item.UnitPrice)</del>
+
+                                        }
+                                        else
+                                        {
+                                            <ins>@string.Format("{0:n0}", item.UnitPrice) ریال</ins>
+                                            @*<del>مقطوع</del>*@
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="hovereffect">
+                <img class="img-responsive" src="~/images/new1.jpg" alt="موتورتو" title="موتورتو">
+                <div class="overlay">
+                    <h2>محصولات متنوع</h2>
+                    <a class="info" href="/aboutus">بیشتر</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="hovereffect">
+                <img class="img-responsive" src="~/images/new2.jpg" alt="موتورتو" title="موتورتو">
+                <div class="overlay">
+                    <h2>خدمات درجه 1</h2>
+                    <a class="info" href="/aboutus">بیشتر</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (content.Products.Where(current => current.IsSpecial == true).Count() > 0)
+{
+    <br />
+    <div class="maincontent-area wow slideInRight" id="specialproducts">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="latest-product">
+                        <h3 class="section-title">محصولات ویژه</h3>
+                        <div class="product-carousel">
+                            @foreach (var item in content.Products.OrderByDescending(current => current.CreateDate).Where(currrent => currrent.SiteFirstImage != null && currrent.IsSpecial == true).ToList())
+                            {
+                                <div class="single-product">
+                                    <div class="product-f-image">
+                                        <img src="@item.SiteFirstImage" alt="@item.PersianName" title="@item.PersianName">
+                                        <div class="product-hover">
+                                            @if (item.Stock > 0)
+                                            {
+                                                <a class="add-to-cart-link btncard" productid="@item.Id" href="~/Home/Basket/@item.Id"><i class="fa fa-shopping-cart"></i> سبد خرید</a>
+                                            }
+                                            else
+                                            {
+                                                <a class="add-to-cart-link" productid="@item.Id"><i class="fa fa-lock"></i>ناموجود </a>
+                                            }
+                                            <a href="/Product/Details/@item.Id" class="view-details-link"><i class="fa fa-link"></i> جزئیات</a>
+                                        </div>
+                                    </div>
+
+                                    <h2><a href="/Product/Details/@item.Id">@item.PersianName</a></h2>
+
+                                    <div class="product-carousel-price">
+                                        @if (item.DiscountPercent > 0)
+                                        {
+                                            int pricewithdiscount = item.UnitPrice - (item.UnitPrice) * (item.DiscountPercent) / 100;
+
+                                            <ins>@string.Format("{0:n0}", pricewithdiscount) ریال</ins>
+                                            <del>@string.Format("{0:n0}", item.UnitPrice)</del>
+
+                                        }
+                                        else
+                                        {
+                                            <ins>@string.Format("{0:n0}", item.UnitPrice) ریال</ins>
+                                            @*<del>مقطوع</del>*@
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="promo-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-12 wow bounceInRight pull-right">
+                <div class="single-promo promo1">
+                    <div class="tooltip">
+                        <img src="~/images/14.jpg" alt="موتورتو" title="موتورتو">
+                        <p style="padding-top:57px !important;">نیازی نیست از خونه بیرون بری</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 wow bounceInRight pull-right" data-wow-delay="0.5s">
+                <div class="single-promo promo3">
+                    <br>
+                    <div class="tooltip">
+                        <img src="~/images/15.jpg" alt="موتورتو" title="موتورتو">
+                        <p>استراحت میکنی یا کار ، اپلیکیشن رو بردار</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 wow bounceInRight pull-right" data-wow-delay="1s">
+                <div class="single-promo promo2">
+                    <div class="tooltip">
+                        <img src="~/images/13.gif" alt="موتورتو" title="موتورتو">
+                        <p style="padding-top:47px !important;">سفارش بده و منتظر ارسال باش</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- End promo area -->
+<br />
+
+<section class="bottom-count text-center why mockup whym">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 right-img-w3ls pl-lg-4 mt-lg-2">
+                <div class="bott-w3ls mr-xl-5">
+                    <h3 class="title-w3 text-bl mb-3 font-weight-bold">موتورتو را دانـلود کنید</h3>
+                    <p style="text-align:justify !important;">
+                        موتورتو ، سامانه جامع و تخصصی فعال در زمینه فروش قطعات مصرفی خودرو<br />
+                        محصولات متنوع ، سهولت استفاده و اصالت کالا سه عامل تاثیرگذار در فروش بالای محصولات موتورتو و استفاده از اپلیکیشن فروشگاهی موتورتو است .<br />
+                    </p><br>
+                    <div class="don">
+                        <a href="#">
+                            <img src="/images/bazaar-outline-new.png" width="150" alt="موتورتو" title="موتورتو">
+                        </a>
+                        <a href="#">
+                            <img src="/images/googleplay-outline-new.png" width="150" alt="موتورتو" title="موتورتو">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 left-img-w3ls wow bounceIn">
+                <img src="/images/Tashrifatnurses_mockup.png" title="موتورتو" alt="موتورتو" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</section>
+@if (content.Blogs.Where(current => current.IsVisible == true).Count() > 0)
+{
+    <section id="blog">
+        <br />
+        <div class="container-fluid">
+            <div class="text-center">
+                <h3>اخبار</h3>
+            </div>
+        </div>
+        <div class="container grids wow bounceInDown">
+            <div class="row">
+                @foreach (var item in content.Blogs.Include(current => current.Images).OrderByDescending(current => current.CreateDate).Where(current => current.IsVisible == true).Take(4).ToList())
+                {
+                    <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+                        <div class="product-grid5 card">
+                            <div class="product-image5 image-cropper text-center">
+                                <a hreflang="fa-IR" title="@item.Title | موتورتو" href="/blog/@item.Id/@item.SefUrl">
+                                    @{
+                                        var ig = item.Images.Where(current => current.Extension.Contains("jpeg") || current.Extension.Contains("gif") || current.Extension.Contains("png") || current.Extension.Contains("jpg")).FirstOrDefault();
+                                        if (ig != null)
+                                        {
+                                            string img = ig.FullPath;
+                                            <img src="@img" alt="@item.Title" title="@item.Title" class="pic-1 img-rounded" />
+                                        }
+                                    }
+                                    @{
+                                        var vd = item.Images.Where(current => current.Extension.Contains("mp4") || current.Extension.Contains("mpeg") || current.Extension.Contains("wmv")).FirstOrDefault();
+                                        if (vd != null)
+                                        {
+                                            string vid = vd.FullPath;
+                                            <video src="@vid" controls style="height:auto !important;width:240px !important;"></video>
+                                        }
+                                    }
+                                </a>
+                            </div>
+                            <div class="product-content text-center">
+                                <div class="price text-center rent name_item"> @item.Title </div>
+                                <h3 class="title">
+                                    <a hreflang="fa-IR" title="@item.Title | موتورتو" href="/blog/@item.Id/@item.SefUrl">
+                                        @GladCherryShopping.Helpers.FunctionsHelper.Truncate(item.ShortDesc, 45)
+                                    </a>
+                                </h3>
+                                <span class="badge badge-white ml-2">@item.Survey <i class="fa fa-bar-chart-o"></i></span>
+                                <div class="price to-bottom text-center"> @GladCherryShopping.Helpers.FunctionsHelper.GetPersianDateTime((DateTime)item.CreateDate, false, false) </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <br />
+    </section>
+
+}
+
+
+@if (TempData["Success"] != null)
+{
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog" style="margin-top:80px">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">وضعیت سفارش</h4>
+                </div>
+                <div class="modal-body" style="text-align:center;direction:rtl;">
+                    <p class="text-success">@TempData["Success"]</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@if (TempData["Error"] != null)
+{
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog" style="margin-top:80px">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">وضعیت سفارش</h4>
+                </div>
+                <div class="modal-body" style="text-align:center;direction:rtl;">
+                    <p class="text-danger">@TempData["Error"]</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#myModal").modal();
+        });
+    </script>
+    <script>
+        $(function () {
+            $('a[href*="#"]:not([href="#"])').click(function () {
+                if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+                    var target = $(this.hash);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                    if (target.length) {
+                        $('html, body').animate({
+                            scrollTop: target.offset().top
+                        }, 1000);
+                        return false;
+                    }
+                }
+            });
+        });
+    </script>
+    @if (slider.Count() > 0)
+    {
+        <text>
+            <script type="text/javascript" src="~/library/engine1/wowslider.js"></script>
+            <script type="text/javascript" src="~/library/engine1/script.js"></script>
+            <script>
+                jQuery("#wowslider-container1").wowSlider({ effect: "shift", prev: "", next: "", duration: 20 * 100, delay: 60 * 100, width: 900, height: 500, autoPlay: true, autoPlayVideo: false, playPause: true, stopOnHover: true, loop: false, bullets: 1, caption: true, captionEffect: "parallax", controls: true, controlsThumb: [], responsive: 1, fullScreen: true, gestures: 2, onBeforeStep: 0, images: 0 });
+            </script>
+        </text>
+    }
+    @if (content.Products.Count() > 0)
+    {
+        <text>
+            <script src="~/Content/Professor/assets/js/jquery.backstretch.min.js"></script>
+            <script src="~/Content/Professor/assets/js/scripts.js"></script>
+        </text>
+    }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" integrity="sha256-z6FznuNG1jo9PP3/jBjL6P3tvLMtSwiVAowZPOgo56U=" crossorigin="anonymous"></script>
+    <script>
+        wow = new WOW(
+            {
+                animateClass: 'animated',
+                offset: 100,
+                callback: function (box) {
+                }
+            }
+        );
+        wow.init();
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/css/select2.min.css" integrity="sha256-FdatTf20PQr/rWg+cAKfl6j4/IY3oohFAJ7gVC3M34E=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/js/select2.min.js"
+            integrity="sha256-wfVTTtJ2oeqlexBsfa3MmUoB77wDNRPqT1Q1WA2MMn4="
+            crossorigin="anonymous"></script>
+    <script>
+        $(".js-example-data-ajax").select2({
+            ajax: {
+                url: "/Product/GetWithStock",
+                dataType: "json",
+                delay: 250,
+                data: function (params) {
+                    return { q: params.term };
+                },
+                processResults: function (data) {
+                    if (data.Status === 1) {
+                        return { results: data.Data };
+                    }
+                    return { results: [] };
+                },
+                cache: true
+            },
+            placeholder: "به دنبال چه محصولاتی هستید ؟",
+            allowClear: true,
+            language: {
+                noResults: function () {
+                    return "هیچ محصولی یافت نشد";
+                },
+                searching: function () {
+                    return "در حال جستجو...";
+                },
+                inputTooShort: function (args) {
+                    return "لطفاً حداقل " + (args.minimum - args.input.length) + " کاراکتر وارد نمایید";
+                }
+            },
+            minimumInputLength: 2
+        });
+
+        $('.js-example-data-ajax').on('select2:select', function (e) {
+            var productId = $(this).val();
+            if (productId) {
+                window.location.href = "https://motoreto.ir/product/details/" + productId;
+            }
+        });
+    </script>
+    <script>
+        // فیلتر زیرشاخه‌ها داخل همان مدال
+        $(document).on("keyup", ".subcat-search", function () {
+            var value = ($(this).val() || "").toLowerCase().trim();
+            var target = $(this).data("target");          // مثل "#list-123"
+            var $items = $(target).find(".subcat-items li");
+
+            if (!value) { $items.show(); return; }
+
+            $items.each(function () {
+                var text = $(this).text().toLowerCase();
+                $(this).toggle(text.indexOf(value) > -1);
+            });
+        });
+    </script>
+}
+
+

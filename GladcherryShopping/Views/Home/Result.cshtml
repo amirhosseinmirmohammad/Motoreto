@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "نتیجه تراکنش";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Metas{
+    <meta name="description" content="فروشگاه اینترنتی موتورتو فعال در زمینه فروش انواع قطعات مصرفی خودرو شامل فیلتر روغن ، فیلتر هوا ، فیلتر بنزین ، فیلتر کابین ، روغن موتور و روانکار و غیره است .">
+    <meta name="Keywords" content="قطعات مصرفی خودرو">
+    <meta property="og:title" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" />
+    <meta property="og:url" content="http://www.motoreto.ir/" />
+    <meta property="og:image" content="http://www.motoreto.ir/images/sadr_logo.png" />
+    <meta name="twitter:image" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz">
+    <meta name="robots" content="noindex">
+
+}
+
+@section Styles{
+    <style>
+        .card-body {
+            line-height: 35px;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        .btn-success {
+            color: #fff;
+            background-color: #00016e;
+            border-color: #00016e;
+        }
+
+            .btn-success:hover {
+                background-color: #ffd800;
+                border-color: #ffd800;
+            }
+    </style>
+}
+<br />
+<div class="container blog_header">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center">
+                <h1>نتیجه تراکنش</h1>
+            </div>
+        </div>
+    </div><br />
+</div>
+<form method="post" style="direction:rtl;">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                تاریخ :
+                <strong>@GladCherryShopping.Helpers.FunctionsHelper.GetPersianDateTime(DateTime.Now, false, false)</strong><br /><br />
+                <span class="float-right"> <strong> وضعیت </strong>سفارش :</span><br />
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-sm-12 text-center">
+                        <img src="~/images/sadr_logo.png" width="70" /><br /><br />
+                        <h5 class="mb-3">دریافت کننده :</h5>
+                        <div>
+                            <strong>موتورتو</strong>
+                        </div>
+                        <div>تهران ، تجریش خیابان شهرداری ساختمان 110</div>
+                        <div>ایمیل : info@motoreto.ir</div>
+                        <div>موبایل : <a href="tel:09128049946">09128049946</a></div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-lg-4 col-sm-5">
+                    </div>
+                    <div class="col-lg-4 col-sm-5 ml-auto">
+                        <table class="table table-clear">
+                            <tbody>
+                                <tr>
+                                    <td class="left">
+                                        <strong>توضیحات</strong>
+                                    </td>
+                                    <td class="right">
+                                        @if (TempData["Success"] != null)
+                                        {
+                                            @TempData["Success"]
+                                        }
+                                        else if (TempData["Error"] != null)
+                                        {
+                                            @TempData["Error"]
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="left">
+                                        <strong>شماره سفارش</strong>
+                                    </td>
+                                    <td class="right">@TempData["OrderId"]</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="/" class="btn btn-success">بازگشت به سایت</a>
+            </div><br />
+            @*<div class="text-center">
+                <a href="intent:#Intent;action=gladcherry.Motorbaz.MainCategories;end" class="btn btn-success">بازگشت به اپلیکیشن</a>
+            </div><br />*@
+        </div>
+    </div>
+</form>

@@ -1,0 +1,89 @@
+﻿@{ GladcherryShopping.Models.ApplicationDbContext content = new GladcherryShopping.Models.ApplicationDbContext();}
+@using System.Data.Entity;
+@{
+    ViewBag.Title = "گالری موتورتو";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Metas{
+    <meta name="description" content="فروشگاه اینترنتی موتورتو فعال در زمینه فروش انواع قطعات مصرفی خودرو شامل فیلتر روغن ، فیلتر هوا ، فیلتر بنزین ، فیلتر کابین ، روغن موتور و روانکار و غیره است .">
+    <meta name="Keywords" content="قطعات مصرفی خودرو">
+    <meta property="og:title" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" />
+    <meta property="og:url" content="http://www.motoreto.ir/" />
+    <meta property="og:image" content="http://www.motoreto.ir/images/sadr_logo.png" />
+    <meta name="twitter:image" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz">
+}
+
+@section Styles{
+    <link href="~/Content/Gallery/style.css" rel="stylesheet" />
+    <style>
+        #infoWindowNumber{
+            display:flex;
+            justify-content:center;
+        }
+    </style>
+}
+
+@if (content.Galleries.Count() > 0)
+{
+    <!-- Gallery -->
+    <div class="gallery">
+        <div class="container">
+            <h1>گالری</h1>
+            <div class="wthree_gallery_grids">
+                <div id="jzBox" class="jzBox">
+                    <div id="jzBoxNextBig"></div>
+                    <div id="jzBoxPrevBig"></div>
+                    <img src="#" id="jzBoxTargetImg" alt="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" title="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" />
+                    <div id="jzBoxBottom">
+                        <div id="jzBoxTitle"></div>
+                        <div id="jzBoxMoreItems">
+                            <div id="jzBoxCounter"></div>
+                            <i class="arrow-left" id="jzBoxPrev"></i>
+                            <i class="arrow-right" id="jzBoxNext"></i>
+                        </div>
+                        <i class="close" id="jzBoxClose"></i>
+                    </div>
+                </div>
+                <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+                    <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="home">
+                            <div class="tab_img">
+                                @foreach (var item in content.Galleries.Include(current => current.Images).FirstOrDefault().Images.ToList())
+                                {
+                                    <div class="col-md-3 agile_gallery_grids">
+                                        <a href="@item.Link" class="jzBoxLink" title="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz">
+                                            <div class="view view-sixth">
+                                                <img src="@item.Link" alt="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" class="img-responsive" title="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" />
+                                                <div class="mask">
+                                                    <p>موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                                <div class="clearfix"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //Gallery -->
+
+}
+else
+{
+    <div class="gallery">
+        <div class="container">
+            <h1>گالری</h1>
+        </div>
+    </div>
+}
+
+@*<iframe src="https://tracking.post.ir/" style="width:100%;height:100%;border:none !important;min-height:680px;"></iframe>*@
+
+@section Scripts{
+}
+

@@ -1,0 +1,264 @@
+@font-face {
+    font-family: "iransans-bold";
+    src: url('../../../fonts/IranSans/eot/IRANSansWeb_Bold.eot') format('eot'), url('../../../fonts/IranSans/woff/IRANSansWeb_Bold.woff') format('woff'), url('../../../fonts/IranSans/ttf/IRANSansWeb_Bold.ttf') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+}
+
+.description-container {
+    font-family: iransans-bold !important;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    text-align: center;
+}
+
+.description-title {
+    font-family: iransans-bold !important;
+    padding-bottom: 10px;
+}
+
+.description-text {
+    font-family: iransans-bold !important;
+    opacity: 0.8;
+}
+
+    .description-text a {
+        font-family: iransans-bold !important;
+        color: #fff;
+        border: 0;
+    }
+
+        .description-text a:hover,
+        .description-text a:focus {
+            color: #fff;
+            border-bottom: 1px dotted #fff;
+        }
+
+    .description-text .divider-1 {
+        font-family: iransans-bold !important;
+        margin-top: 50px;
+    }
+
+
+/***** Multi Step Form *****/
+
+.msf-container {
+    font-family: iransans-bold !important;
+    padding-bottom: 25px;
+    text-align: center;
+}
+
+.msf-title h3 {
+    font-family: iransans-bold !important;
+    padding-bottom: 10px;
+    font-weight: 700;
+}
+
+.msf-title p {
+    font-family: iransans-bold !important;
+    opacity: 0.8;
+}
+
+.msf-form h4 {
+    position: relative !important;
+    /*font-family: iransans-bold !important;*/
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-weight: 700;
+    line-height: 26px;
+}
+
+    .msf-form h4 .step {
+        font-family: iransans-bold !important;
+        color: #666;
+    }
+
+.pack_header {
+    margin: 0 0 4px 23px;
+    background: #00016e;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    padding: 0 10px;
+    box-shadow: 0 0 0 0 #000 !important;
+    color: #fff !important;
+}
+
+.msf-form form fieldset {
+    height: 630px;
+    overflow-y: auto !important;
+    font-family: iransans-bold !important;
+    display: none;
+    overflow: hidden;
+    direction: rtl;
+}
+
+.msf-form form input[type="text"], .msf-form form input[type="number"], .msf-form form input[type="email"] {
+    background-color: #ffffff !important;
+    border-radius: 4px !important;
+    width: 400px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-family: iransans-bold !important;
+}
+
+.msf-form form textarea {
+    background-color: #ffffff !important;
+    border-radius: 4px !important;
+    padding-top: 10px !important;
+}
+
+.msf-form form input[type="number"] {
+    direction: ltr !important;
+    font-family: iransans-bold !important;
+}
+
+textarea {
+    direction: rtl;
+    font-family: iransans-bold !important;
+}
+
+.msf-form form textarea.form-control {
+    width: 650px;
+    height: 100px;
+    font-family: iransans-bold !important;
+}
+
+.msf-form form select.form-control {
+    width: 400px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-family: iransans-bold !important;
+}
+
+.msf-form form .form-group {
+    width: 200px !important;
+    height: 222px !important;
+    padding-right: 10px;
+    font-family: iransans-bold !important;
+    margin-bottom: 15px;
+}
+
+.msf-form form button.btn {
+    font-family: iransans-bold !important;
+    min-width: 110px;
+    margin-top: 15px;
+    margin-left: 5px;
+    margin-right: 5px;
+    direction: ltr !important;
+}
+
+.msf-form form p {
+    font-family: iransans-bold !important;
+    opacity: 0.8;
+}
+
+.msf-form form .radio-buttons-1,
+.msf-form form .radio-buttons-2,
+.msf-form form .checkboxes-1,
+.msf-form form .checkboxes-2 {
+    font-family: iransans-bold !important;
+    display: inline-block;
+    margin: 0 15px 20px 15px;
+}
+
+.msf-form form .selects-1,
+.msf-form form .selects-2 {
+    font-family: iransans-bold !important;
+    display: inline-block;
+    margin: 0 0 20px 0;
+}
+
+.select2-results__option {
+    font-family: iransans-bold !important;
+    color: #111111 !important;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+.select2-selection__choice {
+    font-family: iransans-bold !important;
+    color: #111111 !important;
+}
+
+.sweet-alert h2 {
+    font-family: iransans-bold !important;
+    direction: rtl !important;
+}
+
+@media screen and (max-width:768px) {
+    .lesson-row input, .lesson-row i, .lesson-row label {
+        font-family: iransans-bold !important;
+        display: block;
+        margin: 0 auto;
+        text-align: center;
+        margin-bottom: 4px;
+        vertical-align: central;
+    }
+}
+
+.msf-container {
+    border-radius: 4px !important;
+    background-color: #f1f1f1 !important;
+    font-family: iransans-bold !important;
+}
+
+.service-items img {
+    padding-top: unset !important;
+}
+
+.services-items label {
+    color: #000000 !important;
+    font-family: iransans-bold !important;
+}
+
+.service-items b {
+    color: #000000 !important;
+    font-family: iransans-bold !important;
+}
+
+.service-items label > input { /* HIDE RADIO */
+    visibility: hidden; /* Makes input not-clickable */
+    position: absolute; /* Remove input from document flow */
+    font-family: iransans-bold !important;
+}
+
+    .service-items label > input + img { /* IMAGE STYLES */
+        cursor: pointer;
+        border: 2px solid transparent;
+        font-family: iransans-bold !important;
+        transition: .3s all ease;
+        width: 190px !important;
+        height: 190px !important;
+    }
+
+.button.btn {
+    font-family: iransans-bold !important;
+}
+
+.service-items label > input + img:hover { /* IMAGE STYLES */
+    transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.service-items label > input:checked + img { /* (RADIO CHECKED) IMAGE STYLES */
+    border: 2px solid #00016e;
+}
+
+.service-items label > input[type="file"] {
+}
+
+.trans {
+    border: 1px solid transparent !important;
+}
+
+.bd {
+    border: 2px solid #00016e !important;
+}
+
+.ld {
+    border: 1px solid #00016e !important;
+}
+
+.newsletter-agile input[type="submit"] {
+    text-align: center !important;
+    font-family: iransans-bold !important;
+}

@@ -1,0 +1,109 @@
+﻿@using DataLayer.ViewModels.PagerViewModel
+@model PagerViewModels<DataLayer.Models.Blog>
+@{ GladcherryShopping.Models.ApplicationDbContext content = new GladcherryShopping.Models.ApplicationDbContext();}
+@using MvcPager
+@{
+    ViewBag.Title = "بلاگ موتورتو";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+<meta name="description" content="فروشگاه اینترنتی موتورتو فعال در زمینه فروش انواع قطعات مصرفی خودرو شامل فیلتر روغن ، فیلتر هوا ، فیلتر بنزین ، فیلتر کابین ، روغن موتور و روانکار و غیره است .">
+<meta name="Keywords" content="قطعات مصرفی خودرو">
+<meta property="og:title" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" />
+<meta property="og:url" content="http://www.motoreto.ir/" />
+<meta property="og:image" content="http://www.motoreto.ir/images/sadr_logo.png" />
+<meta name="twitter:image" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz">
+}
+
+    <div class="container blog_header">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center">
+                    <h1>نوشته های وبلاگ</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+<br />
+<!-- content -->
+<div class="container">
+    <div class="content">
+        @if (TempData["NotFound"] != null)
+            {
+            <div class="notfound" style="direction:rtl !important;text-align:center;">
+                <a style="color:#000000;" href="/Blog/All">@TempData["NotFound"]</a>
+            </div>
+        }
+        <div class="col-md-9 pull-right">
+            @foreach (var item in Model.data)
+            {
+                <div class="col-md-5 pull-right">
+                    <a href="~/Blog/@item.Id/@item.SefUrl" title="@item.Title">
+                        @if (item.Images.Count > 0)
+                        {
+                            var img = item.Images.Where(current => current.Extension.Contains("jpeg") || current.Extension.Contains("gif") || current.Extension.Contains("png") || current.Extension.Contains("jpg")).FirstOrDefault();
+                            if (item.Images.Where(current => current.Extension.Contains("jpeg") || current.Extension.Contains("gif") || current.Extension.Contains("png") || current.Extension.Contains("jpg")).FirstOrDefault() != null)
+                            {
+                                <img width="600" height="400" src="@Url.Content(item.Images.Where(current => current.Extension.Contains("jpeg") || current.Extension.Contains("gif") || current.Extension.Contains("png") || current.Extension.Contains("jpg")).FirstOrDefault().FullPath)" class="img-responsive blog_list" alt="@item.Title" title="@item.Title" />
+                            }
+                        }
+                        else
+                        {
+                            <img width="600" height="400" src="~/Content/Blog/img2.jpg" class="img-responsive blog_list" alt="موتورتو" title="موتورتو" />
+                        }
+                    </a>
+                </div>
+                <div class="col-md-7 pull-right">
+                    <i class="aeroplane"> </i>
+                    <div class="travelling">
+                        <div class="travelling1">
+                            <h2><a href="~/Blog/@item.Id/@item.SefUrl">@item.Title</a></h2>
+                            <div class="post-meta">
+                                <p>نوشته شده توسط تیم موتورتو در تاریخ : @GladCherryShopping.Helpers.FunctionsHelper.GetPersianDateTime((DateTime)item.CreateDate, false, false)  | تعداد بازدید : @item.Survey</p>
+                            </div>
+                            <p>@item.ShortDesc</p>
+                            <div class="post-more">
+                                <a class="more-link" href="~/Blog/@item.Id/@item.SefUrl">ادامه نوشته</a>
+                            </div>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+            }
+            <div class="loadmore1">
+                <div class="row">
+                    <div class="col-md-6" style="direction: ltr">
+                        <ul class="pagination pagination-sm">
+                            <li>@Html.Pager(4, Model.CurrentPage, Model.TotalItemCount)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 pull-right">
+            <div class="sidebar-instagram">
+                <h4>
+                    اگر می خواهید از جشنواره ها و تخفیف های موتورتو با خبر شوید، صفحه اینستاگرام ما را دنبال کنید.
+                </h4>
+                <p> <a href="https://www.instagram.com/motoreto.ir" target="_blank" rel="nofollow"><span class="fa fa-instagram"></span> صفحه اینستاگرام</a></p>
+            </div>
+            <aside id="recent-posts-2" class="widget widget_recent_entries">
+                <div id="secondary">
+                    <h3 class="widget-title">نوشته های پربازدید</h3>
+                </div>
+                <ul>
+                    @foreach (var blog in content.Blogs.OrderByDescending(current => current.Survey).Where(current => current.IsVisible == true).Take(4).ToList())
+                    {
+                        <li><a href="/blog/@blog.Id/@blog.SefUrl">@blog.Title</a></li>
+                    }
+                </ul>
+                <br />
+            </aside>
+        </div>
+    </div>
+</div>
+<!-- content -->
+@section Scripts{
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+}

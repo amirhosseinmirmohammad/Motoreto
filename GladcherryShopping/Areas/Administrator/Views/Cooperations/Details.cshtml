@@ -1,0 +1,249 @@
+﻿@model DataLayer.Models.Cooperation
+
+@{
+    ViewBag.Title = "جزییات درخواست";
+    Layout = "~/Areas/Administrator/Views/Shared/_Layout.cshtml";
+}
+
+<h2>مدیریت درخواست ها</h2>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    @*<h5> جزییات دسته بندی <span style="color:darkred"> @Model.PersianName </span>  </h5>*@
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <a href="#">گزینه 1</a>
+                            </li>
+                            <li>
+                                <a href="#">گزینه 2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div>
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.FullName)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.FullName)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.NationalCode)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.NationalCode)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Bithdate)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Bithdate)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Education)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Education)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Field)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Field)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Body)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Body)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Company)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Company)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Duration)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Duration)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.PhoneCo)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.PhoneCo)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Fax)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Fax)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.EmailCo)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.EmailCo)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.WebsiteCo)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.WebsiteCo)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Instagram)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Instagram)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Telegram)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Telegram)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Situation)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.getSituation)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.PostalCode)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.PostalCode)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Guaranteed)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.getGuaranteed)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.PostalAddress)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.PostalAddress)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Prediction)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Prediction)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Agency)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Agency)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Phone)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Phone)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Mobile)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Mobile)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Email)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Email)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Website)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Website)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Address)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Address)
+                            </dd>
+                        </dl>
+                    </div>
+                    <p>
+                        @Html.ActionLink("بازگشت به لیست", "Index", null, new { @class = "btn btn-default btn-md" })
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
