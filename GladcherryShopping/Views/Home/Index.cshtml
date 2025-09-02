@@ -12,10 +12,10 @@
 @section Metas{
     <meta name="description" content="فروشگاه اینترنتی موتورتو فعال در زمینه فروش انواع قطعات مصرفی خودرو شامل فیلتر روغن ، فیلتر هوا ، فیلتر بنزین ، فیلتر کابین ، روغن موتور و روانکار و غیره است .">
     <meta name="Keywords" content="قطعات مصرفی خودرو">
-    <meta property="og:title" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" />
+    <meta property="og:title" content="موتورتو ، فروش آنلاین قطعات خودرو | Motoreto" />
     <meta property="og:url" content="http://www.motoreto.ir/" />
     <meta property="og:image" content="http://www.motoreto.ir/images/sadr_logo.png" />
-    <meta name="twitter:image" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz">
+    <meta name="twitter:image" content="موتورتو ، فروش آنلاین قطعات خودرو | Motoreto">
 }
 @section Styles{
     <script type="application/ld+json">
@@ -23,7 +23,7 @@
         "@@context": "http://schema.org",
         "@@type": "Organization",
         "name": "موتورتو",
-        "description": "موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz",
+        "description": "موتورتو ، فروش آنلاین قطعات خودرو | Motoreto",
         "logo": "http://www.motoreto.ir/images/sadr_logo.png",
         "url": "http://www.motoreto.ir",
         "sameAs": [ "https://www.instagram.com/motoreto.ir",
@@ -53,7 +53,7 @@
     <div class="zigzag-bottom"></div>
     <div class="container">
         <div class="text-center main_h1">
-            <h1 title="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz">موتورتو ، سامانه جامع تهیه و توزیع قطعات خودرویی | Motorbaz</h1>
+            <h1 title="موتورتو ، فروش آنلاین قطعات خودرو | Motoreto">موتورتو ، سامانه جامع تهیه و توزیع قطعات خودرویی | Motoreto</h1>
             <h2>هوای ماشینتو داریم</h2>
             <div class="wow bounceIn">
                 <img src="~/images/sadr_logo.png" width="100" height="100" style="padding-top:unset !important;background-color:#ffffff;border-radius:25px;padding-top:unset !important;" />
@@ -95,17 +95,16 @@
     <div class="row">
         @foreach (var cat in content.Categories
                                    .Where(c => c.ParentId == null)
-                                   .Include(c => c.SubCategories)
+                                   .OrderBy(s => s.PersianName)
                                    .ToList())
         {
-            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" style="margin-bottom:18px;">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 pull-right" style="margin-bottom:18px;">
                 <div class="category-card text-center"
                      data-toggle="modal"
                      data-target="#modal-@cat.Id">
                     <h4 class="category-title">@cat.PersianName</h4>
                 </div>
 
-                <!-- Modal: زیرشاخه‌های همین دسته -->
                 <div class="modal fade subcategory-modal" id="modal-@cat.Id" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                         <div class="modal-content">
@@ -116,32 +115,19 @@
                             </div>
 
                             <div class="modal-body" id="modal-content-category">
-                                <!-- سرچ داخل مدال (یونیک به کمک data-target) -->
                                 <input type="text"
                                        class="form-control mb-10 subcat-search"
-                                       placeholder="جستجوی زیرشاخه‌ها..."
+                                       placeholder="جستجو ..."
                                        data-target="#list-@cat.Id" />
 
-                                <!-- لیست اسکرول‌دار زیرشاخه‌ها -->
                                 <div id="list-@cat.Id" class="subcat-scroll">
-                                    <ul class="subcat-items">
-                                        @foreach (var sub in cat.SubCategories.OrderBy(s => s.PersianName).ToList())
-                                        {
-                                            <li>
-                                                <a href="/product/all/@sub.Id">
-                                                    <i class="fa fa-angle-left"></i>
-                                                    @sub.PersianName
-                                                </a>
-                                            </li>
-                                        }
-                                    </ul>
+                                    <ul class="subcat-items"></ul>
                                 </div>
                             </div>
 
                         </div>
                     </div>
                 </div>
-                <!-- /Modal -->
             </div>
         }
     </div>
@@ -313,11 +299,18 @@
                     <div class="latest-product">
                         <h3 class="section-title">محصولات جدید</h3>
                         <div class="product-carousel">
-                            @foreach (var item in content.Products.OrderByDescending(current => current.CreateDate).Where(currrent => currrent.SiteFirstImage != null).ToList())
+                            @foreach (var item in content.Products.OrderByDescending(current => current.CreateDate).Take(10).ToList())
                             {
                                 <div class="single-product">
                                     <div class="product-f-image">
-                                        <img src="@item.SiteFirstImage" alt="@item.PersianName" title="@item.PersianName">
+                                        @if (item.SiteFirstImage != null)
+                                        {
+                                            <img src="@item.SiteFirstImage" alt="@item.PersianName" title="@item.PersianName">
+                                        }
+                                        else
+                                        {
+                                            <img src="~/images/sadr_logo.png" alt="@item.PersianName" title="@item.PersianName">
+                                        }
                                         <div class="product-hover">
                                             @if (item.Stock > 0)
                                             {
@@ -331,7 +324,7 @@
                                         </div>
                                     </div>
 
-                                    <h2><a href="/Product/Details/@item.Id">@item.PersianName</a></h2>
+                                    <h2><a href="/Product/Details/@item.Id">@GladCherryShopping.Helpers.FunctionsHelper.Truncate(item.PersianName, 20)</a></h2>
 
                                     <div class="product-carousel-price">
                                         @if (item.DiscountPercent > 0)
@@ -652,19 +645,36 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/css/select2.min.css" integrity="sha256-FdatTf20PQr/rWg+cAKfl6j4/IY3oohFAJ7gVC3M34E=" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/js/select2.min.js"
             integrity="sha256-wfVTTtJ2oeqlexBsfa3MmUoB77wDNRPqT1Q1WA2MMn4="
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous">
+    </script>
+
     <script>
-        $(".js-example-data-ajax").select2({
+        function toPersianDigits(str) {
+            return (str || "").replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
+        }
+
+        function toEnglishDigits(str) {
+            return (str || "").replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+        }
+
+        var $select = $(".js-example-data-ajax").select2({
             ajax: {
                 url: "/Product/GetWithStock",
                 dataType: "json",
                 delay: 250,
                 data: function (params) {
-                    return { q: params.term };
+                    let normalized = toEnglishDigits(params.term);
+                    return { q: normalized };
                 },
                 processResults: function (data) {
                     if (data.Status === 1) {
-                        return { results: data.Data };
+                        let results = data.Data.map(x => {
+                            return {
+                                id: x.id,
+                                text: toPersianDigits(x.text)
+                            }
+                        });
+                        return { results: results };
                     }
                     return { results: [] };
                 },
@@ -686,6 +696,17 @@
             minimumInputLength: 2
         });
 
+        $select.on("select2:open", function () {
+            let $searchField = $(".select2-search__field");
+            $searchField.on("input", function () {
+                let val = $(this).val();
+                let persianVal = toPersianDigits(val);
+                if (val !== persianVal) {
+                    $(this).val(persianVal);
+                }
+            });
+        });
+
         $('.js-example-data-ajax').on('select2:select', function (e) {
             var productId = $(this).val();
             if (productId) {
@@ -693,21 +714,73 @@
             }
         });
     </script>
+
     <script>
-        // فیلتر زیرشاخه‌ها داخل همان مدال
-        $(document).on("keyup", ".subcat-search", function () {
-            var value = ($(this).val() || "").toLowerCase().trim();
-            var target = $(this).data("target");          // مثل "#list-123"
+        function toPersianDigits(str) {
+            return str.replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
+        }
+
+        function toEnglishDigits(str) {
+            return str.replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+        }
+
+        $(document).on("input", ".subcat-search", function () {
+            let rawValue = $(this).val();
+
+            let persianValue = toPersianDigits(rawValue);
+            $(this).val(persianValue);
+
+            let normalizedValue = toEnglishDigits(persianValue).toLowerCase().trim();
+
+            var target = $(this).data("target");
             var $items = $(target).find(".subcat-items li");
 
-            if (!value) { $items.show(); return; }
+            if (!normalizedValue) {
+                $items.show();
+                return;
+            }
 
             $items.each(function () {
                 var text = $(this).text().toLowerCase();
-                $(this).toggle(text.indexOf(value) > -1);
+                var normalizedText = toEnglishDigits(text);
+                $(this).toggle(normalizedText.indexOf(normalizedValue) > -1);
             });
         });
     </script>
+    <script>
+        $(document).on("show.bs.modal", ".subcategory-modal", function (e) {
+            var $modal = $(this);
+            var categoryId = $modal.attr("id").replace("modal-", "");
+            var $list = $modal.find(".subcat-items");
+
+            $list.html('<li>در حال بارگذاری...</li>');
+
+            $.ajax({
+                url: "/Category/GetSubCategories",
+                type: "GET",
+                data: { categoryId: categoryId },
+                success: function (res) {
+                    if (res.Status === 1) {
+                        var html = "";
+                        res.Data.forEach(function (item) {
+                            html += `<li>
+                                            <a href="/product/all/${item.Id}">
+                                                <i class="fa fa-angle-left"></i> ${item.Name}
+                                            </a>
+                                         </li>`;
+                        });
+                        $list.html(html);
+                    } else {
+                        $list.html("<li>" + res.Text + "</li>");
+                    }
+                },
+                error: function () {
+                    $list.html("<li>خطا در دریافت داده‌ها</li>");
+                }
+            });
+        });
+    </script>
+
 }
 
 

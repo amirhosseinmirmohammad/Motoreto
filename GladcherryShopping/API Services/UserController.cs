@@ -3043,6 +3043,26 @@ namespace GladcherryShopping.API_Services
                 });
             }
         }
+
+        [HttpGet]
+        [Route("Category/GetSubCategories")]
+        public IHttpActionResult GetSubCategories(int categoryId)
+        {
+            var subs = db.Categories
+                         .Where(c => c.ParentId == categoryId)
+                         .OrderBy(c => c.PersianName)
+                         .Select(c => new
+                         {
+                             Id = c.Id,
+                             Name = c.PersianName
+                         })
+                         .ToList();
+
+            if (subs.Count == 0)
+                return Ok(new { Status = 0, Text = "زیرشاخه‌ای یافت نشد." });
+
+            return Ok(new { Status = 1, Data = subs });
+        }
     }
 }
 

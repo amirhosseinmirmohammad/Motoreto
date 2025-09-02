@@ -11,10 +11,10 @@
 @section Metas{
     <meta name="description" content="فروشگاه اینترنتی موتورتو فعال در زمینه فروش انواع قطعات مصرفی خودرو شامل فیلتر روغن ، فیلتر هوا ، فیلتر بنزین ، فیلتر کابین ، روغن موتور و روانکار و غیره است .">
     <meta name="Keywords" content="قطعات مصرفی خودرو">
-    <meta property="og:title" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" />
+    <meta property="og:title" content="موتورتو ، فروش آنلاین قطعات خودرو | Motoreto" />
     <meta property="og:url" content="http://www.motoreto.ir/" />
     <meta property="og:image" content="http://www.motoreto.ir/images/sadr_logo.png" />
-    <meta name="twitter:image" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz">
+    <meta name="twitter:image" content="موتورتو ، فروش آنلاین قطعات خودرو | Motoreto">
     <meta name="robots" content="noindex">
 
 }
@@ -84,7 +84,7 @@
                                     }
                                     else
                                     {
-                                        <img src="~/images/hand-shake.png" alt="@item.PersianName" title="@item.PersianName" class="recent-thumb">
+                                        <img src="~/images/sadr_logo.png" alt="@item.PersianName" title="@item.PersianName" class="recent-thumb">
                                     }
                                     <h2><a href="/Product/Details/@item.Id">@item.PersianName</a></h2>
                                     <div class="product-sidebar-price">
@@ -200,7 +200,7 @@
                                             <tr>
                                                 <th class="product-name">هزینه سفارش</th>
                                                 <th class="product-name">هزینه حمل</th>
-                                                <th class="product-name">هزینه ارسال سفارشی</th>
+                                                @*<th class="product-name">هزینه ارسال سفارشی</th>*@
                                                 <th class="product-name">اعتبار شما</th>
                                                 <th class="product-total">جمع کل</th>
                                             </tr>
@@ -244,7 +244,7 @@
                                                         <span>0 ریال</span>
                                                     }
                                                 </td>
-                                                <td>
+                                                @*<td>
                                                     @if (Convert.ToInt32(Type) == 2)
                                                     {
                                                         if (application != null)
@@ -267,7 +267,7 @@
                                                     {
                                                         <span>0 ریال</span>
                                                     }
-                                                </td>
+                                                </td>*@
                                                 <td>
                                                     <span class="amount">@string.Format("{0:n0}", user.Credit) ریال</span>
                                                 </td>
@@ -304,8 +304,8 @@
                                                 </li>
                                             </ul>
                                             <div class="form-row place-order">
-                                                <input type="submit" value="پرداخت هزینه حمل" id="place_order" name="woocommerce_checkout_place_order" class="button alt">
-                                                <a class="preOrder" href="/Home/Cart">سبد خرید</a>
+                                                <input type="submit" value="ثبت سفارش" id="place_order" name="woocommerce_checkout_place_order" class="button alt">
+                                                <a class="preOrder" href="/Home/Cart">بازگشت</a>
                                             </div>
                                             <div class="clear"></div>
                                         </div>
@@ -323,8 +323,8 @@
                                                 </li>
                                             </ul>
                                             <div class="form-row place-order">
-                                                <input type="submit" value="پرداخت کل فاکتور" id="place_order" name="woocommerce_checkout_place_order" class="button alt">
-                                                <a class="preOrder" href="/Home/Cart">سبد خرید</a>
+                                                <input type="submit" value="پرداخت" id="place_order" name="woocommerce_checkout_place_order" class="button alt">
+                                                <a class="preOrder" href="/Home/Cart">بازگشت</a>
                                             </div>
                                             <div class="clear"></div>
                                         </div>

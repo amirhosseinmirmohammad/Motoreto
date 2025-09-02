@@ -254,37 +254,52 @@ namespace GladcherryShopping.Controllers
             return View(ProductViewModels);
         }
 
+        [HttpPost]
         public JsonResult AddToShoppingCart(int Id)
         {
             try
             {
-                if (Request.Cookies.AllKeys.Contains("FilterCart_" + Id.ToString()))
+                string cookieKey = "MotoretoCt_" + Id;
+                int count = 0;
+
+                if (Request.Cookies[cookieKey] != null)
                 {
-                    //Cookie Editing
-                    var cookie = new HttpCookie("FilterCart_" + Id.ToString(), (Convert.ToByte(Request.Cookies["FilterCart_" + Id.ToString()].Value) + 1).ToString());
-                    cookie.Expires = DateTime.Now.AddHours(3);
-                    cookie.HttpOnly = true;
-                    Response.Cookies.Set(cookie);
+                    int.TryParse(Request.Cookies[cookieKey].Value, out count);
+                    count++;
                 }
                 else
                 {
-                    Product pro = db.Products.Find(Id);
-                    //Add Cookie
-                    var cookie = new HttpCookie("FilterCart_" + Id.ToString(), pro.Min.ToString());
-                    cookie.Expires = DateTime.Now.AddHours(3);
-                    cookie.HttpOnly = true;
-                    Response.Cookies.Add(cookie);
+                    var pro = db.Products.Find(Id);
+                    if (pro == null)
+                    {
+                        return Json(new CardViewModel
+                        {
+                            Success = false,
+                            CountHtml = "",
+                            PriceHtml = ""
+                        });
+                    }
+
+                    count = (int)((pro.Min > 0) ? pro.Min : 1);
                 }
-                return Json(new CardViewModel()
+
+                var cookie = new HttpCookie(cookieKey, count.ToString())
+                {
+                    Expires = DateTime.Now.AddHours(3),
+                    HttpOnly = false
+                };
+                Response.Cookies.Set(cookie);
+
+                return Json(new CardViewModel
                 {
                     Success = true,
                     CountHtml = CartCount(),
                     PriceHtml = CartPrice()
                 });
             }
-            catch (Exception)
+            catch
             {
-                return Json(new CardViewModel()
+                return Json(new CardViewModel
                 {
                     Success = false,
                     CountHtml = "",
@@ -293,23 +308,33 @@ namespace GladcherryShopping.Controllers
             }
         }
 
-        //merchantcode f2113a3fe-9add-11e8-99b4-00110116a2011be
-
+        [HttpPost]
         public JsonResult MinusFromShoppingCart(int Id)
         {
             try
             {
-                if (Request.Cookies.AllKeys.Contains("FilterCart_" + Id.ToString()))
+                string cookieKey = "MotoretoCt_" + Id;
+
+                if (Request.Cookies[cookieKey] != null)
                 {
-                    Product pro = db.Products.Find(Id);
-                    //Cookie Editing
-                    var cookie = new HttpCookie("FilterCart_" + Id.ToString(), (Convert.ToByte(Request.Cookies["FilterCart_" + Id.ToString()].Value) - 1).ToString());
-                    cookie.Expires = DateTime.Now.AddHours(3);
-                    cookie.HttpOnly = true;
-                    if (Convert.ToInt32(cookie.Value) >= pro.Min)
+                    int count;
+                    int.TryParse(Request.Cookies[cookieKey].Value, out count);
+
+                    var pro = db.Products.Find(Id);
+                    int minCount = (int)((pro != null && pro.Min > 0) ? pro.Min : 1);
+
+                    if (count > minCount)
                     {
+                        count--;
+
+                        var cookie = new HttpCookie(cookieKey, count.ToString())
+                        {
+                            Expires = DateTime.Now.AddHours(3),
+                            HttpOnly = false
+                        };
                         Response.Cookies.Set(cookie);
-                        return Json(new CardViewModel()
+
+                        return Json(new CardViewModel
                         {
                             Success = true,
                             CountHtml = CartCount(),
@@ -318,7 +343,7 @@ namespace GladcherryShopping.Controllers
                     }
                     else
                     {
-                        return Json(new CardViewModel()
+                        return Json(new CardViewModel
                         {
                             Success = false,
                             CountHtml = CartCount(),
@@ -326,19 +351,17 @@ namespace GladcherryShopping.Controllers
                         });
                     }
                 }
-                else
+
+                return Json(new CardViewModel
                 {
-                    return Json(new CardViewModel()
-                    {
-                        Success = false,
-                        CountHtml = "",
-                        PriceHtml = ""
-                    });
-                }
+                    Success = false,
+                    CountHtml = "",
+                    PriceHtml = ""
+                });
             }
-            catch (Exception)
+            catch
             {
-                return Json(new CardViewModel()
+                return Json(new CardViewModel
                 {
                     Success = false,
                     CountHtml = "",
@@ -346,15 +369,16 @@ namespace GladcherryShopping.Controllers
                 });
             }
         }
+
         [HttpPost]
         public JsonResult RemoveCart(int Id)
         {
             try
             {
-                if (Request.Cookies.AllKeys.Contains("FilterCart_" + Id.ToString()))
+                if (Request.Cookies.AllKeys.Contains("MotoretoCt_" + Id.ToString()))
                 {
-                    Response.Cookies["FilterCart_" + Id.ToString()].Expires = DateTime.Now.AddDays(-1);
-                    Request.Cookies.Remove("FilterCart_" + Id.ToString());
+                    Response.Cookies["MotoretoCt_" + Id.ToString()].Expires = DateTime.Now.AddDays(-1);
+                    Request.Cookies.Remove("MotoretoCt_" + Id.ToString());
                     return Json(new CardViewModel()
                     {
                         Success = true,
@@ -391,7 +415,7 @@ namespace GladcherryShopping.Controllers
                 if (lst.Where(p => p.Name == Request.Cookies[i].Name).Any() == false)
                     lst.Add(Request.Cookies[i]);
             }
-            int CartCount = lst.Where(p => p.Name.StartsWith("FilterCart_")).Count();
+            int CartCount = lst.Where(p => p.Name.StartsWith("MotoretoCt_")).Count();
             return CartCount.ToString();
         }
 
@@ -404,7 +428,7 @@ namespace GladcherryShopping.Controllers
                     lst.Add(Request.Cookies[i]);
             }
             int TotalPrice = 0;
-            foreach (var item in lst.Where(p => p.Name.StartsWith("FilterCart_")))
+            foreach (var item in lst.Where(p => p.Name.StartsWith("MotoretoCt_")))
             {
                 string idstring = item.Name.Substring(11);
                 int id = Convert.ToInt32(idstring);
@@ -441,7 +465,7 @@ namespace GladcherryShopping.Controllers
                 if (lst.Where(p => p.Name == Request.Cookies[i].Name).Any() == false)
                     lst.Add(Request.Cookies[i]);
             }
-            foreach (var item in lst.Where(p => p.Name.StartsWith("FilterCart_")))
+            foreach (var item in lst.Where(p => p.Name.StartsWith("MotoretoCt_")))
             {
                 Product pro = db.Products.Find(Convert.ToInt32(item.Name.Substring(11)));
                 if (pro != null)
@@ -455,18 +479,18 @@ namespace GladcherryShopping.Controllers
             }
 
             List<SeenViewModel> lstSeen = new List<SeenViewModel>();
-            foreach (var item in lst.Where(p => p.Name.StartsWith("SeenProduct_")))
-            {
-                Product pro = db.Products.Find(Convert.ToInt32(item.Name.Substring(12)));
-                if (pro != null)
-                {
-                    lstSeen.Add(new SeenViewModel
-                    {
-                        Product = db.Products.Find(Convert.ToInt32(item.Name.Substring(12))),
-                        Count = Convert.ToInt32(item.Value)
-                    });
-                }
-            }
+            //foreach (var item in lst.Where(p => p.Name.StartsWith("SeenProduct_")))
+            //{
+            //    Product pro = db.Products.Find(Convert.ToInt32(item.Name.Substring(11)));
+            //    if (pro != null)
+            //    {
+            //        lstSeen.Add(new SeenViewModel
+            //        {
+            //            Product = db.Products.Find(Convert.ToInt32(item.Name.Substring(11))),
+            //            Count = Convert.ToInt32(item.Value)
+            //        });
+            //    }
+            //}
             ViewBag.SeenProducts = lstSeen.Take(2);
             return View(listBasket);
         }
@@ -482,7 +506,7 @@ namespace GladcherryShopping.Controllers
                 if (lst.Where(p => p.Name == Request.Cookies[i].Name).Any() == false)
                     lst.Add(Request.Cookies[i]);
             }
-            foreach (var item in lst.Where(p => p.Name.StartsWith("FilterCart_")))
+            foreach (var item in lst.Where(p => p.Name.StartsWith("MotoretoCt_")))
             {
                 string idstring = item.Name.Substring(11);
                 int id = Convert.ToInt32(idstring);
@@ -518,7 +542,7 @@ namespace GladcherryShopping.Controllers
                 if (lst.Where(p => p.Name == Request.Cookies[i].Name).Any() == false)
                     lst.Add(Request.Cookies[i]);
             }
-            foreach (var item in lst.Where(p => p.Name.StartsWith("FilterCart_")))
+            foreach (var item in lst.Where(p => p.Name.StartsWith("MotoretoCt_")))
             {
                 listBasket.Add(new BasketViewModel
                 {
@@ -536,14 +560,14 @@ namespace GladcherryShopping.Controllers
             }
 
             List<SeenViewModel> lstSeen = new List<SeenViewModel>();
-            foreach (var item in lst.Where(p => p.Name.StartsWith("SeenProduct_")))
-            {
-                lstSeen.Add(new SeenViewModel
-                {
-                    Product = db.Products.Find(Convert.ToInt32(item.Name.Substring(12))),
-                    Count = Convert.ToInt32(item.Value)
-                });
-            }
+            //foreach (var item in lst.Where(p => p.Name.StartsWith("SeenProduct_")))
+            //{
+            //    lstSeen.Add(new SeenViewModel
+            //    {
+            //        Product = db.Products.Find(Convert.ToInt32(item.Name.Substring(11))),
+            //        Count = Convert.ToInt32(item.Value)
+            //    });
+            //}
             ViewBag.SeenProducts = lstSeen.Take(2);
             SubmitOrderViewModel viewmodel = new SubmitOrderViewModel();
             viewmodel.basket = listBasket;
@@ -557,6 +581,20 @@ namespace GladcherryShopping.Controllers
             viewmodel.FinalPrice = double.Parse(CartPrice());
             ViewBag.Price = CartPrice();
             return View(viewmodel);
+        }
+
+        private void ClearCartCookies()
+        {
+            var cookies = Request.Cookies.AllKeys.Where(k => k.StartsWith("MotoretoCt_")).ToList();
+            foreach (var cookieKey in cookies)
+            {
+                var cookie = new HttpCookie(cookieKey)
+                {
+                    Expires = DateTime.Now.AddDays(-1), 
+                    Value = null
+                };
+                Response.Cookies.Set(cookie);
+            }
         }
 
         [HttpPost, ActionName("SubmitOrder")]
@@ -718,7 +756,7 @@ namespace GladcherryShopping.Controllers
                 return RedirectToAction("InsertOrder", "Home", new { PaymentType = order.PaymentType, Type = order.Type });
             }
             List<BasketViewModel> listBasket = new List<BasketViewModel>();
-            foreach (var item in lst.Where(p => p.Name.StartsWith("FilterCart_")))
+            foreach (var item in lst.Where(p => p.Name.StartsWith("MotoretoCt_")))
             {
                 listBasket.Add(new BasketViewModel
                 {
@@ -876,6 +914,9 @@ namespace GladcherryShopping.Controllers
 
             TempData["Success"] = "سفارش شما با موفقیت ثبت شد .";
             TempData["OrderId"] = newOrder.Id;
+
+            ClearCartCookies();
+
             return RedirectToAction("Result", "Home", new { PaymentType = order.PaymentType, Type = order.Type });
 
             #region Tejarat
@@ -933,7 +974,6 @@ namespace GladcherryShopping.Controllers
             #endregion Tejarat
 
         }
-
 
         public ActionResult VerifyOrder(PaymentCallbackModel model)
         {
@@ -1003,7 +1043,7 @@ namespace GladcherryShopping.Controllers
                             RecievedDocumentDate = DateTime.Now,
                             CardNumber = "****",
                             TerminalNumber = callBackViewModel.TerminalNo.ToString(),
-                            Acceptor = "Motorbaz",
+                            Acceptor = "Motoreto",
                             OperationResult = 1,
                             AcceptorPostalCode = "*********",
                             AcceptorPhoneNumber = "09128049946",
@@ -1072,7 +1112,7 @@ namespace GladcherryShopping.Controllers
                         string[] allDomainCookes = Request.Cookies.AllKeys;
                         foreach (string domainCookie in allDomainCookes)
                         {
-                            if (domainCookie.Contains("FilterCart_"))
+                            if (domainCookie.Contains("MotoretoCt_"))
                                 Response.Cookies[domainCookie].Expires = DateTime.Now.AddDays(-1);
                         }
                         #endregion Cookie

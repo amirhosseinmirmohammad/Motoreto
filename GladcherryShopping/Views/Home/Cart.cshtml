@@ -9,10 +9,10 @@
 @section Metas{
     <meta name="description" content="فروشگاه اینترنتی موتورتو فعال در زمینه فروش انواع قطعات مصرفی خودرو شامل فیلتر روغن ، فیلتر هوا ، فیلتر بنزین ، فیلتر کابین ، روغن موتور و روانکار و غیره است .">
     <meta name="Keywords" content="قطعات مصرفی خودرو">
-    <meta property="og:title" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz" />
+    <meta property="og:title" content="موتورتو ، فروش آنلاین قطعات خودرو | Motoreto" />
     <meta property="og:url" content="http://www.motoreto.ir/" />
     <meta property="og:image" content="http://www.motoreto.ir/images/sadr_logo.png" />
-    <meta name="twitter:image" content="موتورتو ، فروش آنلاین قطعات خودرو | Motorbaz">
+    <meta name="twitter:image" content="موتورتو ، فروش آنلاین قطعات خودرو | Motoreto">
     <meta name="robots" content="noindex">
 }
 
@@ -100,9 +100,9 @@
                                 <thead>
                                     <tr>
                                         <th class="product-remove">&nbsp;</th>
-                                        <th class="product-thumbnail">عکس</th>
-                                        <th class="product-name">محصول</th>
-                                        <th class="product-price">قیمت هر واحد به ریال</th>
+                                        <th class="product-thumbnail">تصویر</th>
+                                        <th class="product-name">عنوان</th>
+                                        @*<th class="product-price">قیمت هر واحد به ریال</th>*@
                                         <th class="product-quantity">تعداد</th>
                                         <th class="product-subtotal">مجموع به ریال</th>
                                     </tr>
@@ -121,15 +121,15 @@
                                                 }
                                                 else
                                                 {
-                                                    <a href="/Product/Details/@item.Product.Id"><img width="145" height="145" alt="@item.Product.PersianName" title="@item.Product.PersianName" class="shop_thumbnail" src="~/images/hand-shake.png"></a>
+                                                    <a href="/Product/Details/@item.Product.Id"><img width="145" height="145" alt="@item.Product.PersianName" title="@item.Product.PersianName" class="shop_thumbnail" src="~/images/sadr_logo.png"></a>
                                                 }
                                             </td>
                                             <td class="product-name">
                                                 <a href="/Product/Details/@item.Product.Id">@item.Product.PersianName</a>
                                             </td>
-                                            <td class="product-price">
-                                                <span class="amount prPrice">@Convert.ToInt32(@item.Product.UnitPrice - (item.Product.UnitPrice) * (item.Product.DiscountPercent) / 100) </span>
-                                            </td>
+                                            @*<td class="product-price">
+                                                <span class="amount prPrice">@string.Format("{0:n0}", item.Product.UnitPrice - (item.Product.UnitPrice) * (item.Product.DiscountPercent) / 100)</span>
+                                            </td>*@
                                             @{
                                                 int pricewithdiscount;
                                                 if (item.Product.DiscountPercent > 0)
@@ -141,11 +141,20 @@
                                                     pricewithdiscount = item.Product.UnitPrice;
                                                 }
                                             }
-                                            <td class="product-quantity padding-top">
-                                                <div class="quantity buttons_added">
-                                                    <input type="button" productid="@item.Product.Id" productPrice="@pricewithdiscount" count="@item.Count" class="minus" value="-" onclick="minus(this)">
-                                                    <input type="number" disabled size="4" class="input-text qty text qtc" productPrice="@pricewithdiscount" count="@item.Count" productid="@item.Product.Id" title="Qty" value="@item.Count" min="@item.Product.Min" step="1">
-                                                    <input type="button" productid="@item.Product.Id" productPrice="@pricewithdiscount" count="@item.Count" class="plus" value="+" onclick="plus(this)">
+                                            <td class="product-quantity padding-top text-center">
+                                                <div class="quantity buttons_added d-flex justify-content-center align-items-center">
+                                                    <input type="button" productid="@item.Product.Id" productPrice="@pricewithdiscount" count="@item.Count"
+                                                           class="plus btn btn-orange" value="+" onclick="plus(this)">
+
+                                                    <input type="number" disabled size="4"
+                                                           class="input-text qty text qtc text-center mx-2"
+                                                           productPrice="@pricewithdiscount" count="@item.Count"
+                                                           productid="@item.Product.Id" title="Qty"
+                                                           value="@item.Count" min="@item.Product.Min" step="1">
+
+                                                    <input type="button" productid="@item.Product.Id" productPrice="@pricewithdiscount" count="@item.Count"
+                                                           class="minus btn btn-orange" value="-" onclick="minus(this)">
+
                                                     <br /><img style="display:none" id="loader" src="~/images/loader.gif" />
                                                 </div>
                                             </td>
@@ -153,28 +162,28 @@
                                                 var resultcount = item.Count * Convert.ToInt32(item.Product.UnitPrice - (item.Product.UnitPrice) * (item.Product.DiscountPercent) / 100);
                                             }
                                             <td class="product-subtotal">
-                                                <span class="amount">@resultcount</span>
+                                                <span class="amount">@string.Format("{0:n0}", resultcount)</span>
                                             </td>
                                         </tr>
-                                                }
+                                    }
                                 </tbody>
                             </table>
-                                                }
-                                                else
-                                                {
-                                                    <p class="bascketheader">سبد خرید شما خالی است شما میتوانید از دسته بندی های زیر محصولات را دقیق تر بررسی نمایید :</p>
-                                                    if (content.Categories.Count() > 0)
-                                                    {
-                                                        <div class="row bascketcat">
-                                                            @foreach (var item in content.Categories.Include(current => current.Products).Where(current => current.Products.Count() > 0).ToList())
-                                                            {
-                                                                <div class="col-md-4">
-                                                                    <a class="btn btn-info" title="@item.PersianName" href="/product/all/@item.Id">@item.PersianName</a><br />
-                                                                </div>
-                                                            }
-                                                        </div>
-                                                    }
-                                                }
+                        }
+                        else
+                        {
+                            <p class="bascketheader">سبد خرید شما خالی است .</p>
+                            @*if (content.Categories.Count() > 0)
+                                {
+                                    <div class="row bascketcat">
+                                        @foreach (var item in content.Categories.Include(current => current.Products).Where(current => current.Products.Count() > 0).ToList())
+                                        {
+                                            <div class="col-md-4">
+                                                <a class="btn btn-info" title="@item.PersianName" href="/product/all/@item.Id">@item.PersianName</a><br />
+                                            </div>
+                                        }
+                                    </div>
+                                }*@
+                        }
                         <div class="cart-collaterals">
                             <div class="cross-sells">
                             </div>
@@ -186,6 +195,7 @@
                                     </table>
                                 </div>
                                 <form method="get" action="/Home/InsertOrder" class="shipping_calculator" id="SubmitOrder">
+                                    <input type="hidden" name="Type" value="1" />
                                     <h2><a class="shipping-calculator-button" aria-expanded="false" aria-controls="calcalute-shipping-wrap"> روش های پرداخت <i class="fa fa-arrow-down"></i></a></h2>
                                     <section id="calcalute-shipping-wrap" class="shipping-calculator-form">
                                         <p class="form-row form-row-wide">
@@ -195,14 +205,14 @@
                                                 <option disabled value="2">پرداخت آنلاین (هزینه حمل +‌ هزینه سفارش)</option>
                                             </select>
                                         </p>
-                                        <h2><a class="shipping-calculator-button" aria-expanded="false" aria-controls="calcalute-shipping-wrap"> روش های ارسال <i class="fa fa-arrow-down"></i></a></h2>
+                                        @*<h2><a class="shipping-calculator-button" aria-expanded="false" aria-controls="calcalute-shipping-wrap"> روش های ارسال <i class="fa fa-arrow-down"></i></a></h2>
                                         <p class="form-row form-row-wide">
                                             <select rel="calc_shipping_state" name="Type" required>
                                                 <option selected value="0">لطفا روش ارسال را تعیین نمایید</option>
                                                 <option value="1">ارسال عادی (رایگان تا 72 ساعت)</option>
                                                 <option value="2">ارسال ویژه (سریع شامل هزینه)</option>
                                             </select>
-                                        </p>
+                                        </p>*@
                                         @if (User.Identity.IsAuthenticated)
                                         {
                                             <p><button class="button" value="1" type="submit"> تکمیل سفارش &nbsp;<i class="fa fa-arrow-left"></i></button></p>
@@ -240,7 +250,7 @@
                                     <img src="@item.SiteFirstImage" alt="@item.PersianName" title="@item.PersianName">
                                 </div>
 
-                                <h2><a href="/Product/Details/@item.Id">@item.PersianName</a></h2>
+                                <h2><a href="/Product/Details/@item.Id">@GladCherryShopping.Helpers.FunctionsHelper.Truncate(item.PersianName, 23)</a></h2>
 
                                 <div class="product-carousel-price">
                                     @if (item.DiscountPercent > 0)
@@ -266,9 +276,28 @@
     </div>
 </div>
 
+<!-- Modal حذف -->
+<div class="modal fade" id="removeConfirmModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">تایید حذف</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>آیا از حذف این محصول مطمئن هستید؟</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                <button type="button" class="btn btn-danger" id="confirmRemove">حذف</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @if (TempData["Error"] != null)
 {
-        <!-- Modal -->
+    <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog" style="margin-top:80px">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -296,24 +325,39 @@
     </script>
 
     <script>
-        function plus(element) {
-            var input = element.previousElementSibling;
-            input.value = parseInt(input.value) + parseInt(1);
-            input.defaultValue = input.value;
-            $(element).siblings("img").show();
-            var id = $(element).attr("productid");
-            var price = $(element).attr("productPrice");
-            var count = $(element).attr("count");
-            var newamount = parseInt(price) * count + parseInt(price);
-            var subTottal = $(element).closest("td").next("td").find("span");
-            var htmamount = subTottal.html();
-            var res = parseInt(htmamount) + parseInt(price);
-            subTottal.html(res);
-            var shoppingcart = $("#shoppingPrice").html();
-            $("#shoppingPrice").html(parseInt(shoppingcart) + parseInt(price) + " ریال ")
-            $("#preOrder").html(parseInt(shoppingcart) + parseInt(price) + " ریال ");
+        // تبدیل به اعداد فارسی
+        function toPersianDigits(str) {
+            return str.toString().replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
+        }
 
-            //Increase Region
+        // فرمت سه‌رقمی + فارسی
+        function formatNumber(num) {
+            return toPersianDigits(num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+
+        // آپدیت با انیمیشن
+        function updateWithAnimation($el, newValue) {
+            $el.fadeOut(200, function () {
+                $el.text(formatNumber(newValue)).fadeIn(300);
+            });
+        }
+
+        function plus(element) {
+            var $row = $(element).closest("tr");
+            var $input = $row.find(".qtc");
+            var count = parseInt($input.val()) + 1;
+
+            var price = parseInt($(element).attr("productPrice"));
+            var id = $(element).attr("productid");
+
+            // آپدیت input
+            $input.val(count);
+
+            // آپدیت مجموع هر ردیف
+            var total = price * count;
+            updateWithAnimation($row.find(".product-subtotal span"), total);
+
+            // Ajax → بروزرسانی کل سبد
             $.ajax({
                 url: "/Home/AddToShoppingCart",
                 data: { Id: id },
@@ -321,56 +365,43 @@
                 dataType: "Json",
                 success: function (result) {
                     if (result.Success) {
-                        $(element).siblings("img").delay(700).fadeOut(300);
+                        updateWithAnimation($("#shoppingCount"), result.CountHtml);
+                        updateWithAnimation($("#shoppingPrice"), result.PriceHtml);
+                        updateWithAnimation($("#preOrder"), result.PriceHtml);
                     }
-                    eval(result.Script);
-                },
-                error: function () {
-                    alert("خطایی رخ داده است !");
                 }
             });
-            //Increase Region
         }
-        function minus(element) {
-            var input = element.nextElementSibling;
-            if (input.value > 1) {
-                //input.value = parseInt(input.value) - parseInt(1);
-                //input.defaultValue = input.value;
-                $(element).siblings("img").show();
-                var id = $(element).attr("productid");
-                var price = $(element).attr("productPrice");
-                var count = $(element).attr("count");
-                var newamount = parseInt(price) * count + parseInt(price);
-                var subTottal = $(element).closest("td").next("td").find("span");
-                var htmamount = subTottal.html();
-                if (htmamount != price) {
-                    var res = parseInt(htmamount) - parseInt(price);
-                    //subTottal.html(res)
-                    var shoppingcart = $("#shoppingPrice").html();
-                    $("#shoppingPrice").html(parseInt(shoppingcart) - parseInt(price) + " ریال ")
-                    $("#preOrder").html(parseInt(shoppingcart) - parseInt(price) + " ریال ");
 
-                    //Decrease Region
-                    $.ajax({
-                        url: "/Home/MinusFromShoppingCart",
-                        data: { Id: id },
-                        type: "Post",
-                        dataType: "Json",
-                        success: function (result) {
-                            $(element).siblings("img").delay(700).fadeOut(300);
-                            if (result.Success) {
-                                input.value = parseInt(input.value) - parseInt(1);
-                                input.defaultValue = input.value;
-                                subTottal.html(res)
-                            }
-                            eval(result.Script);
-                        },
-                        error: function () {
-                            alert("خطایی رخ داده است !");
+        function minus(element) {
+            var $row = $(element).closest("tr");
+            var $input = $row.find(".qtc");
+            var count = parseInt($input.val());
+
+            var price = parseInt($(element).attr("productPrice"));
+            var id = $(element).attr("productid");
+
+            if (count > 1) {
+                count--;
+
+                $input.val(count);
+
+                var total = price * count;
+                updateWithAnimation($row.find(".product-subtotal span"), total);
+
+                $.ajax({
+                    url: "/Home/MinusFromShoppingCart",
+                    data: { Id: id },
+                    type: "Post",
+                    dataType: "Json",
+                    success: function (result) {
+                        if (result.Success) {
+                            updateWithAnimation($("#shoppingCount"), result.CountHtml);
+                            updateWithAnimation($("#shoppingPrice"), result.PriceHtml);
+                            updateWithAnimation($("#preOrder"), result.PriceHtml);
                         }
-                    });
-                    //Decrease Region
-                }
+                    }
+                });
             }
         }
     </script>
@@ -416,46 +447,35 @@
     </script>
 
     <script>
+        let productToRemove = null;
+
         $(".btnRemove").click(function (e) {
             e.preventDefault();
-            var id = $(this).attr("productid");
-            var element = $(this);
-            var txt;
-            var r = confirm("آیا از حذف این محصول از سبد خرید خود مطمئن هستید ؟");
-            if (r == true) {
-                $.ajax({
-                    url: "/Home/RemoveCart",
-                    data: { Id: id },
-                    type: "Post",
-                    dataType: "Json",
-                    success: function (result) {
-                        if (result.Success) {
-                            setTimeout(function () {
-                                element.parent().parent().fadeOut('fast').remove();
-                                var el = $(".RMNT_item");
-                                var con = $(".RMNT_item").length;
-                                if (con == 0) {
-                                    $(".shop_table").fadeOut('fast').remove();
-                                    var x = $(".checkout-button");
-                                    $(".checkout-button").fadeOut('fast').remove();
-                                    $(".shipping_calculator").fadeOut('fast').remove();
-                                    $(".actions").fadeOut('fast').remove();
-                                    $(".RMNT_totals").fadeOut('fast').remove();
-                                    $(".woocommerce:first-child").after("<br /><br /><br /> <p style='font-size:20px'>سبد خرید شما خالی شد .</p> <br />");
-                                }
-                            }, 800);
-                            $("#shoppingCount").html(result.CountHtml);
-                            $("#shoppingPrice").html(result.PriceHtml + " ریال ");
-                            $("#preOrder").html(result.PriceHtml + " ریال ");
-                        }
-                        eval(result.Script);
-                    },
-                    error: function () {
-                        alert("Error!");
-                    }
-                });
-            }
+            productToRemove = $(this).attr("productid");
+            $("#removeConfirmModal").modal("show");
         });
+
+        $("#confirmRemove").click(function () {
+            if (!productToRemove) return;
+
+            $.ajax({
+                url: "/Home/RemoveCart",
+                data: { Id: productToRemove },
+                type: "Post",
+                dataType: "Json",
+                success: function (result) {
+                    if (result.Success) {
+                        location.reload();
+                    }
+                },
+                error: function () {
+                    alert("خطا در حذف محصول");
+                }
+            });
+
+            $("#removeConfirmModal").modal("hide");
+        });
+
     </script>
 
 }

@@ -809,6 +809,7 @@ body {
     line-height: 50px;
     margin-bottom: 10px;
     margin-top: 15px;
+    direction: rtl;
 }
 
     .single-product h2 a {
@@ -1525,7 +1526,7 @@ div.quantity input.plus, div.quantity input.minus {
     color: #fff;
     height: 25px;
     line-height: 15px;
-    width: 25px;
+    /*width: 25px;*/
 }
 
 td.product-quantity div.quantity {
@@ -1877,7 +1878,8 @@ div.cart-collaterals ul.products li.product:hover .add_to_RMNT_button {
 }
 
     .support .col-md-4, img {
-        padding-top: 25px !important;
+        /*        padding-top: 25px !important;
+*/
     }
 
 .site-branding-area {
@@ -2533,7 +2535,7 @@ h3.h3 {
 .product-grid5 .price {
     font-family: IRANSansWeb !important;
     color: #999;
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 500;
     letter-spacing: 1px;
 }
@@ -2785,7 +2787,7 @@ img-rounded {
 }
 
 .modal-content {
-    top: 150px !important;
+    top: 30px !important;
 }
 
 @keyframes gradient {
@@ -3423,9 +3425,9 @@ p.text-sty-banner {
             font-weight: 700;
             margin-top: 7.5px;
         }
-/* کارت دسته‌ها */
+
 .categories-section {
-    margin: 40px 0;
+    direction: rtl !important;
 }
 
 .section-title {
@@ -3455,13 +3457,12 @@ p.text-sty-banner {
     color: #333;
 }
 
-/* مدال زیرشاخه‌ها (اسکوپ‌شده) */
 .subcategory-modal .modal-content {
     border-radius: 12px;
 }
 
 #modal-content-category {
-    max-height: 200px !important;
+    max-height: 300px !important;
     overflow-y: auto !important;
     direction: rtl !important;
 }
@@ -3478,14 +3479,12 @@ p.text-sty-banner {
     margin-bottom: 10px;
 }
 
-/* ناحیه اسکرول‌دار */
 .subcategory-modal .subcat-scroll {
-    max-height: 60vh; /* ریسپانسیو: نهایت 60% ارتفاع صفحه */
+    max-height: 60vh;
     overflow-y: auto;
-    padding-right: 6px;
+    padding-right: 2px;
 }
 
-/* لیست آیتم‌ها (اسکوپ‌شده) */
 .subcategory-modal .subcat-items {
     margin: 0;
     padding: 0;
@@ -3520,3 +3519,35 @@ p.text-sty-banner {
             .subcategory-modal .subcat-items a:hover i {
                 color: #fff;
             }
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    direction: rtl !important;
+}
+
+.modal-header .close {
+    margin-top: -30px !important;
+}
+
+.btn-orange {
+    background-color: #ff6600;
+    color: #fff;
+    border: none;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+    .btn-orange:hover {
+        background-color: #e65c00;
+    }
+
+.qtc {
+    width: 60px;
+    height: 40px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 16px;
+}
