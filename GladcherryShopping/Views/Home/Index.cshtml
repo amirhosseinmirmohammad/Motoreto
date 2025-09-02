@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
-    var slider = content.Sliders.Where(current => current.IsApp == false).OrderByDescending(current => current.LastDate);
+    var slider = content.Sliders.Where(current => current.IsApp == true).OrderByDescending(current => current.LastDate);
     var application = content.Applications.FirstOrDefault();
     DataLayer.Models.Product wonder = content.Products.Include(current => current.category).Where(current => current.Stock > 0 && current.AppLargeImage != null && current.IsWonderful == true && current.Day != null && current.Minute != null && current.Hour != null).FirstOrDefault();
 }
@@ -167,9 +167,11 @@
 
 @if (slider.Count() > 0)
 {
+    <br />
     int i = 0;
     int j = 0;
     <!-- Start WOWSlider.com BODY section -->
+<div class="container">
     <div id="wowslider-container1">
         <div class="ws_images">
             <ul>
@@ -222,6 +224,7 @@
         <div class="ws_shadow"></div>
     </div>
     <!-- End WOWSlider.com BODY section -->
+</div>
 }
 
 @if (wonder != null)

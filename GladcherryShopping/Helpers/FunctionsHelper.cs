@@ -176,7 +176,7 @@ namespace GladCherryShopping.Helpers
                 if (type == FileType.Image || type == FileType.Video || type == FileType.Sound)
                 {
                     var FileExtension = Path.GetExtension(file.FileName);
-                    if (FileExtension.ToLower() == ".jpg" || FileExtension.ToLower() == ".jpeg" || FileExtension.ToLower() == ".png" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".wmv" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".mp4" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".ogg" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".mpeg" || FileExtension.ToLower() == ".mp3")
+                    if (FileExtension.ToLower() == ".jpg" || FileExtension.ToLower() == ".jpeg" || FileExtension.ToLower() == ".webp" || FileExtension.ToLower() == ".png" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".wmv" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".mp4" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".ogg" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".mpeg" || FileExtension.ToLower() == ".mp3")
                     {
                         var fileName = Path.GetFileName(file.FileName);
 
@@ -254,7 +254,7 @@ namespace GladCherryShopping.Helpers
                 if (type == FileType.Image && type == FileType.Video && type == FileType.Sound)
                 {
                     var FileExtension = Path.GetExtension(file.FileName);
-                    if (FileExtension.ToLower() == ".jpg" || FileExtension.ToLower() == ".jpeg" || FileExtension.ToLower() == ".png" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".wmv" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".mp4" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".ogg" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".mpeg" || FileExtension.ToLower() == ".mp3")
+                    if (FileExtension.ToLower() == ".jpg" || FileExtension.ToLower() == ".jpeg" || FileExtension.ToLower() == ".webp" || FileExtension.ToLower() == ".png" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".wmv" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".mp4" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".ogg" || FileExtension.ToLower() == ".gif" || FileExtension.ToLower() == ".mpeg" || FileExtension.ToLower() == ".mp3")
                     {
                         var fileName = Path.GetFileName(file.FileName);
 
