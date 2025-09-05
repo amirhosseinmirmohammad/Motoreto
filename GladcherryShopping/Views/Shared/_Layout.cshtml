@@ -75,7 +75,7 @@
     <link rel="stylesheet" href="~/Content/css/font-awesome.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="~/Content/css/owl.carousel.css">
-    <link href="~/Content/style.css?v=2.9" rel="stylesheet" />
+    <link href="~/Content/style.css?v=3.2" rel="stylesheet" />
     <link href="~/Content/css/nav.css" rel="stylesheet" />
     @*<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />*@
     @RenderSection("Styles", required: false)
@@ -154,9 +154,9 @@
                                 </li>
 
                                 <li class="@(Request.Url.AbsolutePath.ToLower().Contains("cart") ? "active" : "")">
-                                    <a href="/Home/Cart">
-                                        <i style="font-size:30px !important;" class="glyphicon glyphicon-shopping-cart"></i>
-                                        <span class="product-count" id="shoppingCount">
+                                    <a href="/Home/Cart" style="position:relative; display:inline-block;">
+                                        <i class="glyphicon glyphicon-shopping-cart" style="font-size:30px;"></i>
+                                        <span id="shoppingCount" class="cart-badge">
                                             @{ Html.RenderAction("CartCount", "Home"); }
                                         </span>
                                     </a>
@@ -344,27 +344,28 @@
             </ul>*@
     </div>
     <div id="mobile-tabs">
-        <a class="mobile-tab-wrapper link" href="/">
+        <a class="mobile-tab-wrapper link @(Request.Url.AbsolutePath == "/" ? "active" : "")" href="/">
             <i class="fa fa-home"></i>
             <small>خانه</small>
         </a>
-        <a class="mobile-tab-wrapper" href="/#categories">
+
+        <a class="mobile-tab-wrapper @(Request.Url.AbsolutePath.ToLower().Contains("product") ? "active" : "")" href="/#categories">
             <i class="fa fa-bars"></i>
             <small>دسته بندی</small>
         </a>
-        <a class="mobile-tab-wrapper link" href="home/cart">
-            <i class="fa fa-shopping-cart"></i>
+
+        <a class="mobile-tab-wrapper link @(Request.Url.AbsolutePath.ToLower().Contains("cart") ? "active" : "")" href="/Home/Cart" style="position:relative;">
+            <i class="fa fa-shopping-cart" style="font-size:30px"></i>
+            <span id="shoppingCountMobile" class="cart-badge">@{ Html.RenderAction("CartCount", "Home"); }</span>
             <small>سبد خرید</small>
         </a>
-        @*<a class="mobile-tab-wrapper" href="#" title="" target="_self" data-page-id="search">
-                <i class="fa fa-search"></i>
-                <small>جستجو</small>
-            </a>*@
-        <a class="mobile-tab-wrapper link" href="/contactus">
+
+        <a class="mobile-tab-wrapper link @(Request.Url.AbsolutePath.ToLower().Contains("contactus") ? "active" : "")" href="/contactus">
             <i class="fa fa-user"></i>
             <small>پشتیبانی</small>
         </a>
     </div>
+
     <a href="tel:+989128049946" class="fab-call" aria-label="تماس با موتورتو ۰۹۱۲۸۰۴۹۹۴۶">
         <svg class="fab-call__icon" viewBox="0 0 24 24" aria-hidden="true">
             <path fill="currentColor"
@@ -388,6 +389,21 @@
     <script type="text/javascript" src="~/Content/js/script.slider.js"></script>
     @RenderSection("Scripts", required: false)
     <script>
+        function updateCartBadge(count) {
+            // هدر (navbar)
+            const badgeHeader = $("#shoppingCount");
+            badgeHeader.text(count);
+            badgeHeader.addClass("update");
+            setTimeout(() => badgeHeader.removeClass("update"), 400);
+
+            // موبایل (bottom nav)
+            const badgeMobile = $("#shoppingCountMobile");
+            badgeMobile.text(count);
+            badgeMobile.addClass("update");
+            setTimeout(() => badgeMobile.removeClass("update"), 400);
+        }
+    </script>
+    <script>
         $(document).ready(function () {
             $(".btncard").click(function (e) {
                 e.preventDefault();
@@ -400,9 +416,7 @@
                     dataType: "Json",
                     success: function (result) {
                         if (result.Success) {
-                            $("#shoppingCount").html(result.CountHtml);
-
-                            // به جای alert یا error-modal اینو بذار:
+                            updateCartBadge(result.CountHtml);
                             $("#success-modal").modal("show");
                         }
                     },
@@ -589,6 +603,29 @@
             window.addEventListener('resize', placeFab);
             document.addEventListener('DOMContentLoaded', placeFab);
         })();
+    </script>
+    <script>
+        $(document).ready(function () {
+            // اول همه تب‌ها رو خالی کن
+            $("#mobile-tabs .mobile-tab-wrapper").removeClass("active");
+
+            // آدرس کامل مرورگر
+            const url = window.location.href;
+
+            if (url.includes("#categories")) {
+                $("#mobile-tabs .mobile-tab-wrapper[href*='#categories']").addClass("active");
+            }
+            else if (url.toLowerCase().includes("cart")) {
+                $("#mobile-tabs .mobile-tab-wrapper[href*='cart']").addClass("active");
+            }
+            else if (url.toLowerCase().includes("contactus")) {
+                $("#mobile-tabs .mobile-tab-wrapper[href*='contactus']").addClass("active");
+            }
+            else {
+                // پیش‌فرض خانه
+                $("#mobile-tabs .mobile-tab-wrapper[href='/']").addClass("active");
+            }
+        });
     </script>
 </body>
 </html>

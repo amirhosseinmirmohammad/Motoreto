@@ -115,7 +115,7 @@
                                                 : item.Product.UnitPrice;
 
                                             var resultcount = item.Count * pricewithdiscount;
-                                            <tr class="RMNT_item">
+                                            <tr class="RMNT_item" id="cart-item-@item.Product.Id">
                                                 <td class="product-remove" data-label="حذف">
                                                     <a title="حذف محصول از سبد خرید" class="remove btnRemove" productid="@item.Product.Id">
                                                         <i class="fa fa-close"></i>
@@ -441,6 +441,7 @@
         $(".btnRemove").click(function (e) {
             e.preventDefault();
             productToRemove = $(this).attr("productid");
+            rowToRemove = $(this).closest("tr"); // 📌 ذخیره سطر مربوطه
             $("#removeConfirmModal").modal("show");
         });
 
@@ -454,7 +455,8 @@
                 dataType: "Json",
                 success: function (result) {
                     if (result.Success) {
-                        location.reload();
+                        updateCartBadge(result.CountHtml);
+                        rowToRemove.fadeOut(400, function () { $(this).remove(); }); // 📌 سطر محو میشه
                     }
                 },
                 error: function () {
@@ -466,5 +468,4 @@
         });
 
     </script>
-
 }

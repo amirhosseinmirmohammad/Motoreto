@@ -17,6 +17,33 @@
 @section Styles{
 }
 <br />
+<div class="list-toolbar">
+    <!-- سرچ -->
+    <div class="searchbar-wide">
+        <i class="fa fa-search icon"></i>
+        <input id="q" type="search" placeholder="جستجو در محصولات…" />
+    </div>
+
+    <!-- مرتب‌سازی -->
+    <div class="toolbar-row">
+        <select id="sort" class="sort-select">
+            <option value="new">جدیدترین</option>
+            <option value="bestsellers">پرفروش‌ترین</option>
+            <option value="expensive">گران‌ترین</option>
+            <option value="cheap">ارزان‌ترین</option>
+            <option value="discount">بیشترین تخفیف</option>
+        </select>
+    </div>
+
+    <!-- چیپ‌ها -->
+    <div class="chips" id="chips">
+        <div class="chip active" data-filter="">همه</div>
+        <div class="chip" data-filter="inStock">موجود</div>
+        <div class="chip" data-filter="special">ویژه</div>
+        <div class="chip" data-filter="hasImage">دارای تصویر</div>
+    </div>
+</div>
+
 <div class="container blog_header">
     <div class="row">
         <div class="col-md-12">
@@ -28,7 +55,8 @@
 </div>
 
 <div class="container">
-    <div id="product-container" class="row"></div>
+    <div id="product-container" class="products-grid"></div>
+    <div id="infinite-sentinel"></div>
     <div id="loader" class="text-center" style="display:none">
         <img src="~/images/loader.gif" alt="Loading..." />
     </div>
@@ -36,50 +64,78 @@
 
 @section Scripts{
     <script>
-let page = 1;
-let isLoading = false;
-const pageSize = 8;
+        let page = 1;
+        let isLoading = false;
+        const pageSize = 8;
+        let q = "";
+        let sort = "new";
+        let filter = "";
 
-function loadMoreProducts() {
-    if (isLoading) return;
-    isLoading = true;
-    $("#loader").show();
+        // 🚀 تابع لود محصولات
+        function loadMoreProducts(reset = false) {
+            if (isLoading) return;
+            isLoading = true;
 
-    $.ajax({
-        url: '@Url.Action("LoadMoreProducts", "Product")',
-        type: "GET",
-        data: { page: page, pageSize: pageSize, name: "@ViewBag.CarName" },
-        success: function (data) {
-            if ($.trim(data) !== "") {
-                $("#product-container").append(data);
-                page++;
-                isLoading = false;
-                $("#loader").hide();
-            } else {
-                $("#loader").hide();
+            if (reset) {
+                page = 1;
+                $("#product-container").empty();
             }
-        },
-        error: function () {
-            isLoading = false;
-            $("#loader").hide();
+
+            $("#loader").show();
+
+            $.ajax({
+                url: '/Product/LoadMoreProducts',
+                type: "GET",
+                data: { page, pageSize, q, sort, filter },
+                success: function (data) {
+                    if ($.trim(data) !== "") {
+                        $("#product-container").append(data);
+                        page++;
+                    }
+                    isLoading = false;
+                    $("#loader").hide();
+                },
+                error: function () {
+                    isLoading = false;
+                    $("#loader").hide();
+                }
+            });
         }
-    });
-}
 
-// چک کردن نزدیک شدن به انتهای container محصولات
-$(window).scroll(function () {
-    const scrollTop = $(window).scrollTop();
-    const windowHeight = $(window).height();
-    const containerBottom = $("#product-container").offset().top + $("#product-container").outerHeight();
+        // 📌 سرچ
+        $("#q").on("input", function () {
+            q = $(this).val();
+            loadMoreProducts(true);
+        });
 
-    if (scrollTop + windowHeight >= containerBottom - 200) {
-        loadMoreProducts();
-    }
-});
+        // 📌 مرتب‌سازی
+        $("#sort").on("change", function () {
+            sort = $(this).val();
+            loadMoreProducts(true);
+        });
 
-// بارگذاری اولین سری
-$(document).ready(function () {
-    loadMoreProducts();
-});
+        // 📌 فیلتر چیپ‌ها
+        $("#chips .chip").on("click", function () {
+            $("#chips .chip").removeClass("active");
+            $(this).addClass("active");
+            filter = $(this).data("filter");
+            loadMoreProducts(true);
+        });
+
+        // 📌 اینفینیت اسکرول
+        $(window).on("scroll", function () {
+            const scrollTop = $(window).scrollTop();
+            const windowHeight = $(window).height();
+            const containerBottom = $("#product-container").offset().top + $("#product-container").outerHeight();
+
+            if (scrollTop + windowHeight >= containerBottom - 200) {
+                loadMoreProducts();
+            }
+        });
+
+        // 🚀 بارگذاری اولین سری
+        $(document).ready(function () {
+            loadMoreProducts();
+        });
     </script>
 }

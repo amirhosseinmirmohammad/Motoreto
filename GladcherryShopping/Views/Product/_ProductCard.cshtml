@@ -1,0 +1,47 @@
+﻿@model DataLayer.Models.Product
+@{
+    var img = string.IsNullOrEmpty(Model.SiteFirstImage)
+        ? Url.Content("~/images/sadr_logo.png")
+        : Model.SiteFirstImage;
+
+    var hasOff = Model.DiscountPercent > 0;
+    var price = Model.UnitPrice;
+    var off = hasOff
+        ? price - (price * Model.DiscountPercent / 100)
+        : price;
+}
+<a href="/Product/Details/@Model.Id" class="product-card">
+    <div class="pc-media">
+        <img src="@img" alt="@Model.PersianName" loading="lazy" />
+        @if (hasOff)
+        {
+            <span class="badge-discount">% @Model.DiscountPercent</span>
+        }
+    </div>
+    <div class="pc-body">
+        <div class="pc-title">@Model.PersianName</div>
+        <div class="pc-meta">
+            @if (Model.Stock > 0)
+            {
+                <span>موجود</span>
+            }
+            else
+            {
+                <span style="color:#ef4444">ناموجود</span>
+            }
+        </div>
+        <div class="pc-price">
+            @if (hasOff)
+            {
+                <span class="old">@string.Format("{0:n0}", price)</span>
+            }
+            <span class="now">@string.Format("{0:n0}", off)</span>
+            <span class="curr">ریال</span>
+        </div>
+    </div>
+    <div class="pc-cta">
+        <button type="button" class="btn-add btncard" productid="@Model.Id">
+            افزودن به سبد
+        </button>
+    </div>
+</a>

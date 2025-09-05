@@ -96,7 +96,7 @@
 </div>
 
 <div class="container categories-section wow bounceOut" id="categories">
-    <h3 class="section-title text-center">دسته‌بندی محصولات</h3>
+    @*<h3 class="section-title text-center">دسته‌بندی محصولات</h3>*@
     <div class="row">
         @foreach (var cat in content.Categories
                                    .Where(c => c.ParentId == null)
@@ -165,37 +165,6 @@
     </div>
 </div>
 <br />
-<div class="container wow bounce">
-    <div class="row">
-        <div class="col-md-4 col-sm-6 col-xs-12">
-            <div class="hovereffect">
-                <img class="img-responsive" src="~/images/motoreto1.webp" alt="موتورتو" title="موتورتو">
-                <div class="overlay">
-                    <h2>یک انتخاب درست</h2>
-                    <a class="info" href="/aboutus">بیشتر</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-            <div class="hovereffect">
-                <img class="img-responsive" src="~/images/motoreto2.webp" alt="موتورتو" title="موتورتو">
-                <div class="overlay">
-                    <h2>با کیفیت و مرغوب</h2>
-                    <a class="info" href="/aboutus">بیشتر</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-            <div class="hovereffect">
-                <img class="img-responsive" src="~/images/motoreto3.webp" alt="موتورتو" title="موتورتو">
-                <div class="overlay">
-                    <h2>سفارش آسان</h2>
-                    <a class="info" href="/aboutus">بیشتر</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 @if (slider.Count() > 0)
 {
