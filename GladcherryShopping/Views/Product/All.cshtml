@@ -36,41 +36,50 @@
 
 @section Scripts{
     <script>
-    let page = 1;
-    let isLoading = false;
-    const pageSize = 8;
+let page = 1;
+let isLoading = false;
+const pageSize = 8;
 
-    function loadMoreProducts() {
-        if (isLoading) return;
-        isLoading = true;
-        $("#loader").show();
+function loadMoreProducts() {
+    if (isLoading) return;
+    isLoading = true;
+    $("#loader").show();
 
-        $.ajax({
-            url: '@Url.Action("LoadMoreProducts", "Product")',
-            type: "GET",
-            data: { page: page, pageSize: pageSize, name: "@ViewBag.CarName" },
-            success: function (data) {
-                if ($.trim(data) !== "") {
-                    $("#product-container").append(data);
-                    page++;
-                    isLoading = false;
-                    $("#loader").hide();
-                } else {
-                    $("#loader").html("<p>محصول دیگری وجود ندارد.</p>");
-                }
+    $.ajax({
+        url: '@Url.Action("LoadMoreProducts", "Product")',
+        type: "GET",
+        data: { page: page, pageSize: pageSize, name: "@ViewBag.CarName" },
+        success: function (data) {
+            if ($.trim(data) !== "") {
+                $("#product-container").append(data);
+                page++;
+                isLoading = false;
+                $("#loader").hide();
+            } else {
+                $("#loader").hide();
             }
-        });
-    }
-
-    $(window).scroll(function () {
-        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 200) {
-            loadMoreProducts();
+        },
+        error: function () {
+            isLoading = false;
+            $("#loader").hide();
         }
     });
+}
 
-    // بارگذاری اولین سری
-    $(document).ready(function () {
+// چک کردن نزدیک شدن به انتهای container محصولات
+$(window).scroll(function () {
+    const scrollTop = $(window).scrollTop();
+    const windowHeight = $(window).height();
+    const containerBottom = $("#product-container").offset().top + $("#product-container").outerHeight();
+
+    if (scrollTop + windowHeight >= containerBottom - 200) {
         loadMoreProducts();
-    });
+    }
+});
+
+// بارگذاری اولین سری
+$(document).ready(function () {
+    loadMoreProducts();
+});
     </script>
 }

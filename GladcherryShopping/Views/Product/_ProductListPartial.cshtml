@@ -26,8 +26,7 @@
                     <div class="product-option-shop">
                         @if (product.Stock > 0)
                         {
-                            <a class="add_to_RMNT_button btncard"
-                               href="~/Home/Basket/@product.Id">سبد خرید</a>
+                            <a class="add_to_RMNT_button btncard" productid="@product.Id" href="~/Home/Basket/@product.Id">سبد خرید</a>
                         }
                         else
                         {
@@ -39,4 +38,31 @@
         </div>
     </a>
 }
+
+<script>
+    $(document).ready(function () {
+        $(".btncard").click(function (e) {
+            e.preventDefault();
+            var id = $(this).attr("productid");
+
+            $.ajax({
+                url: "/Home/AddToShoppingCart",
+                data: { Id: id },
+                type: "Post",
+                dataType: "Json",
+                success: function (result) {
+                    if (result.Success) {
+                        $("#shoppingCount").html(result.CountHtml);
+
+                        // به جای alert یا error-modal اینو بذار:
+                        $("#success-modal").modal("show");
+                    }
+                },
+                error: function () {
+                    alert("خطایی رخ داده است !");
+                }
+            });
+        });
+    });
+</script>
 

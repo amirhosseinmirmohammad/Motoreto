@@ -3704,7 +3704,7 @@ p.text-sty-banner {
     direction: rtl !important;
     font-size: 16px !important; /* اندازه فونت */
     line-height: 1.4em !important; /* فاصله خطوط */
-    height: 3.5em !important; /* فقط 2 خط نمایش داده میشه */
+    height: 6em !important; /* فقط 2 خط نمایش داده میشه */
     overflow: hidden !important; /* متن اضافی مخفی میشه */
     text-overflow: ellipsis !important; /* ... میذاره */
     display: -webkit-box !important;
@@ -3755,12 +3755,12 @@ p.text-sty-banner {
     align-items: center;
     justify-content: center;
     gap: 12px;
-    animation: pulse 2s infinite;
+    animation: pulse 8s infinite ease-in-out; /* خیلی کندتر */
 }
 
     .alert-custom i {
         font-size: 26px;
-        animation: spin 3s linear infinite;
+        animation: spin 12s linear infinite; /* خیلی آهسته‌تر می‌چرخه */
     }
 
 @keyframes pulse {
@@ -3769,7 +3769,7 @@ p.text-sty-banner {
     }
 
     50% {
-        transform: scale(1.05);
+        transform: scale(1.01); /* فقط 1% بزرگ میشه */
     }
 
     100% {
@@ -5280,3 +5280,6 @@ h1, h3 {
     z-index: 99999 !important;
 }
 
+html, body {
+    overflow-x: hidden; /* جلوگیری از اسکرول افقی */
+}
