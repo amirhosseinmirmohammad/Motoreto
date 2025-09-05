@@ -75,7 +75,7 @@
     <link rel="stylesheet" href="~/Content/css/font-awesome.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="~/Content/css/owl.carousel.css">
-    <link href="~/Content/style.css?v=2.3" rel="stylesheet" />
+    <link href="~/Content/style.css?v=2.5" rel="stylesheet" />
     <link href="~/Content/css/nav.css" rel="stylesheet" />
     @*<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />*@
     @RenderSection("Styles", required: false)
@@ -97,30 +97,30 @@
                         </div>
                         <div id="navbarCollapse" class="collapse navbar-collapse">
                             <ul id="fresponsive" class="nav navbar-nav dropdown">
-                                <li><a href="/">صفحه اصلی</a></li>
-                                <li class="dropdown">
+                                <li class="@(Request.Url.AbsolutePath == "/" ? "active" : "")">
+                                    <a href="/">صفحه اصلی</a>
+                                </li>
+
+                                <li class="dropdown @(Request.Url.AbsolutePath.ToLower().Contains("aboutus")
+                          || Request.Url.AbsolutePath.ToLower().Contains("faq")
+                          || Request.Url.AbsolutePath.ToLower().Contains("terms")
+                          || Request.Url.AbsolutePath.ToLower().Contains("contactus")
+                          || Request.Url.AbsolutePath.ToLower().Contains("app") ? "active" : "")">
                                     <a data-toggle="dropdown" class="dropdown-toggle">بیشتر<span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li class="drop-menu"><a href="/aboutus">درباره ما</a></li>
-                                        @*<li class="drop-menu"><a href="/gallery">گالری</a></li>*@
                                         <li class="drop-menu"><a href="/app">دانلود اپلیکیشن</a></li>
                                         <li class="drop-menu"><a href="/faq">سوالات متداول</a></li>
                                         <li class="drop-menu"><a href="/terms">قوانین و مقررات</a></li>
                                         <li class="drop-menu"><a href="/contactus">تماس با ما</a></li>
-                                        @*<li class="drop-menu"><a href="/Cooperation">همکاری با ما</a></li>*@
                                     </ul>
                                 </li>
-                                <li><a href="/blog/all">وبلاگ</a></li>
-                                @*<li class="dropdown">
-                                    <a data-toggle="dropdown" class="dropdown-toggle">محصولات<span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        @foreach (var item in content.Categories.ToList())
-                                        {
-                                            <li class="drop-menu"><a href="/product/all/@item.Id">@item.PersianName</a></li>
-                                        }
-                                    </ul>
-                                </li>*@
-                                <li class="dropdown">
+
+                                <li class="@(Request.Url.AbsolutePath.ToLower().Contains("blog") ? "active" : "")">
+                                    <a href="/blog/all">وبلاگ</a>
+                                </li>
+
+                                <li class="dropdown @(Request.Url.AbsolutePath.ToLower().Contains("account") ? "active" : "")">
                                     <a data-toggle="dropdown" class="dropdown-toggle">حساب کاربری<span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         @if (User.Identity.IsAuthenticated)
@@ -134,45 +134,35 @@
                                                 if (user.Roles.FirstOrDefault().RoleId == Adminrole.Id)
                                                 {
                                                     <li class="drop-menu">
-                                                        <a href="/Account/AdminPanel">
-                                                            پنل مدیریت
-                                                        </a>
+                                                        <a href="/Account/AdminPanel">پنل مدیریت</a>
                                                     </li>
                                                 }
                                                 else if (user.Roles.FirstOrDefault().RoleId == Userrole.Id)
                                                 {
                                                     <li class="drop-menu">
-                                                        <a href="/Account/UserAccount">
-                                                            پنل کاربری
-                                                        </a>
+                                                        <a href="/Account/UserAccount">پنل کاربری</a>
                                                     </li>
                                                 }
                                             }
                                         }
                                         else
                                         {
-                                            <li class="drop-menu">
-                                                <a href="/account/loginaccount">
-                                                    ورود
-                                                </a>
-                                            </li>
-                                            <li class="drop-menu">
-                                                <a href="/account/registeraccount">
-                                                    ثبت نام
-                                                </a>
-                                            </li>
+                                            <li class="drop-menu"><a href="/account/loginaccount">ورود</a></li>
+                                            <li class="drop-menu"><a href="/account/registeraccount">ثبت نام</a></li>
                                         }
                                     </ul>
                                 </li>
-                                <li>
+
+                                <li class="@(Request.Url.AbsolutePath.ToLower().Contains("cart") ? "active" : "")">
                                     <a href="/Home/Cart">
                                         <i style="font-size:30px !important;" class="glyphicon glyphicon-shopping-cart"></i>
                                         <span class="product-count" id="shoppingCount">
-                                            @{Html.RenderAction("CartCount", "Home");}
+                                            @{ Html.RenderAction("CartCount", "Home"); }
                                         </span>
                                     </a>
                                 </li>
                             </ul>
+
                         </div>
                     </nav>
                 </div>
@@ -181,8 +171,8 @@
     </div>
     @RenderBody()
     @*<div class="map">
-        <div id="map" style="width:100%;height:300px"></div>
-    </div>*@
+            <div id="map" style="width:100%;height:300px"></div>
+        </div>*@
     <div class="footer-top-area">
         <div class="container">
             <div class="row">
@@ -285,19 +275,29 @@
             </div>
         </div>
     </div> <!-- End footer bottom area -->
-    <div id="error-modal" class="modal fade" role="dialog">
-        <div class="modal-dialog" style="margin-top:10%">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"> پیغام سایت </h4>
+    <div id="success-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content shadow-lg">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-success">
+                        <i class="fa fa-check-circle"></i> محصول به سبد خرید اضافه شد
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="بستن">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="modal-body">
-                    <p class="inner-text"></p>
+
+                <div class="modal-body text-center">
+                    <p class="mb-3">می‌خواهید ادامه خرید دهید یا محصولات دیگری را مشاهده کنید ؟</p>
                 </div>
-                <div class="modal-footer">
-                    <a href="/Home/Cart" class="btn btn-warning" style="background-color:#00016e;border-color:#00016e;margin:10px;">ادامه فرآیند خرید</a>
-                    <a href="/#specialproducts" class="btn btn-warning" style="background-color:#ff6600;border-color:#ff6600">انتخاب محصولات بیشتر</a>
+
+                <div class="modal-footer justify-content-center border-0">
+                    <a href="/Home/Cart" class="btn btn-primary px-4">
+                        ادامه فرآیند خرید
+                    </a>
+                    <a href="/#specialproducts" class="btn btn-outline-warning px-4">
+                        انتخاب محصولات بیشتر
+                    </a>
                 </div>
             </div>
         </div>
@@ -305,52 +305,52 @@
     <div class="scroll-up" style="display: block;"> <a href="#totop"><i class="fa fa-arrow-up"></i></a></div>
     <div id="menu-wrapper">
         @*<ul>
-            <li>
-                <a onclick="myFunction()">
-                    <i class="fa fa-close"></i><span>محصولات</span>
-                </a>
-            </li>
-            @foreach (var item in content.Categories.Where(current => current.ParentId == null).Include(current => current.SubCategories).ToList())
-            {
-                <li class="has-megamenu">
-                    <a href="#"><span>@item.PersianName</span></a>
-                    <i class="fa fa-angle-left"></i>
-                    <ul class="megamenu">
-                        <div class="row">
-                            @foreach (var sub in item.SubCategories.ToList())
-                            {
-                                <div class="col-lg-4">
-                                    <div class="subcategory">
-                                        <a href="/product/all/@sub.Id" target="_self">
-                                            <h4>@sub.PersianName</h4>
-                                        </a>
-                                        <ul>
-                                            @foreach (var subzero in content.Categories.Where(curren => curren.ParentId == sub.Id).ToList())
-                                            {
-                                                <li>
-                                                    <a href="/product/all/@subzero.Id" target="_self">
-                                                        @subzero.PersianName
-                                                    </a>
-                                                </li>
-                                            }
-                                        </ul>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </ul>
+                <li>
+                    <a onclick="myFunction()">
+                        <i class="fa fa-close"></i><span>محصولات</span>
+                    </a>
                 </li>
-            }
-        </ul>*@
+                @foreach (var item in content.Categories.Where(current => current.ParentId == null).Include(current => current.SubCategories).ToList())
+                {
+                    <li class="has-megamenu">
+                        <a href="#"><span>@item.PersianName</span></a>
+                        <i class="fa fa-angle-left"></i>
+                        <ul class="megamenu">
+                            <div class="row">
+                                @foreach (var sub in item.SubCategories.ToList())
+                                {
+                                    <div class="col-lg-4">
+                                        <div class="subcategory">
+                                            <a href="/product/all/@sub.Id" target="_self">
+                                                <h4>@sub.PersianName</h4>
+                                            </a>
+                                            <ul>
+                                                @foreach (var subzero in content.Categories.Where(curren => curren.ParentId == sub.Id).ToList())
+                                                {
+                                                    <li>
+                                                        <a href="/product/all/@subzero.Id" target="_self">
+                                                            @subzero.PersianName
+                                                        </a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </ul>
+                    </li>
+                }
+            </ul>*@
     </div>
     <div id="mobile-tabs">
         <a class="mobile-tab-wrapper link" href="/">
             <i class="fa fa-home"></i>
             <small>خانه</small>
         </a>
-        <a class="mobile-tab-wrapper" onclick="func2()">
+        <a class="mobile-tab-wrapper" href="/#categories">
             <i class="fa fa-bars"></i>
-            <small>محصولات</small>
+            <small>دسته بندی</small>
         </a>
         <a class="mobile-tab-wrapper link" href="home/cart">
             <i class="fa fa-shopping-cart"></i>
@@ -365,6 +365,13 @@
             <small>پشتیبانی</small>
         </a>
     </div>
+    <a href="tel:+989128049946" class="fab-call" aria-label="تماس با موتورتو ۰۹۱۲۸۰۴۹۹۴۶">
+        <svg class="fab-call__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="currentColor"
+                  d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 01.98-.26c1.08.29 2.25.45 3.46.45a1 1 0 011 1v3.59a1 1 0 01-1 1C10.86 22 2 13.14 2 2.15a1 1 0 011-1H6.6a1 1 0 011 1c0 1.21.16 2.38.45 3.46a1 1 0 01-.26.98l-2.17 2.2z" />
+        </svg>
+        @*<span class="fab-call__label">۰۹۱۲۸۰۴۹۹۴۶</span>*@
+    </a>
     <!-- Latest jQuery form server -->
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <!-- Bootstrap JS form CDN -->
@@ -383,8 +390,9 @@
     <script>
         $(document).ready(function () {
             $(".btncard").click(function (e) {
-                e.preventDefault()
+                e.preventDefault();
                 var id = $(this).attr("productid");
+
                 $.ajax({
                     url: "/Home/AddToShoppingCart",
                     data: { Id: id },
@@ -392,13 +400,11 @@
                     dataType: "Json",
                     success: function (result) {
                         if (result.Success) {
-
                             $("#shoppingCount").html(result.CountHtml);
-                            //$("#shoppingPrice").html(result.PriceHtml + " ریال ");
-                            { $('#error-modal .inner-text').html("محصول به سبد شما اضافه شد ."); $('#error-modal').modal(); return false; }
-                            alert('محصول به سبد اضافه شد .');
+
+                            // به جای alert یا error-modal اینو بذار:
+                            $("#success-modal").modal("show");
                         }
-                        eval(result.Script);
                     },
                     error: function () {
                         alert("خطایی رخ داده است !");
@@ -407,10 +413,14 @@
             });
         });
     </script>
+
     <script>
         $(document).ready(function () {
-            $(".owl-prev").html("قبلی");
-            $(".owl-next").html("بعدی");
+            // فلش سمت راست = قبلی
+            $(".owl-next").html('<i class="fa fa-chevron-right"></i>');
+
+            // فلش سمت چپ = بعدی
+            $(".owl-prev").html('<i class="fa fa-chevron-left"></i>');
         });
     </script>
     <script>
@@ -492,22 +502,22 @@
         });
     </script>
     @*<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
-    <script>
-        var map, newMarker, markerLocation;
-        var theMarker = {};
-        $(function () {
-            map = L.map('map').setView([35.806362, 51.4296549], 15);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: 'موتورتو',
-                maxZoom: 18
-            }).addTo(map);
-            newMarkerGroup = new L.LayerGroup();
-            map.addLayer(newMarkerGroup);
-            markerLocation = L.marker([35.806362, 51.4296549]).addTo(map)
-            .bindPopup("<div style='text-align:center !important;' id='infoWindow' style='text-align:center;padding:2px;'><img id='logoboxwindow' style='width:30px;padding-top:15px !important;' src='/images/sadr_logo.png'/><p id='infoWindowHeader' style='font-weight:bold;font-size:16px'>موتورتو</p><p id='infoWindowStreetName' style='font-size:14px;border-bottom:1px solid rgba(123,123,123,0.4);padding-bottom:5px;'</p><p id='infoWindowNumber' style='font-size:12px'><span id='mobileNumbebrInfo'>09128049946</span></p><br/><span id='email'>info@@motoreto.ir</span><p id='infoWindowWeb' style='font-size:12px;font-weight:bold'><span id='websiteInfo'></span>&nbsp; &nbsp;<span id='emailInfo'></span></p><p id='infoWindowZipCode' style='font-size:12px'></p></div>")
-            .openPopup();
-        });
-    </script>*@
+        <script>
+            var map, newMarker, markerLocation;
+            var theMarker = {};
+            $(function () {
+                map = L.map('map').setView([35.806362, 51.4296549], 15);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: 'موتورتو',
+                    maxZoom: 18
+                }).addTo(map);
+                newMarkerGroup = new L.LayerGroup();
+                map.addLayer(newMarkerGroup);
+                markerLocation = L.marker([35.806362, 51.4296549]).addTo(map)
+                .bindPopup("<div style='text-align:center !important;' id='infoWindow' style='text-align:center;padding:2px;'><img id='logoboxwindow' style='width:30px;padding-top:15px !important;' src='/images/sadr_logo.png'/><p id='infoWindowHeader' style='font-weight:bold;font-size:16px'>موتورتو</p><p id='infoWindowStreetName' style='font-size:14px;border-bottom:1px solid rgba(123,123,123,0.4);padding-bottom:5px;'</p><p id='infoWindowNumber' style='font-size:12px'><span id='mobileNumbebrInfo'>09128049946</span></p><br/><span id='email'>info@@motoreto.ir</span><p id='infoWindowWeb' style='font-size:12px;font-weight:bold'><span id='websiteInfo'></span>&nbsp; &nbsp;<span id='emailInfo'></span></p><p id='infoWindowZipCode' style='font-size:12px'></p></div>")
+                .openPopup();
+            });
+        </script>*@
     <script>
         $(window).scroll(function () {
             if ($(this).scrollTop() <= $('#totop').offset().top) {
@@ -559,6 +569,26 @@
             var x = document.getElementById("menu-wrapper");
             x.style.display = "block";
         }
+    </script>
+    <script>
+        (function () {
+            function placeFab() {
+                var fab = document.querySelector('.fab-call');
+                var tabs = document.getElementById('mobile-tabs');
+                if (!fab) return;
+
+                // موبایل: 20px بالاتر از ارتفاع bottom nav
+                if (window.innerWidth <= 768 && tabs) {
+                    var gap = 20;
+                    fab.style.bottom = (tabs.offsetHeight + gap) + 'px';
+                } else {
+                    fab.style.bottom = '20px'; // دسکتاپ
+                }
+            }
+            window.addEventListener('load', placeFab);
+            window.addEventListener('resize', placeFab);
+            document.addEventListener('DOMContentLoaded', placeFab);
+        })();
     </script>
 </body>
 </html>

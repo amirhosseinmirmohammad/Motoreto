@@ -56,57 +56,7 @@
         <div class="zigzag-bottom"></div>
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
-                    <div class="single-sidebar">
-                        <h2 class="sidebar-title">آدرس تحویل سفارش</h2>
-                        <p style="color:#62666d"><i class="fa fa-user"></i> @user.FirstName @user.LastName</p><br />
-                        @if (!string.IsNullOrEmpty(user.AddressLine))
-                        {
-                            <p>@user.AddressLine</p>
-                            <a href="/User/Profile/Edit">(تعیین یا ویرایش آدرس)</a>
-                        }
-                        else
-                        {
-                            <p>آدرس تعیین نشده</p>
-                            <a href="/User/Profile/Edit">(تعیین یا ویرایش آدرس)</a>
-                        }
-                    </div>
-                    <div class="single-sidebar">
-                        <h2 class="sidebar-title">سبد شما</h2>
-                        @foreach (var item in Model.Products)
-                        {
-                            if (item != null)
-                            {
-                                <div class="thubmnail-recent">
-                                    @if (item.SiteFirstImage != null)
-                                    {
-                                        <img src="@item.SiteFirstImage" alt="@item.PersianName" title="@item.PersianName" class="recent-thumb">
-                                    }
-                                    else
-                                    {
-                                        <img src="~/images/sadr_logo.png" alt="@item.PersianName" title="@item.PersianName" class="recent-thumb">
-                                    }
-                                    <h2><a href="/Product/Details/@item.Id">@item.PersianName</a></h2>
-                                    <div class="product-sidebar-price">
-                                        @if (item.DiscountPercent > 0)
-                                        {
-                                            int pricewithdiscount = item.UnitPrice - (item.UnitPrice) * (item.DiscountPercent) / 100;
-
-                                            <ins>@string.Format("{0:n0}", pricewithdiscount) ریال</ins>
-                                            <del>@string.Format("{0:n0}", item.UnitPrice)</del>
-                                        }
-                                        else
-                                        {
-                                            <ins>@string.Format("{0:n0}", item.UnitPrice) ریال</ins>
-                                        }
-                                    </div>
-                                </div>
-                            }
-                        }
-                    </div>
-                </div>
-
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <div class="product-content-right">
                         <div class="woocommerce">
                             <form id="myform" enctype="multipart/form-data" action="/Home/SubmitOrder" class="checkout" method="post" name="checkout">
@@ -119,28 +69,7 @@
                                                 <label class="checkbox" for="ship-to-different-address-checkbox">لطفا اطلاعات خود را تکمیل نمایید :</label>
                                             </h3><br />
                                             <div class="shipping_address" style="display: block;">
-
-                                                @*<p id="shipping_first_name_field" class="form-row form-row-first validate-required">
-                                                        <label class="" for="shipping_first_name">
-                                                            نام و نام خانوادگی گیرنده <abbr title="required" class="required">*</abbr>
-                                                        </label>
-                                                        @Html.TextBoxFor(model => model.order.FullName, new { @class = "input-text", @id = "FullName", @placeholder = "نام و نام خانوادگی", required = "required" })
-                                                        @Html.ValidationMessageFor(model => model.order.FullName, "", new { @class = "text-danger" })
-                                                    </p>*@
-
-                                                @*<p class="form-row form-row-last validate-required">
-                                                        <label class="" for="shipping_last_name">
-                                                            شماره موبایل گیرنده <abbr title="required" class="required">*</abbr>
-                                                        </label>
-                                                        @Html.TextBoxFor(model => model.order.Phone, new { @class = "input-text", @id = "Phone", @placeholder = "شماره موبایل فعال", required = "required" })
-                                                        @Html.ValidationMessageFor(model => model.order.Phone, "", new { @class = "text-danger" })
-                                                    </p>*@
                                                 <div class="clear"></div>
-
-                                                @*<p class="form-row form-row-wide">
-                                                        <label>استان <abbr title="required" class="required">*</abbr></label>
-                                                        @Html.DropDownList("StateId", null, "استان", new { @class = "form-control", Name = "Order.StateId" })
-                                                    </p>*@
 
                                                 @{
                                                     var x = Request.QueryString["PaymentType"];
@@ -149,13 +78,6 @@
 
                                                 <input type="hidden" name="Order.PaymentType" value="@x" />
                                                 <input type="hidden" name="Order.Type" value="@y" />
-
-                                                @*<p class="form-row form-row-wide">
-                                                        <label>شهرستان <abbr title="required" class="required">*</abbr></label>
-                                                        <select id="CityId" name="Order.CityId" class="form-control" required>
-                                                            <option selected>شهرستان</option>
-                                                        </select>
-                                                    </p>*@
 
                                                 @if (string.IsNullOrEmpty(user.AddressLine))
                                                 {
@@ -198,36 +120,18 @@
                                     <table class="shop_table">
                                         <thead>
                                             <tr>
-                                                <th class="product-name">هزینه سفارش</th>
                                                 <th class="product-name">هزینه حمل</th>
-                                                @*<th class="product-name">هزینه ارسال سفارشی</th>*@
                                                 <th class="product-name">اعتبار شما</th>
                                                 <th class="product-total">جمع کل</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr class="RMNT_item">
-                                                <td class="product-name">
-                                                    @{
-                                                        double discountPrice = 0;
-                                                        if (Model.discount.Count() > 0)
-                                                        {
-                                                            discountPrice = Model.FinalPrice - Model.FinalPrice * (Model.discount.FirstOrDefault().Percent) / 100;
-                                                        }
-                                                    }
-                                                    @if (Model.discount.Count() > 0)
-                                                    {
-                                                        <strong class="product-quantity">@string.Format("{0:n0}", discountPrice) ریال با تخفیف</strong>
-                                                    }
-                                                    else
-                                                    {
-                                                        <strong class="product-quantity">@string.Format("{0:n0}", Model.FinalPrice) ریال</strong>
-                                                    }
-                                                </td>
+
                                                 @{
                                                     var application = content.Applications.FirstOrDefault();
                                                 }
-                                                <td>
+                                                <td data-title="هزینه حمل">
                                                     @if (application != null)
                                                     {
                                                         if (application.Transferring > 0)
@@ -244,41 +148,25 @@
                                                         <span>0 ریال</span>
                                                     }
                                                 </td>
-                                                @*<td>
-                                                    @if (Convert.ToInt32(Type) == 2)
-                                                    {
-                                                        if (application != null)
-                                                        {
-                                                            if (application.SpecialTransport > 0)
-                                                            {
-                                                                <span>@string.Format("{0:n0}", application.SpecialTransport) ریال</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span>0 ریال</span>
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            <span>0 ریال</span>
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        <span>0 ریال</span>
-                                                    }
-                                                </td>*@
-                                                <td>
-                                                    <span class="amount">@string.Format("{0:n0}", user.Credit) ریال</span>
+
+                                                <td data-title="اعتبار شما">
+                                                    <span class="amount">
+                                                        @string.Format("{0:n0}", user.Credit) ریال
+                                                    </span>
                                                 </td>
-                                                <td class="product-total">
+
+                                                <td class="product-total" data-title="جمع کل">
                                                     @if (Convert.ToInt32(Type) == 2)
                                                     {
-                                                        <span class="amount">@string.Format("{0:n0}", (Model.FinalPrice + application.Transferring + application.SpecialTransport) - (user.Credit)) ریال</span>
+                                                        <span class="amount highlight">
+                                                            @string.Format("{0:n0}", (Model.FinalPrice + application.Transferring + application.SpecialTransport) - (user.Credit)) ریال
+                                                        </span>
                                                     }
                                                     else
                                                     {
-                                                        <span class="amount">@string.Format("{0:n0}", (Model.FinalPrice + application.Transferring) - (user.Credit)) ریال</span>
+                                                        <span class="amount highlight">
+                                                            @string.Format("{0:n0}", (Model.FinalPrice + application.Transferring) - (user.Credit)) ریال
+                                                        </span>
                                                     }
                                                 </td>
                                             </tr>
@@ -298,9 +186,6 @@
                                                 <li class="payment_method_bacs">
                                                     <input type="radio" data-order_button_text="" checked="checked" value="bacs" name="payment_method" class="input-radio" id="payment_method_bacs">
                                                     <label for="payment_method_bacs">پرداخت درب منزل فقط شهر تهران</label>
-                                                    @*<div class="payment_box payment_method_bacs">
-                                                        <p>شما تنها ملزم به پرداخت هزینه حمل به صورت آنلاین هستید و مابقی هزینه را در محل پرداخت مینمایید</p>
-                                                    </div>*@
                                                 </li>
                                             </ul>
                                             <div class="form-row place-order">
@@ -338,15 +223,15 @@
             </div>
         </div>
     </div>
-                                                    }
+}
 
-                                                    else
-                                                    {
-                                                        <div class="forbidden">
-                                                            <p>صفحه ی ممنوعه</p>
-                                                            <img src="~/images/cross.png" />
-                                                        </div>
-                                                    }
+else
+{
+    <div class="forbidden">
+        <p>صفحه ی ممنوعه</p>
+        <img src="~/images/cross.png" />
+    </div>
+}
 
 
 @if (TempData["Error"] != null)
@@ -370,6 +255,31 @@
         </div>
     </div>
 }
+
+<!-- Modal تایید سفارش -->
+<div class="modal fade" id="confirmOrderModal" tabindex="-1" role="dialog" aria-labelledby="confirmOrderLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmOrderLabel">تایید نهایی</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="بستن">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body text-center">
+                <p>آیا از ثبت این سفارش مطمئن هستید؟</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                <button type="button" class="btn btn-success" id="confirmSubmit">بله، تایید میکنم</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 @section Scripts{
     <script>
@@ -400,6 +310,20 @@
                     $("#CityId").html(option);
                 },
                 error: function (jqhxr, statusText, error) { alert("استان نمیتواند خالی باشد ."); }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // وقتی روی ثبت سفارش یا پرداخت کلیک شد → مودال باز شه
+            $("#place_order").on("click", function (e) {
+                e.preventDefault();
+                $("#confirmOrderModal").modal("show");
+            });
+
+            // تایید نهایی → فرم ارسال شه
+            $("#confirmSubmit").on("click", function () {
+                $("#myform").submit();
             });
         });
     </script>

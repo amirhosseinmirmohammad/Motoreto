@@ -1500,6 +1500,9 @@
     <Content Include="Areas\Administrator\Views\QrEntities\Edit.cshtml" />
     <Content Include="Areas\Administrator\Views\QrEntities\Index.cshtml" />
     <Content Include="Areas\Administrator\Views\Users\SearchMobile.cshtml" />
+    <Content Include="images\motoreto1.webp" />
+    <Content Include="images\motoreto2.webp" />
+    <Content Include="images\motoreto3.webp" />
     <None Include="Properties\PublishProfiles\GladCherry Co.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\calendar-fa.js" />
@@ -1785,6 +1788,7 @@
     <Content Include="Views\Account\Approve.cshtml" />
     <Content Include="Views\Account\UserAccount.cshtml" />
     <Content Include="Views\Home\Result.cshtml" />
+    <Content Include="Views\Product\_ProductListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -61,7 +61,12 @@
         </div>
     </div>
 </div>
-<br />
+<div class="container">
+    <div class="alert-custom wow fadeInUp" data-wow-delay="0.5s">
+        <i class="fa fa-wrench"></i>
+        <span>تمامی خدمات تعمیر و تعویض توسط <b>موتورتو</b> در محل شما انجام می‌شود</span>
+    </div>
+</div>
 <div class="banner_gldchpvt position-relative">
     <div class="container rtl-direction">
         <div class="row">
@@ -90,7 +95,7 @@
     </div>
 </div>
 
-<div class="container categories-section">
+<div class="container categories-section wow bounceOut" id="categories">
     <h3 class="section-title text-center">دسته‌بندی محصولات</h3>
     <div class="row">
         @foreach (var cat in content.Categories
@@ -132,30 +137,57 @@
         }
     </div>
 </div>
-
+<br />
 <div class="container">
+    <h3 class="section-title text-center">دسته‌بندی بر اساس نوع خودرو</h3>
+    <div class="car-slider-wrapper">
+        <button class="car-prev">‹</button>
+        <div class="car-slider">
+            @foreach (var sub in content.Categories
+                                        .Where(c => c.ParentId != null)
+                                        .GroupBy(s => s.PersianName)
+                                        .Select(g => g.FirstOrDefault())
+                                        .OrderBy(s => s.PersianName)
+                                        .ToList())
+            {
+                <div class="car-category-item text-center">
+                    <a href="/product/bycar/@sub.PersianName">
+                        <div class="car-circle">
+                            <img src="@(string.IsNullOrEmpty(sub.SmallImage) ? Url.Content("~/images/sadr_logo.png") : sub.SmallImage)"
+                                 alt="@sub.PersianName" title="@sub.PersianName" />
+                        </div>
+                        <h5 class="car-name">@sub.PersianName</h5>
+                    </a>
+                </div>
+            }
+        </div>
+        <button class="car-next">›</button>
+    </div>
+</div>
+<br />
+<div class="container wow bounce">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="hovereffect">
-                <img class="img-responsive" src="~/images/banner.jpg" alt="موتورتو" title="موتورتو">
+                <img class="img-responsive" src="~/images/motoreto1.webp" alt="موتورتو" title="موتورتو">
                 <div class="overlay">
                     <h2>یک انتخاب درست</h2>
                     <a class="info" href="/aboutus">بیشتر</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="hovereffect">
-                <img class="img-responsive" src="~/images/banner1.jpg" alt="موتورتو" title="موتورتو">
+                <img class="img-responsive" src="~/images/motoreto2.webp" alt="موتورتو" title="موتورتو">
                 <div class="overlay">
                     <h2>با کیفیت و مرغوب</h2>
                     <a class="info" href="/aboutus">بیشتر</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="hovereffect">
-                <img class="img-responsive" src="~/images/banner2.jpg" alt="موتورتو" title="موتورتو">
+                <img class="img-responsive" src="~/images/motoreto3.webp" alt="موتورتو" title="موتورتو">
                 <div class="overlay">
                     <h2>سفارش آسان</h2>
                     <a class="info" href="/aboutus">بیشتر</a>
@@ -171,60 +203,60 @@
     int i = 0;
     int j = 0;
     <!-- Start WOWSlider.com BODY section -->
-<div class="container">
-    <div id="wowslider-container1">
-        <div class="ws_images">
-            <ul>
-                @foreach (var item in slider.ToList())
-                {
-                    if (string.IsNullOrEmpty(item.Link))
+    <div class="container">
+        <div id="wowslider-container1">
+            <div class="ws_images">
+                <ul>
+                    @foreach (var item in slider.ToList())
                     {
-                        <li>
-                            <a href="#">
-                                <img src="@item.Image" alt="موتورتو" title="موتورتو" id="wows1_@i" />
-                            </a>
-                        </li>
+                        if (string.IsNullOrEmpty(item.Link))
+                        {
+                            <li>
+                                <a href="#">
+                                    <img src="@Url.Content(item.Image)" alt="موتورتو" title="موتورتو" id="wows1_@i" />
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="@item.Link">
+                                    <img src="@Url.Content(item.Image)" alt="موتورتو" title="موتورتو" id="wows1_@i" />
+                                </a>
+                            </li>
+                        }
+                        i++;
                     }
-                    else
-                    {
-                        <li>
-                            <a href="@item.Link">
-                                <img src="@item.Image" alt="موتورتو" title="موتورتو" id="wows1_@i" />
-                            </a>
-                        </li>
-                    }
-                    i++;
-                }
-            </ul>
-        </div>
-        <div class="ws_bullets">
-            <div>
-                @foreach (var item in slider.ToList())
-                {
-                    if (string.IsNullOrEmpty(item.Link))
-                    {
-                        <a href="#">
-                            <span>
-                                <img src="@item.Image" alt="موتورتو" title="موتورتو" />
-                            </span>
-                        </a>
-                    }
-                    else
-                    {
-                        <a href="@item.Link" title="موتورتو">
-                            <span>
-                                <img src="@item.Image" alt="موتورتو" title="موتورتو" />
-                            </span>
-                        </a>
-                    }
-                    j++;
-                }
+                </ul>
             </div>
+            <div class="ws_bullets">
+                <div>
+                    @foreach (var item in slider.ToList())
+                    {
+                        if (string.IsNullOrEmpty(item.Link))
+                        {
+                            <a href="#">
+                                <span>
+                                    <img src="@item.Image" alt="موتورتو" title="موتورتو" />
+                                </span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@item.Link" title="موتورتو">
+                                <span>
+                                    <img src="@item.Image" alt="موتورتو" title="موتورتو" />
+                                </span>
+                            </a>
+                        }
+                        j++;
+                    }
+                </div>
+            </div>
+            <div class="ws_shadow"></div>
         </div>
-        <div class="ws_shadow"></div>
+        <!-- End WOWSlider.com BODY section -->
     </div>
-    <!-- End WOWSlider.com BODY section -->
-</div>
 }
 
 @if (wonder != null)
@@ -293,6 +325,11 @@
 
 @if (content.Products.Count() > 0)
 {
+    var latestProducts = content.Products
+        .AsNoTracking()
+        .OrderByDescending(p => p.CreateDate)
+        .Take(10)
+        .ToList();
     <br />
     <div class="maincontent-area wow slideInRight" id="specialproducts">
         <div class="zigzag-bottom"></div>
@@ -302,7 +339,7 @@
                     <div class="latest-product">
                         <h3 class="section-title">محصولات جدید</h3>
                         <div class="product-carousel">
-                            @foreach (var item in content.Products.OrderByDescending(current => current.CreateDate).Take(10).ToList())
+                            @foreach (var item in latestProducts)
                             {
                                 <div class="single-product">
                                     <div class="product-f-image">
@@ -326,23 +363,24 @@
                                             <a href="/Product/Details/@item.Id" class="view-details-link"><i class="fa fa-link"></i> جزئیات</a>
                                         </div>
                                     </div>
+                                    <div class="product-title">
+                                        <h2><a href="/Product/Details/@item.Id">@GladCherryShopping.Helpers.FunctionsHelper.Truncate(item.PersianName, 120)</a></h2>
 
-                                    <h2><a href="/Product/Details/@item.Id">@GladCherryShopping.Helpers.FunctionsHelper.Truncate(item.PersianName, 20)</a></h2>
+                                        <div class="product-carousel-price">
+                                            @if (item.DiscountPercent > 0)
+                                            {
+                                                int pricewithdiscount = item.UnitPrice - (item.UnitPrice) * (item.DiscountPercent) / 100;
 
-                                    <div class="product-carousel-price">
-                                        @if (item.DiscountPercent > 0)
-                                        {
-                                            int pricewithdiscount = item.UnitPrice - (item.UnitPrice) * (item.DiscountPercent) / 100;
+                                                <ins>@string.Format("{0:n0}", pricewithdiscount) ریال</ins>
+                                                <del>@string.Format("{0:n0}", item.UnitPrice)</del>
 
-                                            <ins>@string.Format("{0:n0}", pricewithdiscount) ریال</ins>
-                                            <del>@string.Format("{0:n0}", item.UnitPrice)</del>
-
-                                        }
-                                        else
-                                        {
-                                            <ins>@string.Format("{0:n0}", item.UnitPrice) ریال</ins>
-                                            @*<del>مقطوع</del>*@
-                                        }
+                                            }
+                                            else
+                                            {
+                                                <ins>@string.Format("{0:n0}", item.UnitPrice) ریال</ins>
+                                                @*<del>مقطوع</del>*@
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             }
@@ -353,29 +391,6 @@
         </div>
     </div>
 }
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="hovereffect">
-                <img class="img-responsive" src="~/images/new1.jpg" alt="موتورتو" title="موتورتو">
-                <div class="overlay">
-                    <h2>محصولات متنوع</h2>
-                    <a class="info" href="/aboutus">بیشتر</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="hovereffect">
-                <img class="img-responsive" src="~/images/new2.jpg" alt="موتورتو" title="موتورتو">
-                <div class="overlay">
-                    <h2>خدمات درجه 1</h2>
-                    <a class="info" href="/aboutus">بیشتر</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 @if (content.Products.Where(current => current.IsSpecial == true).Count() > 0)
 {
@@ -433,66 +448,6 @@
     </div>
 }
 
-<div class="promo-area">
-    <div class="zigzag-bottom"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-sm-12 wow bounceInRight pull-right">
-                <div class="single-promo promo1">
-                    <div class="tooltip">
-                        <img src="~/images/14.jpg" alt="موتورتو" title="موتورتو">
-                        <p style="padding-top:57px !important;">نیازی نیست از خونه بیرون بری</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-12 wow bounceInRight pull-right" data-wow-delay="0.5s">
-                <div class="single-promo promo3">
-                    <br>
-                    <div class="tooltip">
-                        <img src="~/images/15.jpg" alt="موتورتو" title="موتورتو">
-                        <p>استراحت میکنی یا کار ، اپلیکیشن رو بردار</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-12 wow bounceInRight pull-right" data-wow-delay="1s">
-                <div class="single-promo promo2">
-                    <div class="tooltip">
-                        <img src="~/images/13.gif" alt="موتورتو" title="موتورتو">
-                        <p style="padding-top:47px !important;">سفارش بده و منتظر ارسال باش</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> <!-- End promo area -->
-<br />
-
-<section class="bottom-count text-center why mockup whym">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 right-img-w3ls pl-lg-4 mt-lg-2">
-                <div class="bott-w3ls mr-xl-5">
-                    <h3 class="title-w3 text-bl mb-3 font-weight-bold">موتورتو را دانـلود کنید</h3>
-                    <p style="text-align:justify !important;">
-                        موتورتو ، سامانه جامع و تخصصی فعال در زمینه فروش قطعات مصرفی خودرو<br />
-                        محصولات متنوع ، سهولت استفاده و اصالت کالا سه عامل تاثیرگذار در فروش بالای محصولات موتورتو و استفاده از اپلیکیشن فروشگاهی موتورتو است .<br />
-                    </p><br>
-                    <div class="don">
-                        <a href="#">
-                            <img src="/images/bazaar-outline-new.png" width="150" alt="موتورتو" title="موتورتو">
-                        </a>
-                        <a href="#">
-                            <img src="/images/googleplay-outline-new.png" width="150" alt="موتورتو" title="موتورتو">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 left-img-w3ls wow bounceIn">
-                <img src="/images/Tashrifatnurses_mockup.png" title="موتورتو" alt="موتورتو" class="img-fluid">
-            </div>
-        </div>
-    </div>
-</section>
 @if (content.Blogs.Where(current => current.IsVisible == true).Count() > 0)
 {
     <section id="blog">
@@ -622,7 +577,22 @@
             <script type="text/javascript" src="~/library/engine1/wowslider.js"></script>
             <script type="text/javascript" src="~/library/engine1/script.js"></script>
             <script>
-                jQuery("#wowslider-container1").wowSlider({ effect: "shift", prev: "", next: "", duration: 20 * 100, delay: 60 * 100, width: 900, height: 500, autoPlay: true, autoPlayVideo: false, playPause: true, stopOnHover: true, loop: false, bullets: 1, caption: true, captionEffect: "parallax", controls: true, controlsThumb: [], responsive: 1, fullScreen: true, gestures: 2, onBeforeStep: 0, images: 0 });
+                jQuery("#wowslider-container1").wowSlider({
+                    effect: "shift",
+                    duration: 2000,
+                    delay: 6000,
+                    width: 900,
+                    height: 500,
+                    autoPlay: true,
+                    stopOnHover: true,
+                    loop: true,
+                    bullets: 1,
+                    caption: true,
+                    controls: true,
+                    responsive: 1,
+                    fullScreen: true,
+                    gestures: 2
+                });
             </script>
         </text>
     }
@@ -770,7 +740,7 @@
                                             <a href="/product/all/${item.Id}">
                                                 <i class="fa fa-angle-left"></i> ${item.Name}
                                             </a>
-                                         </li>`;
+                                        </li>`;
                         });
                         $list.html(html);
                     } else {
@@ -783,7 +753,24 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const slider = document.querySelector(".car-slider");
+            const prev = document.querySelector(".car-next");
+            const next = document.querySelector(".car-prev");
 
+            const scrollStep = 250; // فاصله هر بار اسکرول
+
+            // در حالت RTL باید منطق دکمه‌ها رو برعکس کنیم
+            next.addEventListener("click", () => {
+                slider.scrollLeft += scrollStep;
+            });
+
+            prev.addEventListener("click", () => {
+                slider.scrollLeft -= scrollStep;
+            });
+        });
+    </script>
 }
 
 

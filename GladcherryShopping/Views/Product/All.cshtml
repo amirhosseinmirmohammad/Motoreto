@@ -27,78 +27,50 @@
     </div>
 </div>
 
-<div class="single-product-area">
-    <div class="zigzag-bottom"></div>
-    <div class="container">
-        <div class="row">
-            @if (Model.TotalItemCount > 0)
-            {
-                foreach (var product in Model.data)
-                {
-                    <div class="col-md-3 col-sm-6 pull-right">
-                        <div class="single-shop-product">
-                            <div class="product-upper">
-                                @if (product.SiteFirstImage != null)
-                                {
-                                    <img src="@product.SiteFirstImage" alt="@product.PersianName" title="@product.PersianName">
-                                }
-                                else
-                                {
-                                    <img src="~/images/sadr_logo.png" alt="@product.PersianName" title="@product.PersianName">
-                                }
-                            </div>
-                            <h2><a href="/Product/Details/@product.Id">@GladCherryShopping.Helpers.FunctionsHelper.Truncate(product.PersianName, 20)</a></h2>
-                            <div class="product-carousel-price">
-                                @if (product.DiscountPercent > 0)
-                                {
-                                    int pricewithdiscount = product.UnitPrice - (product.UnitPrice) * (product.DiscountPercent) / 100;
-
-                                    <ins>@string.Format("{0:n0}", pricewithdiscount) ریال</ins>
-                                    <del>@string.Format("{0:n0}", product.UnitPrice)</del>
-
-                                }
-                                else
-                                {
-                                    <ins>@string.Format("{0:n0}", product.UnitPrice) ریال</ins>
-                                    @*<del>مقطوع</del>*@
-                                }
-                            </div>
-
-                            <div class="product-option-shop">
-                                @if (product.Stock > 0)
-                                {
-                                    <a class="add_to_RMNT_button btncard" data-quantity="1" data-product_sku="" productid="@product.Id" rel="nofollow" href="~/Home/Basket/@product.Id">سبد خرید</a>
-                                }
-                                else
-                                {
-                                    <a class="add_to_RMNT_button" data-quantity="1" data-product_sku="">ناموجود</a>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
-
-            else
-            {
-                <span>محصولی در این دسته بندی وجود ندارد .</span>
-            }
-
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="product-pagination text-center">
-                    <nav>
-                        <ul class="pagination pagination-sm">
-                            <li>@Html.Pager(10, Model.CurrentPage, Model.TotalItemCount)</li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
+<div class="container">
+    <div id="product-container" class="row"></div>
+    <div id="loader" class="text-center" style="display:none">
+        <img src="~/images/loader.gif" alt="Loading..." />
     </div>
 </div>
 
 @section Scripts{
+    <script>
+    let page = 1;
+    let isLoading = false;
+    const pageSize = 8;
+
+    function loadMoreProducts() {
+        if (isLoading) return;
+        isLoading = true;
+        $("#loader").show();
+
+        $.ajax({
+            url: '@Url.Action("LoadMoreProducts", "Product")',
+            type: "GET",
+            data: { page: page, pageSize: pageSize, name: "@ViewBag.CarName" },
+            success: function (data) {
+                if ($.trim(data) !== "") {
+                    $("#product-container").append(data);
+                    page++;
+                    isLoading = false;
+                    $("#loader").hide();
+                } else {
+                    $("#loader").html("<p>محصول دیگری وجود ندارد.</p>");
+                }
+            }
+        });
+    }
+
+    $(window).scroll(function () {
+        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 200) {
+            loadMoreProducts();
+        }
+    });
+
+    // بارگذاری اولین سری
+    $(document).ready(function () {
+        loadMoreProducts();
+    });
+    </script>
 }

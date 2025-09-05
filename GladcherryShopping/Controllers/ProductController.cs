@@ -23,7 +23,7 @@ namespace GladcherryShopping.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Where(current => current.Id == id).Include(current => current.RelatedProducts).Include(current => current.category).Include(current => current.Images).FirstOrDefault();
+            Product product = db.Products.Where(current => current.Id == id).Include(current => current.RelatedProducts).Include(current => current.category).Include(current => current.category.Parent).Include(current => current.Images).FirstOrDefault();
             if (product == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -106,21 +106,105 @@ namespace GladcherryShopping.Controllers
             return RedirectToAction("Details", new { id = comment.ProductId });
         }
 
+        [Route("product/bycar/{name}")]
+        public ActionResult ByCar(string name, int page = 1, int pageSize = 8)
+        {
+            // دسته‌بندی‌ها
+            var baseCategories = db.Categories
+                                   .Where(c => c.PersianName == name)
+                                   .Select(c => c.Id)
+                                   .ToList();
+
+            var allCategoryIds = db.Categories
+                                   .Where(c => baseCategories.Contains(c.Id) || baseCategories.Contains(c.ParentId ?? 0))
+                                   .Select(c => c.Id)
+                                   .ToList();
+
+            var query = db.Products.Where(p => allCategoryIds.Contains(p.CategoryId));
+
+            var products = query
+                           .OrderByDescending(p => p.CreateDate)
+                           .Skip((page - 1) * pageSize)
+                           .Take(pageSize)
+                           .ToList();
+
+            var vm = new PagerViewModels<Product>
+            {
+                CurrentPage = page,
+                TotalItemCount = query.Count(),
+                data = products
+            };
+
+            ViewBag.CarName = name; 
+
+            return View("All", vm);
+        }
+
+        [HttpGet]
+        public ActionResult LoadMoreProducts(int page = 1, int pageSize = 8, string name = null)
+        {
+            var query = db.Products.AsQueryable();
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                // دسته‌های اصلی
+                var baseCategories = db.Categories
+                                       .Where(c => c.PersianName == name)
+                                       .Select(c => c.Id)
+                                       .ToList();
+
+                // دسته‌های زیرمجموعه
+                var allCategoryIds = db.Categories
+                                       .Where(c => baseCategories.Contains(c.Id) || baseCategories.Contains(c.ParentId ?? 0))
+                                       .Select(c => c.Id)
+                                       .ToList();
+
+                query = query.Where(p => allCategoryIds.Contains(p.CategoryId));
+            }
+
+            var products = query
+                           .OrderByDescending(p => p.CreateDate)
+                           .Skip((page - 1) * pageSize)
+                           .Take(pageSize)
+                           .ToList();
+
+            return PartialView("_ProductListPartial", products);
+        }
+
         public ActionResult All(string Search, int? id, int page = 1)
         {
             PagerViewModels<Product> ProductViewModels = new PagerViewModels<Product>();
-            List<Product> products = db.Products.ToList();
+            var query = db.Products.AsQueryable();
+
             if (id != null)
             {
-                products = db.Products.Where(current => current.CategoryId == id).ToList();
+                var categoryIds = db.Categories
+                                    .Where(c => c.Id == id || c.ParentId == id)
+                                    .Select(c => c.Id)
+                                    .ToList();
+
+                query = query.Where(p => categoryIds.Contains(p.CategoryId));
             }
+
             if (!string.IsNullOrEmpty(Search))
             {
-                products = db.Products.Where(current => current.PersianName.Contains(Search) || current.EnglishName.Contains(Search) || current.Description.Contains(Search)).ToList();
+                query = query.Where(current =>
+                    current.PersianName.Contains(Search) ||
+                    current.EnglishName.Contains(Search) ||
+                    current.Description.Contains(Search));
             }
+
+            var products = query.ToList();
+
             ProductViewModels.CurrentPage = page;
             ProductViewModels.data = products;
             ProductViewModels.TotalItemCount = products.Count();
+
+            var category = db.Categories
+                             .FirstOrDefault(c => c.Id == id || c.ParentId == id);
+
+            ViewBag.CarName = category?.PersianName;
+
             return View(ProductViewModels);
         }
 

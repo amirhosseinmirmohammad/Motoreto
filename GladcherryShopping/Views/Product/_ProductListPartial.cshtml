@@ -1,0 +1,42 @@
+﻿@model List<DataLayer.Models.Product>
+
+@foreach (var product in Model)
+{
+    <a href="/Product/Details/@product.Id">
+        <div class="col-md-3 col-sm-6 col-xs-6 pull-right">
+            <div class="single-shop-product">
+                <div class="product-upper">
+                    <img src="@(string.IsNullOrEmpty(product.SiteFirstImage) ? Url.Content("~/images/sadr_logo.png") : product.SiteFirstImage)"
+                         alt="@product.PersianName" title="@product.PersianName" />
+                </div>
+                <div class="product-info">
+                    <h2 class="product-title">@product.PersianName</h2>
+                    <div class="product-carousel-price">
+                        @if (product.DiscountPercent > 0)
+                        {
+                            int pricewithdiscount = product.UnitPrice - (product.UnitPrice * product.DiscountPercent / 120);
+                            <ins>@string.Format("{0:n0}", pricewithdiscount) ریال</ins>
+                            <del>@string.Format("{0:n0}", product.UnitPrice)</del>
+                        }
+                        else
+                        {
+                            <ins>@string.Format("{0:n0}", product.UnitPrice) ریال</ins>
+                        }
+                    </div>
+                    <div class="product-option-shop">
+                        @if (product.Stock > 0)
+                        {
+                            <a class="add_to_RMNT_button btncard"
+                               href="~/Home/Basket/@product.Id">سبد خرید</a>
+                        }
+                        else
+                        {
+                            <a class="add_to_RMNT_button">ناموجود</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+}
+

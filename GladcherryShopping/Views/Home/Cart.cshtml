@@ -96,93 +96,87 @@
                     <div class="woocommerce">
                         @if (Model.Count > 0)
                         {
-                            <table cellspacing="0" class="shop_table cart table-responsive table-hover">
-                                <thead>
-                                    <tr>
-                                        <th class="product-remove">&nbsp;</th>
-                                        <th class="product-thumbnail">تصویر</th>
-                                        <th class="product-name">عنوان</th>
-                                        @*<th class="product-price">قیمت هر واحد به ریال</th>*@
-                                        <th class="product-quantity">تعداد</th>
-                                        <th class="product-subtotal">مجموع به ریال</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr class="RMNT_item">
-                                            <td class="product-remove">
-                                                <a title="حذف محصول از سبد خرید" class="remove btnRemove" productid="@item.Product.Id"><i class="fa fa-close"></i></a>
-                                            </td>
-                                            <td class="product-thumbnail">
-                                                @if (item.Product.SiteFirstImage != null)
-                                                {
-                                                    <a href="/Product/Details/@item.Product.Id"><img width="145" height="145" alt="@item.Product.PersianName" title="@item.Product.PersianName" class="shop_thumbnail" src="@item.Product.SiteFirstImage"></a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="/Product/Details/@item.Product.Id"><img width="145" height="145" alt="@item.Product.PersianName" title="@item.Product.PersianName" class="shop_thumbnail" src="~/images/sadr_logo.png"></a>
-                                                }
-                                            </td>
-                                            <td class="product-name">
-                                                <a href="/Product/Details/@item.Product.Id">@item.Product.PersianName</a>
-                                            </td>
-                                            @*<td class="product-price">
-                                                <span class="amount prPrice">@string.Format("{0:n0}", item.Product.UnitPrice - (item.Product.UnitPrice) * (item.Product.DiscountPercent) / 100)</span>
-                                            </td>*@
-                                            @{
-                                                int pricewithdiscount;
-                                                if (item.Product.DiscountPercent > 0)
-                                                {
-                                                    pricewithdiscount = item.Product.UnitPrice - (item.Product.UnitPrice) * (item.Product.DiscountPercent) / 100;
-                                                }
-                                                else
-                                                {
-                                                    pricewithdiscount = item.Product.UnitPrice;
-                                                }
-                                            }
-                                            <td class="product-quantity padding-top text-center">
-                                                <div class="quantity buttons_added d-flex justify-content-center align-items-center">
-                                                    <input type="button" productid="@item.Product.Id" productPrice="@pricewithdiscount" count="@item.Count"
-                                                           class="plus btn btn-orange" value="+" onclick="plus(this)">
-
-                                                    <input type="number" disabled size="4"
-                                                           class="input-text qty text qtc text-center mx-2"
-                                                           productPrice="@pricewithdiscount" count="@item.Count"
-                                                           productid="@item.Product.Id" title="Qty"
-                                                           value="@item.Count" min="@item.Product.Min" step="1">
-
-                                                    <input type="button" productid="@item.Product.Id" productPrice="@pricewithdiscount" count="@item.Count"
-                                                           class="minus btn btn-orange" value="-" onclick="minus(this)">
-
-                                                    <br /><img style="display:none" id="loader" src="~/images/loader.gif" />
-                                                </div>
-                                            </td>
-                                            @{
-                                                var resultcount = item.Count * Convert.ToInt32(item.Product.UnitPrice - (item.Product.UnitPrice) * (item.Product.DiscountPercent) / 100);
-                                            }
-                                            <td class="product-subtotal">
-                                                <span class="amount">@string.Format("{0:n0}", resultcount)</span>
-                                            </td>
+                            <div class="table-responsive">
+                                <table cellspacing="0" class="shop_table cart table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="product-remove">&nbsp;</th>
+                                            <th class="product-thumbnail">تصویر</th>
+                                            <th class="product-name">عنوان</th>
+                                            <th class="product-quantity">تعداد</th>
+                                            <th class="product-subtotal">مجموع به ریال</th>
                                         </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            int pricewithdiscount = item.Product.DiscountPercent > 0
+                                                ? item.Product.UnitPrice - (item.Product.UnitPrice * item.Product.DiscountPercent / 100)
+                                                : item.Product.UnitPrice;
+
+                                            var resultcount = item.Count * pricewithdiscount;
+                                            <tr class="RMNT_item">
+                                                <td class="product-remove" data-label="حذف">
+                                                    <a title="حذف محصول از سبد خرید" class="remove btnRemove" productid="@item.Product.Id">
+                                                        <i class="fa fa-close"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="product-thumbnail" data-label="تصویر">
+                                                    <a href="/Product/Details/@item.Product.Id">
+                                                        <img src="@(item.Product.SiteFirstImage ?? Url.Content("~/images/sadr_logo.png"))"
+                                                             alt="@item.Product.PersianName" title="@item.Product.PersianName" />
+                                                    </a>
+                                                </td>
+                                                <td class="product-name" data-label="عنوان">
+                                                    <a href="/Product/Details/@item.Product.Id">@item.Product.PersianName</a>
+                                                </td>
+                                                <td class="product-quantity padding-top text-center" data-label="تعداد">
+                                                    <div class="quantity buttons_added d-flex justify-content-center align-items-center">
+                                                        <input type="button" productid="@item.Product.Id" productPrice="@pricewithdiscount"
+                                                               class="plus btn btn-orange" value="+" onclick="plus(this)" />
+                                                        <input type="number" disabled
+                                                               class="input-text qty text qtc text-center mx-2"
+                                                               productPrice="@pricewithdiscount"
+                                                               productid="@item.Product.Id"
+                                                               value="@item.Count" min="@item.Product.Min" step="1" />
+                                                        <input type="button" productid="@item.Product.Id" productPrice="@pricewithdiscount"
+                                                               class="minus btn btn-orange" value="-" onclick="minus(this)" />
+                                                    </div>
+                                                </td>
+                                                <td class="product-subtotal" data-label="مجموع">
+                                                    <span class="amount">@string.Format("{0:n0}", resultcount)</span>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         }
                         else
                         {
-                            <p class="bascketheader">سبد خرید شما خالی است .</p>
-                            @*if (content.Categories.Count() > 0)
-                                {
-                                    <div class="row bascketcat">
-                                        @foreach (var item in content.Categories.Include(current => current.Products).Where(current => current.Products.Count() > 0).ToList())
-                                        {
-                                            <div class="col-md-4">
-                                                <a class="btn btn-info" title="@item.PersianName" href="/product/all/@item.Id">@item.PersianName</a><br />
-                                            </div>
-                                        }
-                                    </div>
-                                }*@
+                            <div class="empty-cart-wrap text-center">
+                                <svg class="empty-cart-svg" viewBox="0 0 170 140" aria-hidden="true">
+                                    <ellipse cx="85" cy="120" rx="42" ry="6" class="shadow-ellipse"></ellipse>
+
+                                    <rect x="40" y="44" width="90" height="52" rx="10" class="cart-body"></rect>
+                                    <path d="M40 44 L26 22" class="cart-handle"></path>
+
+                                    <circle cx="60" cy="102" r="9" class="wheel"></circle>
+                                    <circle cx="112" cy="102" r="9" class="wheel"></circle>
+
+                                    <circle cx="118" cy="36" r="4" class="bubble b1"></circle>
+                                    <circle cx="128" cy="30" r="3" class="bubble b2"></circle>
+                                    <circle cx="136" cy="24" r="2.5" class="bubble b3"></circle>
+                                </svg>
+
+                                <h3 class="empty-title">سبد خرید شما خالیه</h3>
+                                <p class="empty-subtitle">برای شروع، از دسته‌بندی‌ها یکی رو انتخاب کن.</p>
+
+                                <div class="empty-cta">
+                                    <a href="/#categories" class="btn btn-warning">مشاهده دسته‌بندی‌ها</a>
+                                    <a href="/#specialproducts" class="btn btn-primary" style="background-color:#00016e;border-color:#00016e">محصولات جدید</a>
+                                </div>
+                            </div>
                         }
                         <div class="cart-collaterals">
                             <div class="cross-sells">
@@ -205,14 +199,6 @@
                                                 <option disabled value="2">پرداخت آنلاین (هزینه حمل +‌ هزینه سفارش)</option>
                                             </select>
                                         </p>
-                                        @*<h2><a class="shipping-calculator-button" aria-expanded="false" aria-controls="calcalute-shipping-wrap"> روش های ارسال <i class="fa fa-arrow-down"></i></a></h2>
-                                        <p class="form-row form-row-wide">
-                                            <select rel="calc_shipping_state" name="Type" required>
-                                                <option selected value="0">لطفا روش ارسال را تعیین نمایید</option>
-                                                <option value="1">ارسال عادی (رایگان تا 72 ساعت)</option>
-                                                <option value="2">ارسال ویژه (سریع شامل هزینه)</option>
-                                            </select>
-                                        </p>*@
                                         @if (User.Identity.IsAuthenticated)
                                         {
                                             <p><button class="button" value="1" type="submit"> تکمیل سفارش &nbsp;<i class="fa fa-arrow-left"></i></button></p>
@@ -247,25 +233,34 @@
                         {
                             <div class="single-product">
                                 <div class="product-f-image">
-                                    <img src="@item.SiteFirstImage" alt="@item.PersianName" title="@item.PersianName">
-                                </div>
-
-                                <h2><a href="/Product/Details/@item.Id">@GladCherryShopping.Helpers.FunctionsHelper.Truncate(item.PersianName, 23)</a></h2>
-
-                                <div class="product-carousel-price">
-                                    @if (item.DiscountPercent > 0)
+                                    @if (item.SiteFirstImage != null)
                                     {
-                                        int pricewithdiscount = item.UnitPrice - (item.UnitPrice) * (item.DiscountPercent) / 100;
-
-                                        <ins>@string.Format("{0:n0}", pricewithdiscount) ریال</ins>
-                                        <del>@string.Format("{0:n0}", item.UnitPrice)</del>
-
+                                        <img src="@item.SiteFirstImage" alt="@item.PersianName" title="@item.PersianName">
                                     }
                                     else
                                     {
-                                        <ins>@string.Format("{0:n0}", item.UnitPrice) ریال</ins>
-                                        @*<del>مقطوع</del>*@
+                                        <img src="~/images/sadr_logo.png" alt="@item.PersianName" title="@item.PersianName">
                                     }
+                                </div>
+
+                                <div class="product-title">
+
+                                    <h2><a href="/Product/Details/@item.Id">@GladCherryShopping.Helpers.FunctionsHelper.Truncate(item.PersianName, 120)</a></h2>
+
+                                    <div class="product-carousel-price">
+                                        @if (item.DiscountPercent > 0)
+                                        {
+                                            int pricewithdiscount = item.UnitPrice - (item.UnitPrice) * (item.DiscountPercent) / 100;
+
+                                            <ins>@string.Format("{0:n0}", pricewithdiscount) ریال</ins>
+                                            <del>@string.Format("{0:n0}", item.UnitPrice)</del>
+
+                                        }
+                                        else
+                                        {
+                                            <ins>@string.Format("{0:n0}", item.UnitPrice) ریال</ins>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         }
@@ -325,17 +320,14 @@
     </script>
 
     <script>
-        // تبدیل به اعداد فارسی
         function toPersianDigits(str) {
             return str.toString().replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
         }
 
-        // فرمت سه‌رقمی + فارسی
         function formatNumber(num) {
             return toPersianDigits(num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
         }
 
-        // آپدیت با انیمیشن
         function updateWithAnimation($el, newValue) {
             $el.fadeOut(200, function () {
                 $el.text(formatNumber(newValue)).fadeIn(300);
@@ -350,14 +342,11 @@
             var price = parseInt($(element).attr("productPrice"));
             var id = $(element).attr("productid");
 
-            // آپدیت input
             $input.val(count);
 
-            // آپدیت مجموع هر ردیف
             var total = price * count;
             updateWithAnimation($row.find(".product-subtotal span"), total);
 
-            // Ajax → بروزرسانی کل سبد
             $.ajax({
                 url: "/Home/AddToShoppingCart",
                 data: { Id: id },
