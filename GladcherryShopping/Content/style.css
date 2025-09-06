@@ -886,8 +886,8 @@ body {
 
 
 .product-carousel {
-    padding-top: 40px;
-}
+/*    padding-top: 40px;
+*/}
 
 .latest-product .owl-nav {
     position: absolute;
@@ -3616,7 +3616,6 @@ p.text-sty-banner {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 20px 0;
     direction: rtl; /* کل اسلایدر راست‌چین */
 }
 
@@ -3653,7 +3652,7 @@ p.text-sty-banner {
 }
 
     .car-circle img {
-        width: 80%;
+        width: 100%;
         height: auto;
     }
 
@@ -3662,8 +3661,8 @@ p.text-sty-banner {
     }
 
 .car-name {
-    font-size: 11px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: bolder;
     color: #1a237e; /* آبی پررنگ جذاب */
     margin: 0;
     line-height: 1.5;
@@ -3676,6 +3675,7 @@ p.text-sty-banner {
     text-shadow: 0 1px 2px rgba(0,0,0,0.15);
     letter-spacing: 0.5px;
     transition: color 0.3s ease, transform 0.3s ease;
+    padding-top: 5px;
 }
 
 .category-card h4 {
@@ -3729,10 +3729,10 @@ p.text-sty-banner {
         width: 100px;
     }
 
-    .car-circle {
+/*    .car-circle {
         width: 80px;
         height: 80px;
-    }
+    }*/
 }
 
 @media (max-width: 576px) {
@@ -3741,8 +3741,8 @@ p.text-sty-banner {
     }
 
     .car-circle {
-        width: 70px;
-        height: 70px;
+        width: 85px;
+        height: 85px;
     }
 
     .car-prev, .car-next {
@@ -5729,25 +5729,29 @@ html, body {
 }
 
 .category-card {
+    text-align: center;
     border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
     background-color: #f2f2f2;
     box-shadow: 0 2px 6px #e8e8e8;
     text-align: center;
-    padding: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    height: 160px; /* ✅ ارتفاع یکسان برای همه کارت‌ها */
+    justify-content: center; /* وسط‌چین عمودی */
+    align-items: center; /* وسط‌چین افقی */
+    /*height: 160px;*/ /* ✅ ارتفاع یکسان برای همه کارت‌ها */
 }
 
     .category-card img {
-        width: 100%;
-        height: 60px; /* تصویر یک اندازه */
+        width: 100px;
+        height: 100px; /* تصویر یک اندازه */
         object-fit: cover;
         border-radius: 10px;
         margin-bottom: 8px;
+        display: block;
+        margin: 0 auto 10px auto; /* وسط کارت + فاصله از متن */
+        height: auto;
     }
 
     .category-card h4 {
