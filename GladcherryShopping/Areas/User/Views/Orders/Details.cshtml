@@ -245,7 +245,7 @@
 
                             @foreach (var pr in ViewBag.Products)
                             {
-                                <a target="_blank" href="/Product/Details/@pr.ProductId"><span></span><img src="@pr.Product.SiteFirstImage" title="@pr.Product.PersianName" class="customized_panel_table img-circle" /><span>&nbsp;&nbsp; @pr.Product.PersianName (@pr.Count) </span></a>
+                                <a target="_blank" href="/Product/@pr.SefUrl"><span></span><img src="@pr.Product.SiteFirstImage" title="@pr.Product.PersianName" class="customized_panel_table img-circle" /><span>&nbsp;&nbsp; @pr.Product.PersianName (@pr.Count) </span></a>
                                 <br />
                             }
                         </dl>

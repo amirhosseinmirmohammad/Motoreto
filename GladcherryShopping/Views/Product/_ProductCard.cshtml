@@ -10,7 +10,7 @@
         ? price - (price * Model.DiscountPercent / 100)
         : price;
 }
-<a href="/Product/Details/@Model.Id" class="product-card">
+<a href="/Product/@Model.SefUrl" class="product-card">
     <div class="pc-media">
         <img src="@img" alt="@Model.PersianName" loading="lazy" />
         @if (hasOff)

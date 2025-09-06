@@ -205,6 +205,12 @@ body {
     font-family: iransans-bold;
 }
 
+@media (max-width: 768px) {
+    body {
+        padding-bottom: 70px; 
+    }
+}
+
 .header-area {
     background: none repeat scroll 0 0 #f4f4f4;
 }
@@ -842,10 +848,11 @@ body {
 
 .single-product h2 {
     text-align: center;
-    font-size: 18px;
-    line-height: 50px;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 40px;
     margin-bottom: 10px;
-    margin-top: 15px;
+    margin-top: 10px;
     direction: rtl;
 }
 
@@ -3432,39 +3439,51 @@ p.text-sty-banner {
     bottom: 0;
     left: 0;
     right: 0;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.9); /* شفاف ملایم */
+    backdrop-filter: blur(10px); /* افکت شیشه‌ای */
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 9999;
     display: flex;
-    align-items: center;
     justify-content: space-around;
-    box-shadow: 0 -10px 15px -10px rgba(0,0,0,.1);
-    height: 70px;
-    z-index: 999999;
+    padding: 8px 0;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.15); /* به جای border */
+    animation: slideUp 0.5s ease-out; /* انیمیشن ورود */
+    border-radius: 16px 16px 0 0; /* گردی گوشه‌ها */
 }
 
-    #mobile-tabs .mobile-tab-wrapper {
-        position: relative;
+/* انیمیشن ملایم برای ظاهر شدن */
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
     }
 
-    #mobile-tabs .mobile-tab-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        width: 20%;
-        flex: 0 0 auto;
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+#mobile-tabs .mobile-tab-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 20%;
+    flex: 0 0 auto;
+}
+
+    #mobile-tabs .mobile-tab-wrapper i {
+        font-size: 2rem;
+        margin-top: 5px;
     }
 
-        #mobile-tabs .mobile-tab-wrapper i {
-            font-size: 2rem;
-            margin-top: 5px;
-        }
-
-        #mobile-tabs .mobile-tab-wrapper small {
-            font-size: 1rem;
-            color: #8d8d8d;
-            font-weight: 700;
-            margin-top: 7.5px;
-        }
+    #mobile-tabs .mobile-tab-wrapper small {
+        font-size: 1rem;
+        color: #8d8d8d;
+        font-weight: 700;
+        margin-top: 7.5px;
+    }
 
 .categories-section {
     direction: rtl !important;
@@ -3643,9 +3662,42 @@ p.text-sty-banner {
     }
 
 .car-name {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #001f7a;
+    font-size: 11px;
+    font-weight: 700;
+    color: #1a237e; /* آبی پررنگ جذاب */
+    margin: 0;
+    line-height: 1.5;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* افکت مدرن */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.category-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a237e; /* آبی پررنگ جذاب */
+    margin: 0;
+    line-height: 1.5;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* افکت مدرن */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.car-name:hover h4 {
+    color: #e65100; /* نارنجی خاص موقع هاور */
+    transform: scale(1.05);
 }
 
 .car-prev,
@@ -5659,4 +5711,54 @@ html, body {
         animation: fadeInUp 0.5s !important;
         -webkit-animation: fadeInUp 0.5s !important;
     }
+
+    .category-card h4 {
+        font-size: 12px !important;
+    }
 }
+
+.alert-custom.wow {
+    direction: rtl;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* همیشه ۴ تا */
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.category-card {
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #f2f2f2;
+    box-shadow: 0 2px 6px #e8e8e8;
+    text-align: center;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 160px; /* ✅ ارتفاع یکسان برای همه کارت‌ها */
+}
+
+    .category-card img {
+        width: 100%;
+        height: 60px; /* تصویر یک اندازه */
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 8px;
+    }
+
+    .category-card h4 {
+        font-size: 15px;
+        font-weight: 600;
+        color: #111;
+        margin: 0;
+        line-height: 1.6;
+        text-align: center;
+        flex-grow: 1; /* 📌 متن وسط در ارتفاع خالی */
+        display: flex;
+        align-items: center; /* 📌 وسط عمودی متن */
+        justify-content: center;
+    }

@@ -156,7 +156,7 @@
                 var relatedImage = string.IsNullOrEmpty(item.SiteFirstImage)
                     ? Url.Content("~/images/sadr_logo.png")
                     : item.SiteFirstImage;
-                <a href="/Product/Details/@item.Id" class="related-item">
+                <a href="/Product/@item.SefUrl" class="related-item">
                     <img src="@relatedImage" alt="@item.PersianName" />
                     <span>@item.PersianName</span><br />
                     <span class="price">

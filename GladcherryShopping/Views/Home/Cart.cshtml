@@ -122,13 +122,13 @@
                                                     </a>
                                                 </td>
                                                 <td class="product-thumbnail" data-label="تصویر">
-                                                    <a href="/Product/Details/@item.Product.Id">
+                                                    <a href="/Product/@item.Product.SefUrl">
                                                         <img src="@(item.Product.SiteFirstImage ?? Url.Content("~/images/sadr_logo.png"))"
                                                              alt="@item.Product.PersianName" title="@item.Product.PersianName" />
                                                     </a>
                                                 </td>
                                                 <td class="product-name" data-label="عنوان">
-                                                    <a href="/Product/Details/@item.Product.Id">@item.Product.PersianName</a>
+                                                    <a href="/Product/@item.Product.SefUrl">@item.Product.PersianName</a>
                                                 </td>
                                                 <td class="product-quantity padding-top text-center" data-label="تعداد">
                                                     <div class="quantity buttons_added d-flex justify-content-center align-items-center">
@@ -245,7 +245,7 @@
 
                                 <div class="product-title">
 
-                                    <h2><a href="/Product/Details/@item.Id">@GladCherryShopping.Helpers.FunctionsHelper.Truncate(item.PersianName, 120)</a></h2>
+                                    <h2><a href="/Product/@item.SefUrl">@GladCherryShopping.Helpers.FunctionsHelper.Truncate(item.PersianName, 120)</a></h2>
 
                                     <div class="product-carousel-price">
                                         @if (item.DiscountPercent > 0)

@@ -61,114 +61,9 @@
         </div>
     </div>
 </div>
-<div class="container">
-    <div class="alert-custom wow fadeInUp" data-wow-delay="0.5s">
-        <i class="fa fa-wrench"></i>
-        <span>تمامی خدمات تعمیر و تعویض توسط <b>موتورتو</b> در محل شما انجام می‌شود</span>
-    </div>
-</div>
-<div class="banner_gldchpvt position-relative">
-    <div class="container rtl-direction">
-        <div class="row">
-            <div class="col-md-12 col-xs-12 pull-right">
-                <div class="d-md-flex">
-                    <div class="gldch_banner_txt">
-                        <h3 class="gldch_pvt-title">هرگونه کالایی را در موتورتو پیدا کنید</h3>
-                        <p class="text-sty-banner">پس از ثبت سفارش با بالاترین سرعت محصولات به دست شما میرسد</p>
-                        <br />
-                        <div class="text-center">
-                            <form autocomplete="off" action="/home/search" method="get" id="main_search">
-                                <div class="autocomplete" style="width:100%;">
-                                    <select class="js-example-data-ajax" name="id" required>
-                                        <option selected value="">به چه محصولاتی نیاز دارید ؟</option>
-                                    </select>
-                                    <button type="submit" class="btn button-style">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div><br />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container categories-section wow bounceOut" id="categories">
-    @*<h3 class="section-title text-center">دسته‌بندی محصولات</h3>*@
-    <div class="row">
-        @foreach (var cat in content.Categories
-                                   .Where(c => c.ParentId == null)
-                                   .OrderBy(s => s.PersianName)
-                                   .ToList())
-        {
-            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 pull-right" style="margin-bottom:18px;">
-                <div class="category-card text-center"
-                     data-toggle="modal"
-                     data-target="#modal-@cat.Id">
-                    <h4 class="category-title">@cat.PersianName</h4>
-                </div>
-
-                <div class="modal fade subcategory-modal" id="modal-@cat.Id" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                        <div class="modal-content">
-
-                            <div class="modal-header">
-                                <h5 class="modal-title">@cat.PersianName</h5>
-                                @*<button type="button" class="close" data-dismiss="modal" aria-label="بستن">&times;</button>*@
-                            </div>
-
-                            <div class="modal-body" id="modal-content-category">
-                                <input type="text"
-                                       class="form-control mb-10 subcat-search"
-                                       placeholder="جستجو ..."
-                                       data-target="#list-@cat.Id" />
-
-                                <div id="list-@cat.Id" class="subcat-scroll">
-                                    <ul class="subcat-items"></ul>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-</div>
-<br />
-<div class="container">
-    <h3 class="section-title text-center">دسته‌بندی بر اساس نوع خودرو</h3>
-    <div class="car-slider-wrapper">
-        <button class="car-prev">‹</button>
-        <div class="car-slider">
-            @foreach (var sub in content.Categories
-                                        .Where(c => c.ParentId != null)
-                                        .GroupBy(s => s.PersianName)
-                                        .Select(g => g.FirstOrDefault())
-                                        .OrderBy(s => s.PersianName)
-                                        .ToList())
-            {
-                <div class="car-category-item text-center">
-                    <a href="/product/bycar/@sub.PersianName">
-                        <div class="car-circle">
-                            <img src="@(string.IsNullOrEmpty(sub.SmallImage) ? Url.Content("~/images/sadr_logo.png") : sub.SmallImage)"
-                                 alt="@sub.PersianName" title="@sub.PersianName" />
-                        </div>
-                        <h5 class="car-name">@sub.PersianName</h5>
-                    </a>
-                </div>
-            }
-        </div>
-        <button class="car-next">›</button>
-    </div>
-</div>
-<br />
-
 @if (slider.Count() > 0)
 {
-    <br />
+    <br /><br />
     int i = 0;
     int j = 0;
     <!-- Start WOWSlider.com BODY section -->
@@ -226,7 +121,105 @@
         </div>
         <!-- End WOWSlider.com BODY section -->
     </div>
+    <br />
 }
+
+<div class="container">
+    <div class="alert-custom wow fadeInUp" data-wow-delay="0.5s">
+        <span>تمامی خدمات تعمیر و تعویض توسط <b>موتورتو</b> در محل شما انجام می‌شود .</span>
+        <i class="fa fa-wrench"></i>
+    </div>
+</div>
+<div class="banner_gldchpvt position-relative">
+    <div class="container rtl-direction">
+        <div class="row">
+            <div class="col-md-12 col-xs-12 pull-right">
+                <div class="d-md-flex">
+                    <div class="gldch_banner_txt">
+                        <h3 class="gldch_pvt-title">هرگونه کالایی را در موتورتو پیدا کنید</h3>
+                        <p class="text-sty-banner">پس از ثبت سفارش با بالاترین سرعت محصولات به دست شما میرسد</p>
+                        <br />
+                        <div class="text-center">
+                            <form autocomplete="off" action="/home/search" method="get" id="main_search">
+                                <div class="autocomplete" style="width:100%;">
+                                    <select class="js-example-data-ajax" name="id" required>
+                                        <option selected value="">به چه محصولاتی نیاز دارید ؟</option>
+                                    </select>
+                                    <button type="submit" class="btn button-style">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div><br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container categories-section" id="categories">
+    @*<h3 class="section-title text-center">دسته‌بندی محصولات</h3>*@
+    <div class="categories-grid">
+        @foreach (var cat in content.Categories
+                                   .Where(c => c.ParentId == null)
+                                   .OrderBy(s => s.PersianName)
+                                   .ToList())
+        {
+            <div class="category-card" data-toggle="modal" data-target="#modal-@cat.Id">
+                <img src="@(string.IsNullOrEmpty(cat.SmallImage) ? Url.Content("~/images/sadr_logo.png") : cat.SmallImage)"
+                     alt="@cat.PersianName" title="@cat.PersianName" />
+                <h4>@cat.PersianName</h4>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade subcategory-modal" id="modal-@cat.Id" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">@cat.PersianName</h5>
+                        </div>
+                        <div class="modal-body" id="modal-content-category">
+                            <input type="text" class="form-control mb-10 subcat-search"
+                                   placeholder="جستجو ..." data-target="#list-@cat.Id" />
+                            <div id="list-@cat.Id" class="subcat-scroll">
+                                <ul class="subcat-items"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<br />
+<div class="container">
+    <h3 class="section-title text-center">دسته‌بندی بر اساس نوع خودرو</h3>
+    <div class="car-slider-wrapper">
+        <button class="car-prev">‹</button>
+        <div class="car-slider">
+            @foreach (var sub in content.Categories
+                                        .Where(c => c.ParentId != null)
+                                        .GroupBy(s => s.PersianName)
+                                        .Select(g => g.FirstOrDefault())
+                                        .OrderBy(s => s.PersianName)
+                                        .ToList())
+            {
+                <div class="car-category-item text-center">
+                    <a href="/product/bycar/@sub.PersianName">
+                        <div class="car-circle">
+                            <img src="@(string.IsNullOrEmpty(sub.SmallImage) ? Url.Content("~/images/sadr_logo.png") : sub.SmallImage)"
+                                 alt="@sub.PersianName" title="@sub.PersianName" />
+                        </div>
+                        <h5 class="car-name">@sub.PersianName</h5>
+                    </a>
+                </div>
+            }
+        </div>
+        <button class="car-next">›</button>
+    </div>
+</div>
 
 @if (wonder != null)
 {
@@ -240,7 +233,7 @@
             </div>
             <div class="row" style="direction:rtl!important;">
                 <div class="col-md-8 col-xs-12 text-center wond">
-                    <a href="/product/details/@wonder.Id">
+                    <a href="/product/@wonder.SefUrl">
                         <img src="@wonder.AppLargeImage" width="250" alt="@wonder.PersianName" title="@wonder.PersianName" class="img-fluid img-responsive" />
                         <br />
                         <b style="direction:rtl">@wonder.PersianName</b>
@@ -299,7 +292,6 @@
         .OrderByDescending(p => p.CreateDate)
         .Take(10)
         .ToList();
-    <br />
     <div class="maincontent-area wow slideInRight" id="specialproducts">
         <div class="zigzag-bottom"></div>
         <div class="container">
@@ -329,11 +321,11 @@
                                             {
                                                 <a class="add-to-cart-link" productid="@item.Id"><i class="fa fa-lock"></i>ناموجود </a>
                                             }
-                                            <a href="/Product/Details/@item.Id" class="view-details-link"><i class="fa fa-link"></i> جزئیات</a>
+                                            <a href="/Product/@item.SefUrl" class="view-details-link"><i class="fa fa-link"></i> جزئیات</a>
                                         </div>
                                     </div>
                                     <div class="product-title">
-                                        <h2><a href="/Product/Details/@item.Id">@GladCherryShopping.Helpers.FunctionsHelper.Truncate(item.PersianName, 120)</a></h2>
+                                        <h2><a href="/Product/@item.SefUrl">@GladCherryShopping.Helpers.FunctionsHelper.Truncate(item.PersianName, 120)</a></h2>
 
                                         <div class="product-carousel-price">
                                             @if (item.DiscountPercent > 0)
@@ -386,11 +378,11 @@
                                             {
                                                 <a class="add-to-cart-link" productid="@item.Id"><i class="fa fa-lock"></i>ناموجود </a>
                                             }
-                                            <a href="/Product/Details/@item.Id" class="view-details-link"><i class="fa fa-link"></i> جزئیات</a>
+                                            <a href="/Product/@item.SefUrl" class="view-details-link"><i class="fa fa-link"></i> جزئیات</a>
                                         </div>
                                     </div>
 
-                                    <h2><a href="/Product/Details/@item.Id">@item.PersianName</a></h2>
+                                    <h2><a href="/Product/@item.SefUrl">@item.PersianName</a></h2>
 
                                     <div class="product-carousel-price">
                                         @if (item.DiscountPercent > 0)
@@ -650,9 +642,9 @@
         });
 
         $('.js-example-data-ajax').on('select2:select', function (e) {
-            var productId = $(this).val();
-            if (productId) {
-                window.location.href = "https://motoreto.ir/product/details/" + productId;
+            var sefUrl = $(this).val();
+            if (sefUrl) {
+                window.location.href = "/product/" + sefUrl;
             }
         });
     </script>
@@ -706,10 +698,10 @@
                         var html = "";
                         res.Data.forEach(function (item) {
                             html += `<li>
-                                            <a href="/product/all/${item.Id}">
-                                                <i class="fa fa-angle-left"></i> ${item.Name}
-                                            </a>
-                                        </li>`;
+                                         <a href="/product/all/${item.Id}">
+                                         <i class="fa fa-angle-left"></i> ${item.Name}
+                                         </a>
+                                    </li>`;
                         });
                         $list.html(html);
                     } else {

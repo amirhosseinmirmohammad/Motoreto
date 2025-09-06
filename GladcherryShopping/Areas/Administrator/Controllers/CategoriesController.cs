@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using DataLayer.Models;
-using DataLayer.ViewModels.PagerViewModel;
-using static GladCherryShopping.Helpers.FunctionsHelper;
 using GladcherryShopping.Models;
+using DataLayer.Models;
 using GladCherryShopping.Helpers;
+using static GladCherryShopping.Helpers.FunctionsHelper;
+using DataLayer.ViewModels.PagerViewModel;
 
 namespace GladcherryShopping.Areas.Administrator.Controllers
 {
@@ -19,14 +18,31 @@ namespace GladcherryShopping.Areas.Administrator.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Administrator/Categories
-        public ActionResult Index(int page = 1)
+        // GET: Administrator/Categories
+        public ActionResult Index(int page = 1, string search = "", int? parentId = null)
         {
-            var categories = db.Categories.Include(c => c.Parent).Include(current => current.Products);
-            PagerViewModels<Category> CategoryViewModels = new PagerViewModels<Category>();
-            CategoryViewModels.CurrentPage = page;
-            CategoryViewModels.data = categories.Include(current => current.Parent).OrderByDescending(current => current.PersianName).Skip((page - 1) * 10).Take(10).ToList();
-            CategoryViewModels.TotalItemCount = categories.Count();
-            return View(CategoryViewModels);
+            var categories = db.Categories.Include(c => c.Parent).Include(c => c.Products).AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                categories = categories.Where(c => c.PersianName.Contains(search) || c.EnglishName.Contains(search));
+            }
+
+            if (parentId.HasValue)
+            {
+                categories = categories.Where(c => c.ParentId == parentId.Value);
+            }
+
+            PagerViewModels<Category> model = new PagerViewModels<Category>();
+            model.CurrentPage = page;
+            model.TotalItemCount = categories.Count();
+            model.data = categories
+                .OrderBy(c => c.PersianName) // مرتب سازی الفبایی
+                .Skip((page - 1) * 10)
+                .Take(10)
+                .ToList();
+
+            return View(model);
         }
 
         // GET: Administrator/Categories/Details/5

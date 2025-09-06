@@ -83,23 +83,37 @@ namespace GladcherryShopping.Controllers
         }
 
         // GET: Product
-        public ActionResult Details(long? id)
+        public ActionResult Details(string sefUrl)
         {
-            if (id == null)
+            if (string.IsNullOrEmpty(sefUrl))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Where(current => current.Id == id).Include(current => current.RelatedProducts).Include(current => current.category).Include(current => current.category.Parent).Include(current => current.Images).FirstOrDefault();
+
+            var product = db.Products
+                .Where(current => current.SefUrl == sefUrl)
+                .Include(current => current.RelatedProducts)
+                .Include(current => current.category)
+                .Include(current => current.category.Parent)
+                .Include(current => current.Images)
+                .FirstOrDefault();
+
             if (product == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
-            var cookie = new HttpCookie("SeenProduct_" + product.Id.ToString(), 1.ToString());
-            cookie.Expires = DateTime.Now.AddMonths(1);
-            cookie.HttpOnly = true;
+
+            var cookie = new HttpCookie("SeenProduct_" + product.Id, "1")
+            {
+                Expires = DateTime.Now.AddMonths(1),
+                HttpOnly = true
+            };
             Response.Cookies.Add(cookie);
-            ProductDetailViewModel viewmodel = new ProductDetailViewModel();
-            viewmodel.product = product;
+
+            ProductDetailViewModel viewmodel = new ProductDetailViewModel
+            {
+                product = product
+            };
             return View(viewmodel);
         }
 

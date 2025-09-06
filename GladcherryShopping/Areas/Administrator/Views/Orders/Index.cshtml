@@ -8,213 +8,88 @@
 
 <h2>مدیریت سفارشات</h2>
 
-<div class="wrapper wrapper-content animated fadeInRight">
+<div class="ibox-content">
+    <form method="get" action="/Administrator/Orders/Index" class="form-inline mb-3">
+        <input type="text" name="searchOrderId" value="@ViewBag.SearchOrderId"
+               class="form-control" placeholder="🔍 شماره سفارش..."
+               style="width:180px; margin-left:10px;" />
+
+        <input type="text" name="searchUserId" value="@ViewBag.SearchUserId"
+               class="form-control" placeholder="🔍 شناسه کاربر / موبایل..."
+               style="width:220px; margin-left:10px;" />
+
+        <button type="submit" class="btn btn-primary">جستجو</button>
+        <a href="/Administrator/Orders/Index" class="btn btn-default">نمایش همه</a>
+    </form>
+</div>
+
+<div class="ibox-content table-responsive">
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th># سفارش</th>
+                <th>شناسه کاربر</th>
+                <th>نام کاربر</th>
+                <th>شماره موبایل</th>
+                <th>استان</th>
+                <th>شهر</th>
+                <th>مبلغ (ریال)</th>
+                <th>نوع سفارش</th>
+                <th>نحوه پرداخت</th>
+                <th>وضعیت کیف پول</th>
+                <th>پرداخت مستقیم</th>
+                <th>وضعیت ارسال</th>
+                <th>تاریخ</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.data)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@(item.UserId ?? "مهمان")</td>
+                    <td>
+                        @(item.User != null
+                          ? (item.User.FirstName + " " + item.User.LastName)
+                          : "مهمان")
+                    </td>
+                    <td>@(item.User != null ? item.User.PhoneNumber : "—")</td>
+                    <td>@(item.StateId != null ? content.States.Find(item.StateId)?.Name : "—")</td>
+                    <td>@(item.CityId != null ? content.Cities.Find(item.CityId)?.Name : "—")</td>
+                    <td><ins>@string.Format("{0:n0}", Convert.ToInt32(item.TotalPrice))</ins></td>
+                    <td>@item.getType</td>
+                    <td>@item.getPaymentType</td>
+                    <td>@(item.Done ? "انجام شده" : "انجام نشده")</td>
+                    <td>@(item.Transactions.Any() ? "انجام شده" : "انجام نشده")</td>
+                    <td>@item.getSender</td>
+                    <td>@GladCherryShopping.Helpers.FunctionsHelper.GetPersianDateTime(item.OrderDate, true, true)</td>
+                    <td>
+                        @if (item.Transactions.Any())
+                        {
+                            @Html.ActionLink("تراکنش", "Transaction", new { id = item.Id }, new { @class = "btn btn-primary btn-xs" }) <span>|</span>
+                        }
+                        @Html.ActionLink("وضعیت", "Sender", new { id = item.Id }, new { @class = "btn btn-primary btn-xs" }) |
+                        @Html.ActionLink("جزییات", "Details", new { id = item.Id }, new { @class = "btn btn-info btn-xs" }) |
+                        @Html.ActionLink("مالی", "Payments", new { id = item.Id }, new { @class = "btn btn-success btn-xs" }) |
+                        @Html.ActionLink("لغو", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-xs" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
     <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>لیست سفارشات</h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-wrench"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li>
-                                <a href="#">گزینه 1</a>
-                            </li>
-                            <li>
-                                <a href="#">گزینه 2</a>
-                            </li>
-                        </ul>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="ibox-content">
-                    <div class="ibox-content table-responsive">
-                        <table class="table table-bordered table-hover table-striped">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        #
-                                    </th>
-                                    <th>
-                                        وضعیت کاربری
-                                    </th>
-                                    <th>
-                                        استان 
-                                    </th>
-                                    <th>
-                                       شهرستان
-                                    </th>
-                                    <th>
-                                        مبلغ به ریال
-                                    </th>
-                                    <th>
-                                        نوع سفارش
-                                    </th>
-                                    <th>
-                                        نحوه پرداخت
-                                    </th>
-                                    <th>
-                                        پرداخت کامل با کیف پول انجام شده
-                                    </th>
-                                    <th>
-                                        پرداخت مستقیم درگاه
-                                    </th>
-                                    <th>
-                                        وضعیت سفارش
-                                    </th>
-                                    <th>
-                                        تاریخ
-                                    </th>
-                                    <th>عملیات</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.data)
-                                {
-                                    <tr>
-                                        <td>
-                                            @item.Id
-                                        </td>
-                                        @if (item.UserId == null)
-                                        {
-                                            <td>مهمان</td>
-                                        }
-                                        else
-                                        {
-                                            <td>عضو</td>
-                                        }
-                                        <td>
-                                            @{ 
-                                                if(item.StateId != null && item.StateId != 0)
-                                                {
-                                                    var state = content.States.Find(item.StateId);
-                                                    <span>@state.Name</span>
-                                                }
-                                                else
-                                                {
-                                                    <span>تعیین نشده</span>
-                                                }
-                                            }
-                                        </td>
-                                        <td>
-                                            @{
-                                                if (item.CityId != null && item.CityId != 0)
-                                                {
-                                                    var city = content.Cities.Find(item.CityId);
-                                                    <span>@city.Name</span>
-                                                }
-                                                else
-                                                {
-                                                    <span>تعیین نشده</span>
-                                                }
-                                            }
-                                        </td>
-                                        <td>
-                                            <ins>@string.Format("{0:n0}", item.TotalPrice)</ins>
-                                        </td>
-                                        <td>
-                                            @item.getType
-                                        </td>
-                                        <td>
-                                            @item.getPaymentType
-                                        </td>
-                                        <td>
-                                            @if (item.Done == true)
-                                            {
-                                                <span>انجام شده</span>
-                                            }
-                                            else
-                                            {
-                                                <span>انجام نشده</span>
-                                            }
-                                        </td>
-                                        <td>
-                                            @if (item.Transactions.Count > 0)
-                                            {
-                                                <span>انجام شده</span>
-                                            }
-                                            else
-                                            {
-                                                <span>انجام نشده</span>
-                                            }
-                                        </td>
-                                        <td>
-                                            @item.getSender
-                                        </td>
-                                        <td>
-                                            @GladCherryShopping.Helpers.FunctionsHelper.GetPersianDateTime(item.OrderDate, true, true)
-                                        </td>
-                                        <td>
-                                            @if (item.Transactions.Count > 0)
-                                            {
-                                                @Html.ActionLink("تراکنش", "Transaction", new { id = item.Id }, new { @class = "btn btn-primary btn-xs" }) <span>|</span>
-                                            }
-                                            @Html.ActionLink("وضعیت", "Sender", new { id = item.Id }, new { @class = "btn btn-primary btn-xs" }) |
-                                            @Html.ActionLink("جزییات", "Details", new { id = item.Id }, new { @class = "btn btn-info btn-xs" }) |
-                                            @Html.ActionLink("مالی", "Payments", new { id = item.Id }, new { @class = "btn btn-success btn-xs" }) |
-                                            @Html.ActionLink("حذف یا لغو", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-xs" })
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                        <div class="row">
-                            <div class="col-md-6" style="direction: ltr">
-                                <ul class="pagination pagination-sm">
-                                    <li>@Html.Pager(10, Model.CurrentPage, Model.TotalItemCount)</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-6" style="direction:ltr">
+            <ul class="pagination pagination-sm">
+                <li>
+                    @Html.Pager(
+                        pageSize: 10,
+                        currentPage: Model.CurrentPage,
+                        totalItemCount: Model.TotalItemCount,
+                        values: new { searchOrderId = ViewBag.SearchOrderId, searchUserId = ViewBag.SearchUserId }
+                    )
+                </li>
+            </ul>
         </div>
     </div>
 </div>
-
-
-@if (TempData["Success"] != null)
-{
-    <div class="wrapper wrapper-content animated fadeIn">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>پیام</h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="fa fa-wrench"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-user">
-                                <li>
-                                    <a href="#">گزینه 1</a>
-                                </li>
-                                <li>
-                                    <a href="#">گزینه 2</a>
-                                </li>
-                            </ul>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
-                        <div class="ibox-content">
-                            <div class="alert alert-success">
-                                @TempData["Success"]
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-}

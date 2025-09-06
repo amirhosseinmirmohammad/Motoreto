@@ -1,15 +1,16 @@
-﻿using System.Data.Entity;
+﻿using DataLayer.Models;
+using DataLayer.ViewModels.PagerViewModel;
+using GladcherryShopping.Models;
+using GladCherryShopping.Helpers;
+using ServiceStack.Logging;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web.Mvc;
-using DataLayer.Models;
-using GladcherryShopping.Models;
-using System;
-using DataLayer.ViewModels.PagerViewModel;
 using System.Web;
-using GladCherryShopping.Helpers;
+using System.Web.Mvc;
 using static GladCherryShopping.Helpers.FunctionsHelper;
-using System.Collections.Generic;
 
 namespace GladcherryShopping.Areas.Administrator.Controllers
 {
@@ -19,13 +20,33 @@ namespace GladcherryShopping.Areas.Administrator.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Administrator/Products
-        public ActionResult Index(int page = 1)
+        public ActionResult Index(string search = "", int page = 1)
         {
-            var products = db.Products.Include(c => c.category);
-            PagerViewModels<Product> ProductViewModels = new PagerViewModels<Product>();
-            ProductViewModels.CurrentPage = page;
-            ProductViewModels.data = products.OrderByDescending(current => current.PersianName).Skip((page - 1) * 10).Take(10).ToList();
-            ProductViewModels.TotalItemCount = products.Count();
+            var products = db.Products.Include(c => c.category).AsQueryable();
+
+            // 🔍 اعمال سرچ
+            if (!string.IsNullOrEmpty(search))
+            {
+                products = products.Where(p =>
+                    p.PersianName.Contains(search) ||
+                    p.EnglishName.Contains(search) ||
+                    p.Code.ToString().Contains(search) || // سرچ روی کد قطعه
+                    p.category.PersianName.Contains(search) // سرچ روی دسته
+                );
+            }
+
+            // مرتب‌سازی بر اساس نام فارسی
+            products = products.OrderBy(p => p.PersianName);
+
+            // صفحه‌بندی
+            PagerViewModels<Product> ProductViewModels = new PagerViewModels<Product>
+            {
+                CurrentPage = page,
+                data = products.Skip((page - 1) * 10).Take(10).ToList(),
+                TotalItemCount = products.Count()
+            };
+
+            ViewBag.Search = search; // برای نگه داشتن سرچ در View
             return View(ProductViewModels);
         }
 
@@ -58,7 +79,7 @@ namespace GladcherryShopping.Areas.Administrator.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,PersianName,EnglishName,UnitPrice,Stock,DiscountPercent,Description,CategoryId,SliderImage,AppSmallImage,AppLargeImage,SiteFirstImage,SiteSecondImage,SiteThirdImage,CreateDate,IsSpecial,IsWonderful,Day,Hour,Minute,WoDate,Min")] Product product,
+        public ActionResult Create([Bind(Include = "Id,PersianName,EnglishName,UnitPrice,Stock,Code,SefUrl,DiscountPercent,Description,CategoryId,SliderImage,AppSmallImage,AppLargeImage,SiteFirstImage,SiteSecondImage,SiteThirdImage,CreateDate,IsSpecial,IsWonderful,Day,Hour,Minute,WoDate,Min")] Product product,
             HttpPostedFileBase SliderImage, HttpPostedFileBase AppSmallImage, HttpPostedFileBase AppLargeImage, HttpPostedFileBase SiteFirstImage, HttpPostedFileBase SiteSecondImage, HttpPostedFileBase SiteThirdImage, IEnumerable<int> Related, IEnumerable<HttpPostedFileBase> Images)
         {
             Product wonderPro = db.Products.Where(current => current.IsWonderful == true).FirstOrDefault();
@@ -119,6 +140,40 @@ namespace GladcherryShopping.Areas.Administrator.Controllers
                         product.WonderDate = ConvertToGregorian(product.WoDate);
                     }
                     product.CreateDate = DateTime.Now;
+
+                    #region Meta Key
+                    // ۱. اگر کاربر چیزی وارد نکرد، از PersianName استفاده کن
+                    string slug = string.IsNullOrWhiteSpace(product.SefUrl)
+                        ? product.PersianName.Trim()
+                        : product.SefUrl.Trim();
+
+                    // ۲. به حروف کوچک (برای یکدست شدن)
+                    slug = slug.ToLowerInvariant();
+
+                    // ۳. جایگزین کردن فاصله و چندین فاصله با -
+                    slug = System.Text.RegularExpressions.Regex.Replace(slug, @"\s+", "-");
+
+                    // ۴. حذف کاراکترهای غیرمجاز (فقط حروف، اعداد و - بمانند)
+                    slug = System.Text.RegularExpressions.Regex.Replace(slug, @"[^a-z0-9\u0600-\u06FF\-]", "");
+
+                    // ۵. حذف - های تکراری
+                    slug = System.Text.RegularExpressions.Regex.Replace(slug, @"-+", "-");
+
+                    // ۶. حذف - از اول و آخر
+                    slug = slug.Trim('-');
+
+                    // ۷. بررسی تکراری نبودن SefUrl
+                    bool exists = db.Products.Any(p => p.SefUrl == slug);
+                    if (exists)
+                    {
+                        TempData["Error"] = "این آدرس (SefUrl) قبلاً استفاده شده است. لطفاً یک آدرس دیگر وارد کنید.";
+                        ViewBag.CategoryId = new SelectList(db.Categories, "Id", "PersianName", product.CategoryId);
+                        return View(product);
+                    }
+
+                    product.SefUrl = slug;
+                    #endregion Meta Key
+
                     db.Products.Add(product);
                     try
                     {
@@ -185,7 +240,7 @@ namespace GladcherryShopping.Areas.Administrator.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,PersianName,EnglishName,UnitPrice,Stock,DiscountPercent,Description,CategoryId,SliderImage,AppSmallImage,AppLargeImage,SiteFirstImage,SiteSecondImage,SiteThirdImage,CreateDate,IsSpecial,IsWonderful,Day,Hour,Minute,WoDate,Min")] Product product,
+        public ActionResult Edit([Bind(Include = "Id,PersianName,EnglishName,UnitPrice,Stock,Code,SefUrl,DiscountPercent,Description,CategoryId,SliderImage,AppSmallImage,AppLargeImage,SiteFirstImage,SiteSecondImage,SiteThirdImage,CreateDate,IsSpecial,IsWonderful,Day,Hour,Minute,WoDate,Min")] Product product,
             HttpPostedFileBase SliderImage, HttpPostedFileBase AppSmallImage, HttpPostedFileBase AppLargeImage, HttpPostedFileBase SiteFirstImage, HttpPostedFileBase SiteSecondImage, HttpPostedFileBase SiteThirdImage, IEnumerable<int> Related, IEnumerable<HttpPostedFileBase> Images)
         {
             Product wonderPro = db.Products.Where(current => current.IsWonderful == true && current.Id != product.Id).FirstOrDefault();
@@ -221,11 +276,6 @@ namespace GladcherryShopping.Areas.Administrator.Controllers
                 editedProduct.Hour = product.Hour;
                 editedProduct.Minute = product.Minute;
                 editedProduct.Min = product.Min;
-                //if (product.IsWonderful == true && product.Day != null && product.Hour != null && product.Minute != null && product.WoDate != null)
-                //{
-                //    editedProduct.WonderDate = ConvertToGregorian(product.WoDate).AddDays(Convert.ToDouble(product.Day)).AddHours(Convert.ToDouble(product.Hour)).AddMinutes(Convert.ToDouble(product.Minute));
-                //    editedProduct.WoDate = product.WoDate;
-                //}
 
                 if (!string.IsNullOrEmpty(product.WoDate))
                 {
@@ -313,6 +363,40 @@ namespace GladcherryShopping.Areas.Administrator.Controllers
                     }
                 }
                 #endregion FileUploading
+
+                #region Meta Key
+                // ۱. اگر کاربر چیزی وارد نکرد، از PersianName استفاده کن
+                string slug = string.IsNullOrWhiteSpace(product.SefUrl)
+                    ? product.PersianName.Trim()
+                    : product.SefUrl.Trim();
+
+                // ۲. به حروف کوچک (برای یکدست شدن)
+                slug = slug.ToLowerInvariant();
+
+                // ۳. جایگزین کردن فاصله و چندین فاصله با -
+                slug = System.Text.RegularExpressions.Regex.Replace(slug, @"\s+", "-");
+
+                // ۴. حذف کاراکترهای غیرمجاز (فقط حروف، اعداد و - بمانند)
+                slug = System.Text.RegularExpressions.Regex.Replace(slug, @"[^a-z0-9\u0600-\u06FF\-]", "");
+
+                // ۵. حذف - های تکراری
+                slug = System.Text.RegularExpressions.Regex.Replace(slug, @"-+", "-");
+
+                // ۶. حذف - از اول و آخر
+                slug = slug.Trim('-');
+
+                // ۷. بررسی تکراری نبودن SefUrl
+                bool exists = db.Products.Any(p => p.SefUrl == slug);
+                if (exists)
+                {
+                    TempData["Error"] = "این آدرس (SefUrl) قبلاً استفاده شده است. لطفاً یک آدرس دیگر وارد کنید.";
+                    ViewBag.CategoryId = new SelectList(db.Categories, "Id", "PersianName", product.CategoryId);
+                    return View(product);
+                }
+
+                editedProduct.SefUrl = slug;
+                #endregion Meta Key
+
                 #region Image
                 foreach (var image in Images)
                 {
@@ -335,6 +419,7 @@ namespace GladcherryShopping.Areas.Administrator.Controllers
                     }
                 }
                 #endregion Image
+
                 if (Related != null)
                 {
                     editedProduct.RelatedProducts.Clear();

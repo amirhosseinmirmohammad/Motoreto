@@ -54,267 +54,275 @@
                         @Html.HiddenFor(current => current.AppSmallImage)
                         @Html.HiddenFor(current => current.AppLargeImage)
                         @Html.HiddenFor(current => current.CreateDate)
-                        <div class="form-horizontal">
-                            @*<h4>HubSYS Software Application 2016-2017</h4>
-                                <hr />*@
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.PersianName, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.PersianName, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.PersianName, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.EnglishName, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.EnglishName, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.EnglishName, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.Label("قیمت فروش به ریال", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.DiscountPercent, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.DiscountPercent, new { htmlAttributes = new { @class = "form-control ckeditor" } })
-                                    @Html.ValidationMessageFor(model => model.DiscountPercent, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Min, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Min, new { htmlAttributes = new { @class = "form-control", min = "1", required = "required" } })
-                                    @Html.ValidationMessageFor(model => model.Min, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.CategoryId, "دسته بندی محصول", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("CategoryId", null, "لطفا دسته بندی محصول را انتخاب نمایید .", htmlAttributes: new { @class = "form-control", required = "required" })
-                                    @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            @*<div class="form-group">
-                                    @Html.LabelFor(model => model.SliderImage, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        <input type="file" name="SliderImage" class="form-control" />
-                                        @if (Model.SliderImage != null)
-                                        {
-                                            <img src="@Model.SliderImage" width="200" />
-                                        }
-                                        @Html.ValidationMessageFor(model => model.SliderImage, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>*@
-
-                            <div class="form-group">
-                                @Html.Label("تصویر شاخص محصول در سایت", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    <input type="file" name="SiteFirstImage" class="form-control" />
-                                    @if (Model.SiteFirstImage != null)
-                                    {
-                                        <img src="@Model.SiteFirstImage" width="200" />
-                                    }
-                                    @Html.ValidationMessageFor(model => model.SiteFirstImage, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.Label("تصویر شاخص محصول در اپ", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    <input type="file" name="AppSmallImage" class="form-control" />
-                                    @if (Model.AppSmallImage != null)
-                                    {
-                                        <img src="@Model.AppSmallImage" width="200" />
-                                    }
-                                    @Html.ValidationMessageFor(model => model.AppSmallImage, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">عکس های بیشتر</label>
-                                <div class="col-sm-10">
-                                    <input type="file" name="Images" class="form-control multi with-preview" />
-                                    @if (Model.Images.Count > 0)
-                                    {
-                                        foreach (var image in Model.Images.ToList())
-                                        {
-                                            <img src="@Url.Content(image.Link)" style="width:50px;height:50px" /><br />
-                                            <a href="javascript:changeWindowLocation(@image.Id)" class="btn btn-danger btn-sm btnImgDel" data-id="@image.Id" title="حذف تصویر" style="border-radius:50px"><span class="glyphicon glyphicon-remove"></span></a><br />
-                                        }
-                                    }
-                                    @Html.ValidationMessageFor(model => model.Images, "", new { @class = "text-danger" })<br />
-                                    <strong>فرمت های jpeg ، png و jpg مجاز هستند .</strong>
-                                </div>
-                            </div>
-
-                            @*<div class="form-group">
-                                @Html.Label("QR Code توضیحات", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    <input type="file" name="SliderImage" class="form-control" />
-                                    @if (Model.SliderImage != null)
-                                    {
-                                        <img src="@Model.SliderImage" width="200" />
-                                    }
-                                    @Html.ValidationMessageFor(model => model.SliderImage, "", new { @class = "text-danger" })
-                                </div>
-                            </div>*@
-
-                            @*<div class="form-group">
-                                    @Html.LabelFor(model => model.AppLargeImage, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        <input type="file" name="AppLargeImage" class="form-control" />
-                                        @if (Model.AppLargeImage != null)
-                                        {
-                                            <img src="@Model.AppLargeImage" width="200" />
-                                        }
-                                        @Html.ValidationMessageFor(model => model.AppLargeImage, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>*@
-
-                            @*<div class="form-group">
-                                    @Html.LabelFor(model => model.SiteFirstImage, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        <input type="file" name="SiteFirstImage" class="form-control" />
-                                        @if (Model.SiteFirstImage != null)
-                                        {
-                                            <img src="@Model.SiteFirstImage" width="200" />
-                                        }
-                                        @Html.ValidationMessageFor(model => model.SiteFirstImage, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.SiteSecondImage, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        <input type="file" name="SiteSecondImage" class="form-control" />
-                                        @if (Model.SiteSecondImage != null)
-                                        {
-                                            <img src="@Model.SiteSecondImage" width="200" />
-                                        }
-                                        @Html.ValidationMessageFor(model => model.SiteSecondImage, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.SiteThirdImage, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        <input type="file" name="SiteThirdImage" class="form-control" />
-                                        @if (Model.SiteThirdImage != null)
-                                        {
-                                            <img src="@Model.SiteThirdImage" width="200" />
-                                        }
-                                        @Html.ValidationMessageFor(model => model.SiteThirdImage, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>*@
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">انتخاب محصولات مرتبط</label>
-                                <div class="col-sm-10">
-                                    @Html.DropDownList("Related", null, null, htmlAttributes: new { @class = "form-control js-example-basic-multiple", @name = "Related", multiple = "multiple" })
-                                    <span>محصولات مرتبط و یا متعلقات این محصول</span>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.IsSpecial, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.IsSpecial, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.IsSpecial, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.IsWonderful, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.IsWonderful, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.IsWonderful, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.Label("عکس شگفت انگیز محصول", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    <input type="file" name="AppLargeImage" class="form-control" />
-                                    @if (Model.AppLargeImage != null)
-                                    {
-                                        <img src="@Model.AppLargeImage" width="200" />
-                                    }
-                                    @Html.ValidationMessageFor(model => model.AppSmallImage, "", new { @class = "text-danger" })
-                                    @Html.ValidationMessageFor(model => model.AppLargeImage, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.Label("تاریخ شروع پیشنهاد شگفت انگیز", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.WoDate, new { htmlAttributes = new { @class = "form-control date_field_special", @readonly = "readonly" } })
-                                    @Html.ValidationMessageFor(model => model.WoDate, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <strong>تاریخ شروع مد نظر شما از ساعت 24 آن روز (بامداد) محاسبه میشود .</strong>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Day, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Day, new { htmlAttributes = new { @class = "form-control", @min = "0" } })
-                                    @Html.ValidationMessageFor(model => model.Day, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Hour, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Hour, new { htmlAttributes = new { @class = "form-control", @min = "0" } })
-                                    @Html.ValidationMessageFor(model => model.Hour, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Minute, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Minute, new { htmlAttributes = new { @class = "form-control", @min = "0" } })
-                                    @Html.ValidationMessageFor(model => model.Minute, "", new { @class = "text-danger" })
-                                </div>
-                                <br />
-                                <strong>توجه بفرمایید تنها یک محصول میتواند پیشنهاد شگفت انگیز باشد .</strong>
-                                <br />
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="ذخیره اطلاعات" class="btn btn-success btn-md" />
-                                    @Html.ActionLink("بازگشت به لیست", "Index", null, new { @class = "btn btn-default btn-md" })
-                                </div>
+                    <div class="form-horizontal">
+                        @*<h4>HubSYS Software Application 2016-2017</h4>
+        <hr />*@
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PersianName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.PersianName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PersianName, "", new { @class = "text-danger" })
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EnglishName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.EnglishName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EnglishName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("قیمت فروش به ریال", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DiscountPercent, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.DiscountPercent, new { htmlAttributes = new { @class = "form-control ckeditor" } })
+                                @Html.ValidationMessageFor(model => model.DiscountPercent, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Min, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Min, new { htmlAttributes = new { @class = "form-control", min = "1", required = "required" } })
+                                @Html.ValidationMessageFor(model => model.Min, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CategoryId, "دسته بندی محصول", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("CategoryId", null, "لطفا دسته بندی محصول را انتخاب نمایید .", htmlAttributes: new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+            @Html.LabelFor(model => model.SliderImage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="SliderImage" class="form-control" />
+                @if (Model.SliderImage != null)
+                {
+                    <img src="@Model.SliderImage" width="200" />
+                }
+                @Html.ValidationMessageFor(model => model.SliderImage, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+                        <div class="form-group">
+                            @Html.Label("تصویر شاخص محصول در سایت", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <input type="file" name="SiteFirstImage" class="form-control" />
+                                @if (Model.SiteFirstImage != null)
+                                {
+                                    <img src="@Model.SiteFirstImage" width="200" />
+                                }
+                                @Html.ValidationMessageFor(model => model.SiteFirstImage, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("تصویر شاخص محصول در اپ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <input type="file" name="AppSmallImage" class="form-control" />
+                                @if (Model.AppSmallImage != null)
+                                {
+                                    <img src="@Model.AppSmallImage" width="200" />
+                                }
+                                @Html.ValidationMessageFor(model => model.AppSmallImage, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">عکس های بیشتر</label>
+                            <div class="col-sm-10">
+                                <input type="file" name="Images" class="form-control multi with-preview" />
+                                @if (Model.Images.Count > 0)
+                                {
+                                    foreach (var image in Model.Images.ToList())
+                                    {
+                                        <img src="@Url.Content(image.Link)" style="width:50px;height:50px" /><br />
+                                        <a href="javascript:changeWindowLocation(@image.Id)" class="btn btn-danger btn-sm btnImgDel" data-id="@image.Id" title="حذف تصویر" style="border-radius:50px"><span class="glyphicon glyphicon-remove"></span></a><br />
+                                    }
+                                }
+                                @Html.ValidationMessageFor(model => model.Images, "", new { @class = "text-danger" })<br />
+                                <strong>فرمت های jpeg ، png و jpg مجاز هستند .</strong>
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+            @Html.Label("QR Code توضیحات", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="SliderImage" class="form-control" />
+                @if (Model.SliderImage != null)
+                {
+                    <img src="@Model.SliderImage" width="200" />
+                }
+                @Html.ValidationMessageFor(model => model.SliderImage, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+                        @*<div class="form-group">
+            @Html.LabelFor(model => model.AppLargeImage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="AppLargeImage" class="form-control" />
+                @if (Model.AppLargeImage != null)
+                {
+                    <img src="@Model.AppLargeImage" width="200" />
+                }
+                @Html.ValidationMessageFor(model => model.AppLargeImage, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+                        @*<div class="form-group">
+            @Html.LabelFor(model => model.SiteFirstImage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="SiteFirstImage" class="form-control" />
+                @if (Model.SiteFirstImage != null)
+                {
+                    <img src="@Model.SiteFirstImage" width="200" />
+                }
+                @Html.ValidationMessageFor(model => model.SiteFirstImage, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SiteSecondImage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="SiteSecondImage" class="form-control" />
+                @if (Model.SiteSecondImage != null)
+                {
+                    <img src="@Model.SiteSecondImage" width="200" />
+                }
+                @Html.ValidationMessageFor(model => model.SiteSecondImage, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SiteThirdImage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="SiteThirdImage" class="form-control" />
+                @if (Model.SiteThirdImage != null)
+                {
+                    <img src="@Model.SiteThirdImage" width="200" />
+                }
+                @Html.ValidationMessageFor(model => model.SiteThirdImage, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">انتخاب محصولات مرتبط</label>
+                            <div class="col-sm-10">
+                                @Html.DropDownList("Related", null, null, htmlAttributes: new { @class = "form-control js-example-basic-multiple", @name = "Related", multiple = "multiple" })
+                                <span>محصولات مرتبط و یا متعلقات این محصول</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IsSpecial, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.IsSpecial, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.IsSpecial, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IsWonderful, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.IsWonderful, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.IsWonderful, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("عکس شگفت انگیز محصول", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <input type="file" name="AppLargeImage" class="form-control" />
+                                @if (Model.AppLargeImage != null)
+                                {
+                                    <img src="@Model.AppLargeImage" width="200" />
+                                }
+                                @Html.ValidationMessageFor(model => model.AppSmallImage, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.AppLargeImage, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("تاریخ شروع پیشنهاد شگفت انگیز", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.WoDate, new { htmlAttributes = new { @class = "form-control date_field_special", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.WoDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <strong>تاریخ شروع مد نظر شما از ساعت 24 آن روز (بامداد) محاسبه میشود .</strong>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Day, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Day, new { htmlAttributes = new { @class = "form-control", @min = "0" } })
+                                @Html.ValidationMessageFor(model => model.Day, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Hour, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Hour, new { htmlAttributes = new { @class = "form-control", @min = "0" } })
+                                @Html.ValidationMessageFor(model => model.Hour, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Minute, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Minute, new { htmlAttributes = new { @class = "form-control", @min = "0" } })
+                                @Html.ValidationMessageFor(model => model.Minute, "", new { @class = "text-danger" })
+                            </div>
+                            <br />
+                            <strong>توجه بفرمایید تنها یک محصول میتواند پیشنهاد شگفت انگیز باشد .</strong>
+                            <br />
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="ذخیره اطلاعات" class="btn btn-success btn-md" />
+                                @Html.ActionLink("بازگشت به لیست", "Index", null, new { @class = "btn btn-default btn-md" })
+                            </div>
+                        </div>
+                    </div>
                     }
                 </div>
             </div>

@@ -3004,7 +3004,7 @@ namespace GladcherryShopping.API_Services
 
                 if (!string.IsNullOrEmpty(q))
                 {
-                    query = query.Where(p => p.PersianName.Contains(q));
+                    query = query.Where(p => p.PersianName.Contains(q) || p.EnglishName.Contains(q));
                 }
 
                 var products = query
@@ -3012,7 +3012,7 @@ namespace GladcherryShopping.API_Services
                     .Take(50)
                     .Select(p => new
                     {
-                        id = p.Id,
+                        id = p.SefUrl,         
                         text = p.PersianName
                     })
                     .ToList();

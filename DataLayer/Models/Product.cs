@@ -123,6 +123,14 @@ namespace DataLayer.Models
         [Display(Name = "قیمت با تخفیف")]
         public int _Discount { get; set; }
 
+        [DisplayName("کد قطعه")]
+        [Display(Name = "کد قطعه")]
+        public int Code { get; set; }
+
+        [DisplayName("URL")]
+        [Display(Name = "URL")]
+        public string SefUrl { get; set; }
+
         [NotMapped]
         public int FinalPrice
         {

@@ -16,14 +16,50 @@ namespace GladcherryShopping.Areas.Administrator.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Administrator/Orders
-        public ActionResult Index(int page = 1)
+        // GET: Administrator/Orders
+        public ActionResult Index(int page = 1, string searchOrderId = "", string searchUserId = "")
         {
-            var orders = db.Orders.Include(c => c.Address).Include(current => current.User).Include(c => c.Transactions);
-            PagerViewModels<Order> OrderViewModels = new PagerViewModels<Order>();
-            OrderViewModels.CurrentPage = page;
-            OrderViewModels.data = orders.OrderByDescending(current => current.OrderDate).Skip((page - 1) * 10).Take(10).ToList();
-            OrderViewModels.TotalItemCount = orders.Count();
-            return View(OrderViewModels);
+            var orders = db.Orders
+                .Include(c => c.Address)
+                .Include(c => c.User)
+                .Include(c => c.Transactions)
+                .AsQueryable();
+
+            // 🔍 فیلتر شماره سفارش
+            // 🔍 فیلتر شماره سفارش
+            if (!string.IsNullOrWhiteSpace(searchOrderId))
+            {
+                int orderId;   // 👈 اینجا تعریفش کن
+                if (int.TryParse(searchOrderId, out orderId))
+                {
+                    orders = orders.Where(o => o.Id == orderId);
+                }
+            }
+
+            // 🔍 فیلتر بر اساس UserId (یا شماره موبایل کاربر)
+            if (!string.IsNullOrWhiteSpace(searchUserId))
+            {
+                orders = orders.Where(o =>
+                    (o.UserId != null && o.UserId.Contains(searchUserId)) ||
+                    (o.User != null && o.User.PhoneNumber.Contains(searchUserId))
+                );
+            }
+
+            // مرتب‌سازی و صفحه‌بندی
+            var model = new PagerViewModels<Order>
+            {
+                CurrentPage = page,
+                data = orders.OrderByDescending(o => o.OrderDate)
+                             .Skip((page - 1) * 10)
+                             .Take(10)
+                             .ToList(),
+                TotalItemCount = orders.Count()
+            };
+
+            ViewBag.SearchOrderId = searchOrderId;
+            ViewBag.SearchUserId = searchUserId;
+
+            return View(model);
         }
 
         public ActionResult Payments(int? id, int page = 1)

@@ -4,268 +4,99 @@
     Layout = "~/Areas/Administrator/Views/Shared/_Layout.cshtml";
 }
 
-<h2>مدیریت سفارش ها</h2>
+<h2 class="mb-4">مدیریت سفارش‌ها</h2>
+
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
-            <div class="ibox float-e-margins">
+            <div class="ibox">
                 <div class="ibox-title">
-                    <h5> جزییات سفارش <span style="color:darkred"> @Model.Id </span>  </h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-wrench"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li>
-                                <a href="#">گزینه 1</a>
-                            </li>
-                            <li>
-                                <a href="#">گزینه 2</a>
-                            </li>
-                        </ul>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </div>
+                    <h5>جزئیات سفارش <span class="text-danger">@Model.Id</span></h5>
                 </div>
                 <div class="ibox-content">
-                    <div>
-                        @*<h4>HubSYS Software Application 2016-2017</h4>
-                            <hr />*@
-                        <dl class="dl-horizontal">
 
-                            <dt>
-                                @Html.DisplayNameFor(model => model.FullName)
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => model.FullName)
-                            </dd>
-
-                            <dt>
-                                @Html.DisplayNameFor(model => model.UserAddress)
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => model.UserAddress)
-                            </dd>
-
-                            <dt>
-                                @Html.DisplayNameFor(model => model.Phone)
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => model.Phone)
-                            </dd>
-
-                            <dt>
-                                @Html.DisplayNameFor(model => model.UserOrderDescription)
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => model.UserOrderDescription)
-                            </dd>
-
-                            <dt>
-                                @Html.DisplayNameFor(model => model.Receiver)
-                            </dt>
-
-                            <dd>
-                                @if (Model.Receiver == 1 || Model.Receiver == 2)
-            {
-                                    <span>
-                                        @Html.DisplayFor(model => model.getReceiver)
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span>
-                                        تعیین نشده
-                                    </span>
-                                }
-                            </dd>
-
-                            <dt>
-                                @Html.DisplayNameFor(model => model.Type)
-                            </dt>
-
-                            <dd>
-                                @if (Model.Type == 1 || Model.Type == 2)
-            {
-                                    <span>
-                                        @Html.DisplayFor(model => model.getType)
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span>
-                                        تعیین نشده
-                                    </span>
-                                }
-                            </dd>
-
-                            <dt>
-                                @Html.DisplayNameFor(model => model.PaymentType)
-                            </dt>
-
-                            <dd>
-                                @if (Model.PaymentType == 1 || Model.PaymentType == 2)
-            {
-                                    <span>
-                                        @Html.DisplayFor(model => model.getPaymentType)
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span>
-                                        تعیین نشده
-                                    </span>
-                                }
-                            </dd>
-
-                            <dt>
-                                @Html.DisplayNameFor(model => model.OrderDate)
-                            </dt>
-
-                            <dd>
-                                @GladCherryShopping.Helpers.FunctionsHelper.GetPersianDateTime((DateTime)Model.OrderDate, true, true).ToString()
-                            </dd>
-
-                            <dt>
-                                پرداخت کیف پول انجام شده
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => model.Done)
-                            </dd>
-
-                            <dt>
-                                کد پیگیری
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => model.InvoiceNumber)
-                            </dd>
-
-                            <dt>
-                                قیمت نهایی مورد توافق
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => model.TotalPrice) ریال
-                            </dd>
-
-                            <dt>پرداخت مستقیم درگاه</dt>
-
-                            <dd>
-                                @if (Model.Transactions.Count > 0)
-                                {
-                                    <span>انجام شده</span>
-                                }
-                                else
-                                {
-                                    <span>انجام نشده</span>
-                                }
-                            </dd>
-
-                            <dt>
-                                شماره فاکتور
-                            </dt>
-
-                            <dd>
-                                @Html.DisplayFor(model => model.FactorNumber)
-                            </dd>
-
-                            <dt>
-                                آیا لغو شده ؟
-                            </dt>
-
-                            @if (Model.IsCanceled == true)
-            {
-                                <dd>
-                                    لغو شده
-                                </dd>
-                                <dt>
-                                    علت لغو درخواست
-                                </dt>
-                                <dd>
-                                    @Model.CancelDescription
-                                </dd>
-                            }
-                            else
-                            {
-                                <dd>
-                                    خیر
-                                </dd>
-                            }
-
-                            @if (Model.Latitude != null && Model.Longitude != null)
-            {
-                                <dt>
-                                    عرض جفرافیایی
-                                </dt>
-                                <dd>
-                                    @Model.Latitude
-                                </dd>
-                                <dt>
-                                    طول جغرافیایی
-                                </dt>
-                                <dd>
-                                    @Model.Longitude
-                                </dd>
-                            }
-                            else if (Model.Latitude == null && Model.Longitude == null && Model.Address != null)
-                            {
-                                <dt>
-                                    عرض جفرافیایی
-                                </dt>
-                                <dd>
-                                    @Model.Address.latitude
-                                </dd>
-                                <dt>
-                                    طول جغرافیایی
-                                </dt>
-                                <dd>
-                                    @Model.Address.longitude
-                                </dd>
-                                <dt>
-                                    پلاک
-                                </dt>
-                                <dd>
-                                    @Model.Address.plaque
-                                </dd>
-                                <dt>
-                                    واحد
-                                </dt>
-                                <dd>
-                                    @Model.Address.unit
-                                </dd>
-                                <dt>
-                                    تلفن ثابت
-                                </dt>
-                                <dd>
-                                    @Model.Address.Tell
-                                </dd>
-                            }
-
-                            <dd>
-                                <br /><br />
-                                <label>محصولات : </label>
-                            </dd>
-
-                            @foreach (var pr in ViewBag.Products)
-                            {
-                                <a target="_blank" href="/Administrator/Products/Details/@pr.ProductId"><span></span><img src="@pr.Product.SiteFirstImage" title="@pr.Product.PersianName" class="customized_panel_table img-circle" /><span>&nbsp;&nbsp; @pr.Product.PersianName (@pr.Count) </span></a>
-                                <br />
-                            }
-                        </dl>
+                    <!-- مشخصات سفارش -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><b>👤 نام و نام خانوادگی:</b> @Model.FullName</p>
+                            <p><b>📞 شماره تماس:</b> @Model.Phone</p>
+                            <p><b>📄 توضیحات کاربر:</b> @(string.IsNullOrEmpty(Model.UserOrderDescription) ? "—" : Model.UserOrderDescription)</p>
+                            <p><b>📦 نوع سفارش:</b> @Model.getType</p>
+                            <p><b>💳 نحوه پرداخت:</b> @Model.getPaymentType</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><b>🏠 آدرس:</b> @Model.UserAddress</p>
+                            <p><b>🕒 تاریخ سفارش:</b> @GladCherryShopping.Helpers.FunctionsHelper.GetPersianDateTime((DateTime)Model.OrderDate, true, true)</p>
+                            <p><b>💰 مبلغ کل:</b> @string.Format("{0:n0}", Convert.ToInt32(Model.TotalPrice)) ریال</p>
+                            <p><b>📑 شماره فاکتور:</b> @Model.FactorNumber</p>
+                            <p><b>🔄 وضعیت:</b> @(Model.IsCanceled ? "لغو شده" : "فعال")</p>
+                        </div>
                     </div>
-                    <p>
-                        @Html.ActionLink("بازگشت به لیست", "Index", null, new { @class = "btn btn-default btn-md" })
-                    </p>
+
+                    <hr />
+
+                    <!-- موقعیت جغرافیایی -->
+                    @if (Model.Latitude != null && Model.Longitude != null)
+                    {
+                        <div class="alert alert-info">
+                            <b>📍 موقعیت جغرافیایی:</b><br />
+                            عرض: @Model.Latitude | طول: @Model.Longitude
+                        </div>
+                    }
+                    else if (Model.Address != null)
+                    {
+                        <div class="alert alert-info">
+                            <b>🏠 جزئیات آدرس ثبت‌شده:</b><br />
+                            پلاک: @Model.Address.plaque | واحد: @Model.Address.unit | تلفن ثابت: @Model.Address.Tell
+                        </div>
+                    }
+
+                    <hr />
+
+                    <!-- محصولات -->
+                    <h4 class="mt-4 mb-3">📦 محصولات سفارش</h4>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width:70px;">تصویر</th>
+                                    <th>نام محصول</th>
+                                    <th>کد قطعه</th>
+                                    <th>قیمت واحد</th>
+                                    <th>تعداد</th>
+                                    <th>جمع کل</th>
+                                    <th>جزئیات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var pr in ViewBag.Products)
+                                {
+                                    var totalPrice = pr.Product.UnitPrice * pr.Count;
+                                    <tr>
+                                        <td>
+                                            <img src="@pr.Product.SiteFirstImage"
+                                                 alt="@pr.Product.PersianName"
+                                                 style="width:60px; height:60px; border-radius:8px;" />
+                                        </td>
+                                        <td>@pr.Product.PersianName</td>
+                                        <td>@pr.Product.Code</td>
+                                        <td>@string.Format("{0:n0}", pr.Product.UnitPrice) ریال</td>
+                                        <td>@pr.Count</td>
+                                        <td><b>@string.Format("{0:n0}", totalPrice)</b> ریال</td>
+                                        <td>
+                                            <a target="_blank" href="/Administrator/Products/Details/@pr.ProductId"
+                                               class="btn btn-info btn-xs">🔍 مشاهده</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-4">
+                        @Html.ActionLink("⬅ بازگشت به لیست", "Index", null, new { @class = "btn btn-secondary btn-md" })
+                    </div>
+
                 </div>
             </div>
         </div>
