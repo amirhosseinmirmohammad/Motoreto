@@ -24,23 +24,38 @@
         <input id="q" type="search" placeholder="جستجو در محصولات…" />
     </div>
 
-    <!-- مرتب‌سازی -->
-    <div class="toolbar-row">
-        <select id="sort" class="sort-select">
-            <option value="new">جدیدترین</option>
-            <option value="bestsellers">پرفروش‌ترین</option>
-            <option value="expensive">گران‌ترین</option>
-            <option value="cheap">ارزان‌ترین</option>
-            <option value="discount">بیشترین تخفیف</option>
-        </select>
-    </div>
-
-    <!-- چیپ‌ها -->
+    <!-- مرتب‌سازی به شکل چیپ -->
     <div class="chips" id="chips">
         <div class="chip active" data-filter="">همه</div>
         <div class="chip" data-filter="inStock">موجود</div>
         <div class="chip" data-filter="special">ویژه</div>
         <div class="chip" data-filter="hasImage">دارای تصویر</div>
+        <div class="chip sort-chip" id="open-sort">🔽 مرتب‌سازی</div>
+    </div>
+</div>
+
+<!-- Bottom Sheet برای sort -->
+<div id="sort-sheet" class="sort-sheet">
+    <div class="sheet-content">
+        <h4>مرتب‌سازی بر اساس</h4>
+        <ul>
+            <li data-value="new">جدیدترین</li>
+            <li data-value="bestsellers">پرفروش‌ترین</li>
+            <li data-value="expensive">گران‌ترین</li>
+            <li data-value="cheap">ارزان‌ترین</li>
+            <li data-value="discount">بیشترین تخفیف</li>
+        </ul>
+    </div>
+</div>
+
+<div class="container">
+    <div id="product-container" class="products-grid"></div>
+    <div id="infinite-sentinel"></div>
+    <div id="loader" class="text-center" style="display:none">
+        <!-- SVG Loader -->
+        <svg class="spinner" viewBox="0 0 50 50">
+            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+        </svg>
     </div>
 </div>
 
@@ -108,18 +123,32 @@
             loadMoreProducts(true);
         });
 
-        // 📌 مرتب‌سازی
-        $("#sort").on("change", function () {
-            sort = $(this).val();
-            loadMoreProducts(true);
-        });
-
         // 📌 فیلتر چیپ‌ها
         $("#chips .chip").on("click", function () {
+            if ($(this).attr("id") === "open-sort") return; // جدا برای sort
             $("#chips .chip").removeClass("active");
             $(this).addClass("active");
             filter = $(this).data("filter");
             loadMoreProducts(true);
+        });
+
+        // 📌 باز کردن bottom sheet مرتب‌سازی
+        $("#open-sort").on("click", function () {
+            $("#sort-sheet").addClass("active");
+        });
+
+        // 📌 انتخاب آیتم sort
+        $("#sort-sheet ul li").on("click", function () {
+            sort = $(this).data("value");
+            $("#sort-sheet").removeClass("active");
+            loadMoreProducts(true);
+        });
+
+        // 📌 بستن sheet وقتی بیرون کلیک شد
+        $(document).on("click", function (e) {
+            if ($(e.target).closest(".sheet-content, #open-sort").length === 0) {
+                $("#sort-sheet").removeClass("active");
+            }
         });
 
         // 📌 اینفینیت اسکرول

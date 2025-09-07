@@ -207,7 +207,7 @@ body {
 
 @media (max-width: 768px) {
     body {
-        padding-bottom: 70px; 
+        padding-bottom: 70px;
     }
 }
 
@@ -886,8 +886,9 @@ body {
 
 
 .product-carousel {
-/*    padding-top: 40px;
-*/}
+    /*    padding-top: 40px;
+*/
+}
 
 .latest-product .owl-nav {
     position: absolute;
@@ -3729,7 +3730,7 @@ p.text-sty-banner {
         width: 100px;
     }
 
-/*    .car-circle {
+    /*    .car-circle {
         width: 80px;
         height: 80px;
     }*/
@@ -5766,3 +5767,77 @@ html, body {
         align-items: center; /* 📌 وسط عمودی متن */
         justify-content: center;
     }
+
+/* Bottom Sheet */
+.sort-sheet {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+    transition: bottom 0.4s ease;
+    z-index: 1000;
+}
+
+    .sort-sheet.active {
+        bottom: 0;
+    }
+
+    .sort-sheet .sheet-content {
+        padding: 20px;
+    }
+
+    .sort-sheet ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .sort-sheet ul li {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+            .sort-sheet ul li:hover {
+                background: #f5f5f5;
+            }
+
+/* SVG Loader */
+.spinner {
+    animation: rotate 2s linear infinite;
+    width: 50px;
+    height: 50px;
+}
+
+    .spinner .path {
+        stroke: #ff6600;
+        stroke-linecap: round;
+        animation: dash 1.5s ease-in-out infinite;
+    }
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1,150;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 90,150;
+        stroke-dashoffset: -35;
+    }
+
+    100% {
+        stroke-dasharray: 90,150;
+        stroke-dashoffset: -124;
+    }
+}
