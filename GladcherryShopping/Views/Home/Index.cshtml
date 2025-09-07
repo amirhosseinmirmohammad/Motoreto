@@ -163,7 +163,7 @@
     <div class="categories-grid">
         @foreach (var cat in content.Categories
                                    .Where(c => c.ParentId == null)
-                                   .OrderBy(s => s.PersianName)
+                                   .OrderBy(c => c.PersianName == "سایر قطعات" ? 1 : 0) // سایر قطعات آخر
                                    .ToList())
         {
             <div class="category-card" data-toggle="modal" data-target="#modal-@cat.Id">
@@ -203,7 +203,7 @@
                                         .Where(c => c.ParentId != null)
                                         .GroupBy(s => s.PersianName)
                                         .Select(g => g.FirstOrDefault())
-                                        .OrderBy(s => s.PersianName)
+                                        .OrderBy(s => s.PersianName == "بدون مدل" ? 1 : 0)  // "بدون مدل" آخر لیست
                                         .ToList())
             {
                 <div class="car-category-item text-center">
