@@ -1,4 +1,4 @@
-/*--
+﻿/*--
 Author: gladcherrylayouts
 Author URL: http://gladcherrylayouts.com
 License: Creative Commons Attribution 3.0 Unported
@@ -36,11 +36,11 @@ img{max-width:100%;}
 }
 body {
 	font-family: yekan;
-    width: 100%;
-    text-transform: uppercase;
-    background:#fff;
-	background-size: cover;
-	background: url(../../Content/Login/banner1.jpg)no-repeat 0px 0px;
+	width: 100%;
+	text-transform: uppercase;
+	background: #fff;
+	background-size: cover !important; /* تصویر رو به اندازه کل صفحه scale می‌کنه */
+	background: url(../../Content/Login/banner1.jpg) no-repeat center center fixed;
 }
 h1,h2,h3,h4,h5,h6{
 	font-family: yekan;
