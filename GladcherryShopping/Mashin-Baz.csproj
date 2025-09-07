@@ -1790,6 +1790,7 @@
     <Content Include="Views\Home\Result.cshtml" />
     <Content Include="Views\Product\_ProductListPartial.cshtml" />
     <Content Include="Views\Product\_ProductCard.cshtml" />
+    <Content Include="Views\Product\_NoProductsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1852,7 +1853,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50861</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50518/</IISUrl>
+          <IISUrl>http://localhost:50600/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

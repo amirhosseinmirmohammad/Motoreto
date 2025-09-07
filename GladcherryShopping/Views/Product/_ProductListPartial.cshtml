@@ -4,6 +4,12 @@
 {
     @Html.Partial("_ProductCard", product)
 }
+
+@if (ViewBag.HasMore == false)
+{
+    <div class="end-of-list" style="display:none;"></div>
+}
+
 <script>
     function updateCartBadge(count) {
         // هدر (navbar)

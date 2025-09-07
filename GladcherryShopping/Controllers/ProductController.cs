@@ -221,29 +221,62 @@ namespace GladcherryShopping.Controllers
         }
 
         [HttpGet]
-        public ActionResult LoadMoreProducts(int page, int pageSize, string q = "", string sort = "new", string filter = "")
+        [Route("Product/LoadMoreProducts")]
+        public ActionResult LoadMoreProducts(
+              int page,
+              int pageSize,
+              string q = "",
+              string sort = "new",
+              string filter = "",
+              string name = "")
         {
-            var query = db.Products.Include(p => p.Orders).AsQueryable();
+            var query = db.Products.AsQueryable();
 
-            // سرچ
-            if (!string.IsNullOrEmpty(q))
+            // 🔎 اگر name اومده (مثلاً پارس ELX) → محصولات همان دسته و زیر دسته‌ها
+            if (!string.IsNullOrEmpty(name))
             {
-                query = query.Where(p => p.PersianName.Contains(q) || p.EnglishName.Contains(q));
+                var baseCategories = db.Categories
+                                       .Where(c => c.PersianName == name)
+                                       .Select(c => c.Id)
+                                       .ToList();
+
+                var allCategoryIds = db.Categories
+                                       .Where(c => baseCategories.Contains(c.Id) ||
+                                                   baseCategories.Contains(c.ParentId ?? 0))
+                                       .Select(c => c.Id)
+                                       .ToList();
+
+                query = query.Where(p => allCategoryIds.Contains(p.CategoryId));
             }
 
-            // فیلتر چیپ‌ها
-            if (filter == "inStock")
-                query = query.Where(p => p.Stock > 0);
-            else if (filter == "special")
-                query = query.Where(p => p.IsSpecial); // فرض کن فیلد IsSpecial داری
-            else if (filter == "hasImage")
-                query = query.Where(p => !string.IsNullOrEmpty(p.SiteFirstImage));
+            // 🔎 سرچ
+            if (!string.IsNullOrEmpty(q))
+            {
+                query = query.Where(p =>
+                    p.PersianName.Contains(q) ||
+                    p.EnglishName.Contains(q) ||
+                    p.Description.Contains(q));
+            }
 
-            // مرتب‌سازی
+            // 🔎 فیلتر چیپ‌ها
+            switch (filter)
+            {
+                case "inStock":
+                    query = query.Where(p => p.Stock > 0);
+                    break;
+                case "special":
+                    query = query.Where(p => p.IsSpecial);
+                    break;
+                case "hasImage":
+                    query = query.Where(p => !string.IsNullOrEmpty(p.SiteFirstImage));
+                    break;
+            }
+
+            // 🔎 مرتب‌سازی
             switch (sort)
             {
                 case "bestsellers":
-                    query = query.OrderByDescending(p => p.Orders.Count()); // باید فیلد فروش داشته باشی
+                    query = query.OrderByDescending(p => p.Orders.Count());
                     break;
                 case "expensive":
                     query = query.OrderByDescending(p =>
@@ -251,7 +284,6 @@ namespace GladcherryShopping.Controllers
                             ? (p.UnitPrice - (p.UnitPrice * p.DiscountPercent / 100))
                             : p.UnitPrice);
                     break;
-
                 case "cheap":
                     query = query.OrderBy(p =>
                         (p.DiscountPercent > 0)
@@ -262,11 +294,33 @@ namespace GladcherryShopping.Controllers
                     query = query.OrderByDescending(p => p.DiscountPercent);
                     break;
                 default: // new
-                    query = query.OrderByDescending(p => p.Id); // یا تاریخ ثبت محصول
+                    query = query.OrderByDescending(p => p.CreateDate);
                     break;
             }
 
-            var products = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            var total = query.Count();
+
+            // 📌 صفحه‌بندی
+            var products = query
+                           .Skip((page - 1) * pageSize)
+                           .Take(pageSize)
+                           .ToList();
+
+            ViewBag.HasMore = total > page * pageSize;
+            ViewBag.Page = page;
+
+            // 📌 فقط وقتی صفحه اول هست و دیتایی نداره → پیام اختصاصی
+            if (!products.Any() && page == 1)
+            {
+                ViewBag.NoMore = true; // 👈 فلگ اضافه
+                return PartialView("_NoProductsPartial");
+            }
+
+            // 📌 صفحات بعدی و خالی → هیچ چیزی نفرست
+            if (!products.Any())
+            {
+                return Content("");
+            }
 
             return PartialView("_ProductListPartial", products);
         }

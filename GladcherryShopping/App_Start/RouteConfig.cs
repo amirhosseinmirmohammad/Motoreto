@@ -13,11 +13,19 @@ namespace GladcherryShopping
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapMvcAttributeRoutes();
+
             routes.MapRoute(
             name: "ProductDetailsBySefUrl",
             url: "Product/{sefUrl}",
             defaults: new { controller = "Product", action = "Details" }
             );
+
+            routes.MapRoute(
+    name: "ByCar",
+    url: "product/bycar/{name}",
+    defaults: new { controller = "Product", action = "ByCar", name = UrlParameter.Optional }
+);
 
             routes.MapRoute(
                name: "BlogsList",
@@ -37,12 +45,6 @@ namespace GladcherryShopping
                 defaults: new { controller = "Blog", action = "Index", id = UrlParameter.Optional, sefUrl = UrlParameter.Optional }
             );
 
-            routes.MapRoute(
-                name: "ByCar",
-                url: "product/bycar/{name}",
-                defaults: new { controller = "Product", action = "ByCar", name = UrlParameter.Optional }
-            );
-            
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

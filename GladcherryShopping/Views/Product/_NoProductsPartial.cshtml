@@ -1,0 +1,41 @@
+﻿@* نمایش پیام وقتی هیچ محصولی یافت نشد *@
+<style>
+    .products-grid {
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+    .animate-spin {
+        animation: spin 2s linear infinite;
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
+<div class="no-products text-center" style="direction: rtl; padding: 60px;">
+    <!-- SVG متحرک -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"
+         viewBox="0 0 24 24" stroke="#ff6600" stroke-width="1.5"
+         fill="none" stroke-linecap="round" stroke-linejoin="round"
+         class="animate-spin">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <h3 style="margin-top:20px; color:#555; font-weight:bold; direction:rtl;">
+        محصولی یافت نشد
+    </h3>
+</div>
+
+@if (ViewBag.NoMore == true)
+{
+    <div class="end-of-list" style="display:none;"></div> <!-- 👈 تگ پایان -->
+}
+

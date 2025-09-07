@@ -231,38 +231,40 @@
                     <div class="product-carousel">
                         @foreach (var item in content.Products.Include(current => current.Orders).OrderByDescending(current => current.Orders.Count()).ToList())
                         {
-                            <div class="single-product">
-                                <div class="product-f-image">
-                                    @if (item.SiteFirstImage != null)
-                                    {
-                                        <img src="@item.SiteFirstImage" alt="@item.PersianName" title="@item.PersianName">
-                                    }
-                                    else
-                                    {
-                                        <img src="~/images/sadr_logo.png" alt="@item.PersianName" title="@item.PersianName">
-                                    }
-                                </div>
-
-                                <div class="product-title">
-
-                                    <h2><a href="/Product/@item.SefUrl">@GladCherryShopping.Helpers.FunctionsHelper.Truncate(item.PersianName, 120)</a></h2>
-
-                                    <div class="product-carousel-price">
-                                        @if (item.DiscountPercent > 0)
+                            <a href="/Product/@item.SefUrl">
+                                <div class="single-product">
+                                    <div class="product-f-image">
+                                        @if (item.SiteFirstImage != null)
                                         {
-                                            int pricewithdiscount = item.UnitPrice - (item.UnitPrice) * (item.DiscountPercent) / 100;
-
-                                            <ins>@string.Format("{0:n0}", pricewithdiscount) ریال</ins>
-                                            <del>@string.Format("{0:n0}", item.UnitPrice)</del>
-
+                                            <img src="@item.SiteFirstImage" alt="@item.PersianName" title="@item.PersianName">
                                         }
                                         else
                                         {
-                                            <ins>@string.Format("{0:n0}", item.UnitPrice) ریال</ins>
+                                            <img src="~/images/sadr_logo.png" alt="@item.PersianName" title="@item.PersianName">
                                         }
                                     </div>
+
+                                    <div class="product-title">
+
+                                        <h2>@GladCherryShopping.Helpers.FunctionsHelper.Truncate(item.PersianName, 120)</h2>
+
+                                        <div class="product-carousel-price">
+                                            @if (item.DiscountPercent > 0)
+                                            {
+                                                int pricewithdiscount = item.UnitPrice - (item.UnitPrice) * (item.DiscountPercent) / 100;
+
+                                                <ins>@string.Format("{0:n0}", pricewithdiscount) ریال</ins>
+                                                <del>@string.Format("{0:n0}", item.UnitPrice)</del>
+
+                                            }
+                                            else
+                                            {
+                                                <ins>@string.Format("{0:n0}", item.UnitPrice) ریال</ins>
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         }
                     </div>
                 </div>

@@ -63,7 +63,8 @@
 </div>
 @if (slider.Count() > 0)
 {
-    <br /><br />
+    <br />
+    <br />
     int i = 0;
     int j = 0;
     <!-- Start WOWSlider.com BODY section -->
@@ -570,6 +571,10 @@
             {
                 animateClass: 'animated',
                 offset: 100,
+                autoPlay: true,  // ✅ این روشنه
+                loop: true,
+                fullScreen: true,
+                gestures: 2
                 callback: function (box) {
                 }
             }
@@ -698,10 +703,10 @@
                         var html = "";
                         res.Data.forEach(function (item) {
                             html += `<li>
-                                         <a href="/product/all/${item.Id}">
-                                         <i class="fa fa-angle-left"></i> ${item.Name}
-                                         </a>
-                                    </li>`;
+                                             <a href="/product/all/${item.Id}">
+                                             <i class="fa fa-angle-left"></i> ${item.Name}
+                                             </a>
+                                        </li>`;
                         });
                         $list.html(html);
                     } else {

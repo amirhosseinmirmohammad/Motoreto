@@ -15,8 +15,98 @@
 }
 
 @section Styles{
+    <style>
+        /* استایل چیپ‌ها */
+        .chips {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .chip {
+            padding: 8px 14px;
+            border-radius: 16px;
+            background: #f0f0f0;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .chip.active {
+            background: #ff6600;
+            color: #fff;
+        }
+
+        /* بک‌دراپ پشت مودال */
+        .sort-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 9998;
+        }
+        .sort-backdrop.active {
+            display: block;
+        }
+
+        /* مودال مرتب‌سازی (bottom sheet) */
+        .sort-sheet {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: -100%;
+            background: #fff;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+            transition: bottom 0.3s ease-in-out;
+            z-index: 9999;
+        }
+        .sort-sheet.active {
+            bottom: 0;
+        }
+        .sort-sheet .sheet-content {
+            padding: 20px;
+        }
+        .sort-sheet ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .sort-sheet ul li {
+            padding: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+        .sort-sheet ul li:hover {
+            background: #f9f9f9;
+        }
+
+        /* لودر */
+        .spinner {
+            animation: rotate 2s linear infinite;
+            width: 50px;
+            height: 50px;
+        }
+        .spinner .path {
+            stroke: #ff6600;
+            stroke-linecap: round;
+            animation: dash 1.5s ease-in-out infinite;
+        }
+        @@keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+        @@keyframes dash {
+            0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
+            50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
+            100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
+        }
+    </style>
 }
+
 <br />
+
 <div class="list-toolbar">
     <!-- سرچ -->
     <div class="searchbar-wide">
@@ -24,7 +114,7 @@
         <input id="q" type="search" placeholder="جستجو در محصولات…" />
     </div>
 
-    <!-- مرتب‌سازی به شکل چیپ -->
+    <!-- چیپ‌های فیلتر -->
     <div class="chips" id="chips">
         <div class="chip active" data-filter="">همه</div>
         <div class="chip" data-filter="inStock">موجود</div>
@@ -33,6 +123,9 @@
         <div class="chip sort-chip" id="open-sort">🔽 مرتب‌سازی</div>
     </div>
 </div>
+
+<!-- Backdrop -->
+<div id="sort-backdrop" class="sort-backdrop"></div>
 
 <!-- Bottom Sheet برای sort -->
 <div id="sort-sheet" class="sort-sheet">
@@ -48,32 +141,14 @@
     </div>
 </div>
 
+<!-- کانتینر محصولات -->
 <div class="container">
     <div id="product-container" class="products-grid"></div>
     <div id="infinite-sentinel"></div>
     <div id="loader" class="text-center" style="display:none">
-        <!-- SVG Loader -->
         <svg class="spinner" viewBox="0 0 50 50">
             <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
         </svg>
-    </div>
-</div>
-
-<div class="container blog_header">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="text-center">
-                <h1>لیست محصولات</h1>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div id="product-container" class="products-grid"></div>
-    <div id="infinite-sentinel"></div>
-    <div id="loader" class="text-center" style="display:none">
-        <img src="~/images/loader.gif" alt="Loading..." />
     </div>
 </div>
 
@@ -81,38 +156,78 @@
     <script>
         let page = 1;
         let isLoading = false;
+        let hasMore = true;
         const pageSize = 8;
         let q = "";
         let sort = "new";
         let filter = "";
 
-        // 🚀 تابع لود محصولات
         function loadMoreProducts(reset = false) {
-            if (isLoading) return;
-            isLoading = true;
-
             if (reset) {
                 page = 1;
+                hasMore = true;
                 $("#product-container").empty();
+                $(window).off("scroll");
+                bindScroll();
             }
 
+            if (isLoading || !hasMore) return;
+            isLoading = true;
             $("#loader").show();
 
             $.ajax({
-                url: '/Product/LoadMoreProducts',
+                url: '@Url.Action("LoadMoreProducts", "Product")',
                 type: "GET",
-                data: { page, pageSize, q, sort, filter },
+                data: {
+                    page: page,
+                    pageSize: pageSize,
+                    q: q,
+                    sort: sort,
+                    filter: filter,
+                    name: "@ViewBag.CarName"
+                },
                 success: function (data) {
-                    if ($.trim(data) !== "") {
-                        $("#product-container").append(data);
+                    let trimmed = $.trim(data);
+                    if (trimmed !== "") {
+                        let $html = $(trimmed);
+                        $("#product-container").append($html);
                         page++;
+
+                        if ($("#product-container .end-of-list").length > 0) {
+                            hasMore = false;
+                            $(window).off("scroll");
+                        }
+                    } else {
+                        if (page === 1) {
+                            $("#product-container").html(`
+                                <div class="no-products text-center" style="direction: rtl; padding: 60px;">
+                                    <h3 style="margin-top:20px; color:#555; font-weight:bold; direction:rtl;">
+                                        محصولی یافت نشد
+                                    </h3>
+                                </div>
+                            `);
+                        }
+                        hasMore = false;
+                        $(window).off("scroll");
                     }
-                    isLoading = false;
                     $("#loader").hide();
+                    isLoading = false;
                 },
                 error: function () {
                     isLoading = false;
                     $("#loader").hide();
+                }
+            });
+        }
+
+        function bindScroll() {
+            $(window).on("scroll", function () {
+                const scrollTop = $(window).scrollTop();
+                const windowHeight = $(window).height();
+                const containerBottom = $("#product-container").offset().top + $("#product-container").outerHeight();
+
+                if (scrollTop + windowHeight >= containerBottom - 200) {
+                    loadMoreProducts();
                 }
             });
         }
@@ -124,47 +239,38 @@
         });
 
         // 📌 فیلتر چیپ‌ها
-        $("#chips .chip").on("click", function () {
-            if ($(this).attr("id") === "open-sort") return; // جدا برای sort
+        $(document).on("click", "#chips .chip", function () {
+            if ($(this).attr("id") === "open-sort") return;
             $("#chips .chip").removeClass("active");
             $(this).addClass("active");
             filter = $(this).data("filter");
             loadMoreProducts(true);
         });
 
-        // 📌 باز کردن bottom sheet مرتب‌سازی
-        $("#open-sort").on("click", function () {
+        // 📌 باز کردن مودال مرتب‌سازی
+        $(document).on("click", "#open-sort", function () {
             $("#sort-sheet").addClass("active");
+            $("#sort-backdrop").addClass("active");
         });
 
-        // 📌 انتخاب آیتم sort
-        $("#sort-sheet ul li").on("click", function () {
+        // 📌 انتخاب sort
+        $(document).on("click", "#sort-sheet ul li", function () {
             sort = $(this).data("value");
             $("#sort-sheet").removeClass("active");
+            $("#sort-backdrop").removeClass("active");
             loadMoreProducts(true);
         });
 
-        // 📌 بستن sheet وقتی بیرون کلیک شد
-        $(document).on("click", function (e) {
-            if ($(e.target).closest(".sheet-content, #open-sort").length === 0) {
-                $("#sort-sheet").removeClass("active");
-            }
+        // 📌 کلیک روی بک‌دراپ → بستن مودال
+        $(document).on("click", "#sort-backdrop", function () {
+            $("#sort-sheet").removeClass("active");
+            $("#sort-backdrop").removeClass("active");
         });
 
-        // 📌 اینفینیت اسکرول
-        $(window).on("scroll", function () {
-            const scrollTop = $(window).scrollTop();
-            const windowHeight = $(window).height();
-            const containerBottom = $("#product-container").offset().top + $("#product-container").outerHeight();
-
-            if (scrollTop + windowHeight >= containerBottom - 200) {
-                loadMoreProducts();
-            }
-        });
-
-        // 🚀 بارگذاری اولین سری
+        // 🚀 شروع اولیه
         $(document).ready(function () {
             loadMoreProducts();
+            bindScroll();
         });
     </script>
 }
