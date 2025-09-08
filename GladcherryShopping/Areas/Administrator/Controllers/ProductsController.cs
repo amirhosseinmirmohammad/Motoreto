@@ -68,9 +68,21 @@ namespace GladcherryShopping.Areas.Administrator.Controllers
         // GET: Administrator/Products/Create
         public ActionResult Create()
         {
+            var categories = db.Categories
+                .Select(c => new
+                {
+                    c.Id,
+                    Name = (c.Parent != null
+                        ? c.Parent.PersianName + " - " + c.PersianName
+                        : c.PersianName)
+                })
+                .ToList();
+
+            ViewBag.CategoryId = new SelectList(categories, "Id", "Name");
+
             var products = db.Products;
             ViewBag.Related = new MultiSelectList(products, "Id", "FullName");
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "PersianName");
+
             return View();
         }
 
@@ -212,7 +224,16 @@ namespace GladcherryShopping.Areas.Administrator.Controllers
             }
             else
             {
-                ViewBag.CategoryId = new SelectList(db.Categories, "Id", "PersianName", product.CategoryId);
+                var categories = from c in db.Categories
+                                 join p in db.Categories on c.ParentId equals p.Id into parents
+                                 from p in parents.DefaultIfEmpty()
+                                 select new
+                                 {
+                                     c.Id,
+                                     Name = (p != null ? p.PersianName + " - " + c.PersianName : c.PersianName)
+                                 };
+
+                ViewBag.CategoryId = new SelectList(categories.ToList(), "Id", "Name", product.CategoryId);
                 return View(product);
             }
         }
@@ -229,7 +250,16 @@ namespace GladcherryShopping.Areas.Administrator.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "PersianName", product.CategoryId);
+            var categories = from c in db.Categories
+                             join p in db.Categories on c.ParentId equals p.Id into parents
+                             from p in parents.DefaultIfEmpty()
+                             select new
+                             {
+                                 c.Id,
+                                 Name = (p != null ? p.PersianName + " - " + c.PersianName : c.PersianName)
+                             };
+
+            ViewBag.CategoryId = new SelectList(categories.ToList(), "Id", "Name", product.CategoryId);
             var products = db.Products;
             ViewBag.Related = new MultiSelectList(products, "Id", "FullName", product.RelatedProducts.Select(current => current.Id));
             return View(product);
@@ -443,7 +473,16 @@ namespace GladcherryShopping.Areas.Administrator.Controllers
                 TempData["Success"] = "محصول مورد نظر با موفقیت ویرایش شد .";
                 return RedirectToAction("Index");
             }
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "PersianName", product.CategoryId);
+            var categories = from c in db.Categories
+                             join p in db.Categories on c.ParentId equals p.Id into parents
+                             from p in parents.DefaultIfEmpty()
+                             select new
+                             {
+                                 c.Id,
+                                 Name = (p != null ? p.PersianName + " - " + c.PersianName : c.PersianName)
+                             };
+
+            ViewBag.CategoryId = new SelectList(categories.ToList(), "Id", "Name", product.CategoryId);
             return View(product);
         }
 
