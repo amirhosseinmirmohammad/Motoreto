@@ -21,6 +21,316 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+        :root {
+            --primary: #1a56db;
+            --primary2: #0ea5e9;
+            --text: #0f172a;
+            --muted: #9aa4b2;
+            --card: #fff;
+            --line: #e6e8ec;
+        }
+
+        body {
+            background: #f7f8fb;
+            color: var(--text);
+            direction: rtl;
+        }
+
+        h1.error {
+            margin: 0 0 32px !important;
+            font-weight: 800;
+            letter-spacing: .01em;
+        }
+
+        /* کانتینر دو ستونه */
+        .w3layouts-two-grids .mid-class {
+            max-width: 1100px;
+            margin: 0 auto 48px;
+            padding: 0 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        @@media (max-width:992px) {
+            .w3layouts-two-grids .mid-class {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+        }
+
+        /* کارت‌ها */
+        .txt-left-side, .img-right-side {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 15px 45px rgba(0,0,0,.06);
+        }
+
+            .txt-left-side h2 {
+                margin: 0 0 18px;
+                font-weight: 800;
+            }
+
+            .img-right-side h3 {
+                margin-top: 0;
+                font-weight: 800;
+            }
+
+            .img-right-side p {
+                color: #6b7280;
+                margin-bottom: 18px;
+            }
+
+            .img-right-side img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 12px;
+                box-shadow: 0 10px 30px rgba(0,0,0,.08);
+            }
+
+        /* گروه OTP */
+        .otp-label {
+            display: block;
+            font-weight: 700;
+            margin: 4px 0 10px;
+        }
+
+        .otp-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            direction: ltr;
+            user-select: none;
+        }
+
+            .otp-inputs .otp {
+                width: 44px;
+                height: 52px;
+                text-align: center;
+                font-size: 22px;
+                font-weight: 800;
+                border-radius: 12px;
+                border: 1px solid var(--line);
+                outline: 0;
+                transition: border-color .2s, box-shadow .2s, transform .1s, background .2s;
+                background: #fff;
+            }
+
+                .otp-inputs .otp:focus {
+                    border-color: var(--primary2);
+                    box-shadow: 0 0 0 4px rgba(14,165,233,.15);
+                    transform: translateY(-1px);
+                }
+
+        .otp-helper {
+            margin-top: 8px;
+            color: #6b7280;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        /* دکمه اصلی */
+        .btnn button {
+            width: 100%;
+            height: 50px;
+            border-radius: 14px;
+            border: 0;
+            font-weight: 800;
+            font-size: 15px;
+            color: #fff;
+            letter-spacing: .02em;
+            background: linear-gradient(135deg,var(--primary),var(--primary2));
+            box-shadow: 0 8px 22px rgba(26,86,219,.25), 0 2px 0 rgba(0,0,0,.04) inset;
+            transition: .2s ease;
+        }
+
+            .btnn button:hover:not([disabled]) {
+                transform: translateY(-1px);
+                box-shadow: 0 12px 28px rgba(26,86,219,.32);
+            }
+
+            .btnn button[disabled] {
+                filter: grayscale(20%);
+                opacity: .6;
+                cursor: not-allowed;
+                box-shadow: none;
+            }
+
+            .btnn button.loading {
+                position: relative;
+                pointer-events: none;
+            }
+
+                .btnn button.loading::after {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    border-radius: inherit;
+                    background: rgba(255,255,255,.12);
+                }
+
+        /* تایمر و ارسال مجدد */
+        .timer-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .timer {
+            font-weight: 800;
+            padding: 6px 12px;
+            border: 1px dashed var(--line);
+            border-radius: 999px;
+            background: #fff;
+            direction: ltr;
+        }
+
+        a.resend {
+            font-weight: 800;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 12px;
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+            a.resend.disabled {
+                opacity: .5;
+                pointer-events: none;
+            }
+
+        /* اگر OTP نخواستی، این استایل برای input تک‌فیلدی */
+        .form-left-to-w3l {
+            position: relative;
+            margin-bottom: 14px;
+        }
+
+            .form-left-to-w3l > span {
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--muted);
+                font-size: 18px;
+                pointer-events: none;
+                transition: .2s;
+            }
+
+            .form-left-to-w3l input[type="text"] {
+                width: 100%;
+                height: 48px;
+                border-radius: 14px;
+                border: 1px solid var(--line);
+                background: #fff;
+                padding: 0 44px 0 14px;
+                outline: 0;
+                font-size: 16px;
+                color: var(--text);
+            }
+
+                .form-left-to-w3l input[type="text"]:focus {
+                    border-color: var(--primary2);
+                    box-shadow: 0 0 0 4px rgba(14,165,233,.15);
+                }
+            /* آیکنِ فیلد کد ارسالی سمت چپ + جا برای padding چپ */
+            .form-left-to-w3l:has(input[name="Code"]) > span {
+                left: 12px;
+                right: auto;
+            }
+
+            .form-left-to-w3l:has(input[name="Code"]) input[name="Code"] {
+                padding: 0 14px 0 44px !important;
+            }
+
+        .code-field > span {
+            left: 12px;
+            right: auto;
+        }
+
+        .code-field input[name="Code"] {
+            padding: 0 14px 0 44px !important;
+        }
+        /* تایمر فارسی با چینش درست دقیقه:ثانیه */
+        #wonderful {
+            direction: rtl;
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: .05em;
+        }
+
+            #wonderful .time-ltr {
+                direction: ltr;
+                unicode-bidi: isolate;
+                display: inline-block;
+                font-variant-numeric: tabular-nums;
+            }
+        /* آیکن فیلد کد سمت چپ + padding چپ */
+        .form-left-to-w3l.code-field > span {
+            left: 12px;
+            right: auto;
+        }
+
+        .form-left-to-w3l.code-field input[name="Code"] {
+            padding: 0 14px 0 44px !important;
+        }
+
+        /* خنثی‌کردن underline قدیمی و یک‌دست‌سازی کادر */
+        .txt-left-side .form-left-to-w3l input[name="Code"] {
+            border: 1px solid var(--line) !important;
+            border-bottom: 1px solid var(--line) !important; /* جلوگیری از خط زیرین */
+            border-radius: 14px !important;
+            background: #fff !important;
+            box-shadow: none !important;
+            height: 48px !important;
+            text-align: center;
+        }
+
+            /* placeholder فارسی و چسبیده (بدون letter-spacing) */
+            .txt-left-side .form-left-to-w3l input[name="Code"]::placeholder {
+                letter-spacing: 0;
+            }
+
+            /* فقط وقتی کاربر رقم وارد کرد → ارقام با فاصله و LTR */
+            .txt-left-side .form-left-to-w3l input[name="Code"]:not(:placeholder-shown) {
+                direction: ltr;
+                text-align: center;
+                letter-spacing: .30em;
+                font-weight: 800;
+            }
+
+            /* هنگام placeholder → راست‌چین بماند تا طبیعی دیده شود */
+            .txt-left-side .form-left-to-w3l input[name="Code"]:placeholder-shown {
+                direction: rtl;
+                text-align: center;
+            }
+
+            /* فوکوس جذاب */
+            .txt-left-side .form-left-to-w3l input[name="Code"]:focus {
+                border-color: var(--primary2) !important;
+                box-shadow: 0 0 0 4px rgba(14,165,233,.15) !important;
+                transform: translateY(-1px);
+            }
+
+        #wonderful {
+            direction: rtl;
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: .05em;
+        }
+
+            #wonderful .time-ltr {
+                direction: ltr;
+                unicode-bidi: isolate;
+                display: inline-block;
+                font-variant-numeric: tabular-nums;
+            }
+    </style>
 </head>
 <body>
     <h1 class="error">تایید شماره موبایل</h1>
@@ -28,13 +338,6 @@
     <div class="w3layouts-two-grids">
         <!---728x90--->
         <div class="mid-class">
-            <div class="img-right-side">
-                <h3>فروش آنلاین قطعات خودرو</h3>
-                <p>
-                    لطفا کد ارسالی از طریق پیامک را وارد نمایید
-                </p>
-                <img src="@Url.Content("~/images/Tashrifatnurses_mockup.png")" class="img-fluid" alt="حساب کاربری">
-            </div>
             <div class="txt-left-side">
                 <h2> ارسال اطلاعات </h2>
                 <form method="post" action="/Account/ApproveNumber">
@@ -48,56 +351,10 @@
                     </div>
                     <div class="btnn">
                         <button disabled type="submit">تایید </button>
-                        <br />
-                        <p style="font-size:17px !important; color:#e31e24 !important;padding-top:75px !important; direction:ltr !important;padding-top:0px !important;" id="wonderful" class="text-center">
-                        </p>
+                        <br /><br />
+                        <p id="wonderful" class="text-center timer-fa"></p>
                     </div>
-                    <br />
-                    <script>
-                        // Set the date we're counting down to
-            @{
-                var finalDate = DateTime.Now.AddDays(Convert.ToDouble(0)).AddHours(Convert.ToDouble(2)).AddMinutes(Convert.ToDouble(2));
-            }
-
-                        var twentyMinutesLater = new Date();
-                        twentyMinutesLater.setMinutes(twentyMinutesLater.getMinutes() + 2);
-
-                        //August 15, 2019 11:36:5
-
-                        // Update the count down every 1 second
-                        var x = setInterval(function () {
-
-                            // Get today's date and time
-                            var now = new Date().getTime();
-
-                            // Find the distance between now and the count down date
-                            var distance = twentyMinutesLater - now;
-
-                            // Time calculations for days, hours, minutes and seconds
-                            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                            // Output the result in an element with id="demo"
-                            document.getElementById("wonderful").innerHTML = minutes + " : " + seconds + " ";
-
-                            // If the count down is over, write some text
-                            if (distance < 0) {
-                                clearInterval(x);
-                                document.getElementById("wonderful").innerHTML = "<a href=/Account/ResendVerificationCode?PhoneNumber=@Request.QueryString["PhoneNumber"]>ارسال مجدد کد</a>";
-                            }
-                        }, 1000);
-                    </script>
                 </form>
-                <div class="w3layouts_more-buttn">
-                    <h3>
-                        با مجموعه موتورتو آشنایی دارید ؟ &nbsp;
-                        <a href="/aboutus">
-                            درباره ما
-                        </a>
-                    </h3>
-                </div><br />
                 <div class="w3layouts_more-buttn">
                     <h3>
                         ارتباط با پشتیبانی :
@@ -112,6 +369,13 @@
                 </div>
                 <div class="clear"></div>
             </div>
+            <div class="img-right-side">
+                <h3>فروش آنلاین قطعات خودرو</h3>
+                <p>
+                    لطفا کد ارسالی از طریق پیامک را وارد نمایید
+                </p>
+                <img src="@Url.Content("~/images/Tashrifatnurses_mockup.png")" class="img-fluid" alt="حساب کاربری">
+            </div>
         </div>
     </div>
     <!---728x90--->
@@ -120,7 +384,7 @@
     </footer>
     @if (TempData["Error"] != null)
     {
-    <!-- Modal -->
+        <!-- Modal -->
         <div class="modal fade" id="myModal" role="dialog" style="margin-top:80px;text-align:right;direction:rtl;">
             <div class="modal-dialog">
                 <!-- Modal content-->
@@ -140,8 +404,74 @@
         </div>
     }
     <script>
-        $(document).ready(function () {
-            $("#myModal").modal();
+  // مبدل اعداد انگلیسی→فارسی
+  function toFaDigits(s){
+    return String(s).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+  }
+
+  // تایمر دو دقیقه‌ای
+  (function(){
+    var end = Date.now() + 120000; // 120 ثانیه
+    var el = document.getElementById('wonderful');
+
+    var iv = setInterval(function(){
+      var left = Math.max(0, end - Date.now());
+      var m = String(Math.floor(left/60000)).padStart(2,'0');
+      var s = String(Math.floor((left%60000)/1000)).padStart(2,'0');
+
+        el.innerHTML = '<span class="time-ltr">' + toFaDigits(m) + ' : ' + toFaDigits(s) + '</span>';
+
+      if(left <= 0){
+        clearInterval(iv);
+        el.innerHTML = '<a href="/Account/ResendVerificationCode?PhoneNumber=@Request.QueryString["PhoneNumber"]">ارسال مجدد کد</a>';
+      }
+    }, 1000);
+  })();
+    </script>
+    <script>
+        $(function () {
+            $('input[name="Code"]').closest('.form-left-to-w3l').addClass('code-field');
+        });
+    </script>
+    <script>
+        $(function () {
+            const LEN = 6;                         // اگر کد 4/5 رقمیه، تغییر بده
+            const $code = $('input[name="Code"]');
+            const $btn = $('.btnn button[type="submit"]');
+
+            function toEnDigits(s) {
+                return String(s)
+                    .replace(/[۰-۹]/g, d => String(d.charCodeAt(0) - 1776))
+                    .replace(/[٠-٩]/g, d => String(d.charCodeAt(0) - 1632));
+            }
+            function sanitize() {
+                const v = toEnDigits($code.val()).replace(/\D/g, '').slice(0, LEN);
+                $code.val(v);
+                $btn.prop('disabled', v.length !== LEN);
+            }
+
+            // بهبود ورودی
+            $code.attr({
+                inputmode: 'numeric',
+                autocomplete: 'one-time-code',
+                dir: 'ltr',
+                pattern: `\\d{${LEN}}`
+            }).css({
+                textAlign: 'center',
+                letterSpacing: '.30em',
+                fontWeight: '800'
+            });
+
+            $code.on('input', sanitize);
+            sanitize();
+
+            // حالت لود روی ارسال
+            $('form[action="/Account/ApproveNumber"]').on('submit', function () {
+                $btn.addClass('loading').text('در حال تایید…');
+            });
+
+            // آیکنِ کد سمت چپ (فالبک بدون :has)
+            $code.closest('.form-left-to-w3l').addClass('code-field');
         });
     </script>
 </body>
