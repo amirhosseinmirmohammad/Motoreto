@@ -1,98 +1,325 @@
-﻿@{ Layout = null;}
+﻿@{ Layout = null; }
 <!DOCTYPE html>
 <html lang="fa">
-
 <head>
     <title>ورود</title>
-    <!-- Meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="حساب کاربری" />
-    <script>
-        addEventListener("load", function () { setTimeout(hideURLbar, 0); }, false); function hideURLbar() { window.scrollTo(0, 1); }
-    </script>
-    <!-- Meta tags -->
-    <!-- font-awesome icons -->
-    <link rel="stylesheet" href="~/css/font-awesome.min.css" /><!-- fontawesome-CSS -->
-    <!-- //font-awesome icons -->
-    <!--stylesheets-->
+    <script>addEventListener("load", function () { setTimeout(hideURLbar, 0) }, false); function hideURLbar() { window.scrollTo(0, 1); }</script>
+
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" />
     <link href="~/Content/account/style.css" rel="stylesheet" />
-    <!--//style sheet end here-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #1a56db;
+            --primary2: #0ea5e9;
+            --text: #0f172a;
+            --muted: #9aa4b2;
+            --card: #fff;
+            --line: #e6e8ec;
+        }
+
+        body {
+            background: #f7f8fb;
+            color: var(--text);
+            direction: rtl;
+        }
+
+        h1.error {
+            margin: 0 0 32px !important;
+            font-weight: 800;
+            letter-spacing: .01em;
+        }
+
+        /* گرید دو ستونه */
+        .w3layouts-two-grids .mid-class {
+            max-width: 1100px;
+            margin: 0 auto 48px;
+            padding: 0 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        @@media (max-width:992px) {
+            .w3layouts-two-grids .mid-class {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+        }
+
+        /* کارت‌ها */
+        .txt-left-side {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 15px 45px rgba(0,0,0,.06);
+        }
+
+            .txt-left-side h2 {
+                margin: 0 0 18px;
+                font-weight: 800;
+            }
+
+        .img-right-side {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 15px 45px rgba(0,0,0,.06);
+            text-align: center;
+        }
+
+            .img-right-side h3 {
+                margin-top: 0;
+                font-weight: 800;
+            }
+
+            .img-right-side p {
+                color: #6b7280;
+                margin-bottom: 18px;
+            }
+
+            .img-right-side img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 12px;
+                box-shadow: 0 10px 30px rgba(0,0,0,.08);
+            }
+
+        /* گروه ورودی + آیکن */
+        .form-left-to-w3l {
+            position: relative;
+            margin-bottom: 14px;
+        }
+
+            .form-left-to-w3l > span {
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--muted);
+                font-size: 18px;
+                pointer-events: none;
+                transition: .2s;
+            }
+
+            .form-left-to-w3l:focus-within > span {
+                color: var(--primary2);
+                transform: translateY(-50%) scale(1.05);
+            }
+
+        /* استایل ورودی‌ها (override استایل قدیمی) */
+        .txt-left-side .form-left-to-w3l input {
+            -webkit-appearance: none;
+            appearance: none;
+            box-sizing: border-box;
+            display: block;
+            width: 100%;
+            height: 48px;
+            border: 1px solid var(--line) !important;
+            border-radius: 14px !important;
+            background: #fff !important;
+            color: var(--text);
+            outline: 0;
+            padding: 0 44px 0 14px; /* پیش‌فرض: آیکن راست */
+            transition: border-color .2s, box-shadow .2s, transform .1s;
+        }
+
+            .txt-left-side .form-left-to-w3l input::placeholder {
+                color: #b7bfca;
+            }
+
+            .txt-left-side .form-left-to-w3l input:focus {
+                border-color: var(--primary2) !important;
+                box-shadow: 0 0 0 4px rgba(14,165,233,.15) !important;
+                transform: translateY(-1px);
+            }
+
+        /* رفتار RTL/LTR برای تلفن */
+        .tell:placeholder-shown {
+            direction: rtl;
+            text-align: right;
+        }
+
+        .tell:not(:placeholder-shown) {
+            direction: ltr;
+            text-align: left;
+        }
+
+        /* آیکنِ موبایل بیرون از input – سمت چپ */
+        .form-left-to-w3l.icon-out-left {
+            margin-left: 32px;
+        }
+            /* فضا برای آیکن */
+            .form-left-to-w3l.icon-out-left > span {
+                left: -32px;
+                right: auto;
+            }
+
+            .form-left-to-w3l.icon-out-left input {
+                padding-left: 14px;
+            }
+        /* padding استاندارد */
+
+        /* دکمه اصلی */
+        .btnn button {
+            width: 100%;
+            height: 50px;
+            border-radius: 14px;
+            border: 0;
+            font-weight: 800;
+            font-size: 15px;
+            color: #fff;
+            letter-spacing: .02em;
+            background: linear-gradient(135deg,var(--primary),var(--primary2));
+            box-shadow: 0 8px 22px rgba(26,86,219,.25), 0 2px 0 rgba(0,0,0,.04) inset;
+            transition: .2s;
+        }
+
+            .btnn button:hover:not([disabled]) {
+                transform: translateY(-1px);
+                box-shadow: 0 12px 28px rgba(26,86,219,.32);
+            }
+
+            .btnn button:active:not([disabled]) {
+                transform: translateY(0);
+            }
+
+            .btnn button[disabled] {
+                filter: grayscale(20%);
+                opacity: .6;
+                cursor: not-allowed;
+                box-shadow: none;
+            }
+
+            .btnn button.loading {
+                position: relative;
+                pointer-events: none;
+            }
+
+                .btnn button.loading::after {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    border-radius: inherit;
+                    background: rgba(255,255,255,.12);
+                }
+
+                .btnn button.loading i {
+                    margin-left: 8px;
+                }
+    </style>
 </head>
+
 <body>
     <h1 class="error">ورود به موتورتو</h1>
-    <!---728x90--->
+
     <div class="w3layouts-two-grids">
-        <!---728x90--->
         <div class="mid-class">
-            <div class="img-right-side">
-                <h3>فروش آنلاین قطعات خودرو</h3>
-                <p>
-                    با ورود به حساب کاربری خود میتوانید سفارشات و گردش حساب خود را مدیریت کنید
-                </p>
-                <img src="@Url.Content("~/images/Tashrifatnurses_mockup.png")" class="img-fluid" alt="حساب کاربری">
-            </div>
             <div class="txt-left-side">
-                <h2> ارسال اطلاعات </h2>
+                <h2>ارسال اطلاعات</h2>
+
                 <form method="post" action="/Account/LoginUser">
                     @Html.AntiForgeryToken()
+
                     <div class="form-left-to-w3l">
                         <span class="fa fa-mobile" aria-hidden="true"></span>
-                        <input type="text" name="PhoneNumber" class="tell" placeholder="شماره موبایل" required>
+                        <input type="tel"
+                               name="PhoneNumber"
+                               class="tell"
+                               placeholder="شماره موبایل"
+                               inputmode="numeric"
+                               autocomplete="tel"
+                               maxlength="11"
+                               pattern="^09[0-9]{9}$"
+                               required>
                         <div class="clear"></div>
                     </div>
+
                     <div class="btnn">
-                        <button disabled type="submit">ورود </button>
+                        <button type="submit" disabled>ورود</button>
                     </div>
                 </form>
+
                 <div class="w3layouts_more-buttn">
-                    <h3>
-                        حساب کاربری ندارید ؟ &nbsp;
-                        <a href="/account/registeraccount">
-                            ثبت نام کاربران
-                        </a>
-                    </h3>
-                </div><br />
-                <div class="w3layouts_more-buttn">
-                    <a href="/">
-                        بازگشت به سایت
-                    </a>
+                    <h3>حساب کاربری ندارید؟ &nbsp;<a href="/account/registeraccount">ثبت‌نام کاربران</a></h3>
                 </div>
+                <br />
+                <div class="w3layouts_more-buttn"><a href="/">بازگشت به سایت</a></div>
                 <div class="clear"></div>
+            </div>
+
+            <div class="img-right-side">
+                <h3>فروش آنلاین قطعات خودرو</h3>
+                <p>با ورود به حساب کاربری خود می‌توانید سفارش‌ها و گردش حساب‌تان را مدیریت کنید.</p>
+                <img src="@Url.Content("~/images/Tashrifatnurses_mockup.png")" class="img-fluid" alt="حساب کاربری">
             </div>
         </div>
     </div>
-    <!---728x90--->
-    <footer class="copyrigh-wthree">
-        <p>تمامی حقوق برای موتورتو محفوظ است .</p>
-    </footer>
+
+    <footer class="copyrigh-wthree"><p>تمامی حقوق برای موتورتو محفوظ است.</p></footer>
+
     @if (TempData["Error"] != null)
     {
-    <!-- Modal -->
+        <!-- Modal -->
         <div class="modal fade" id="myModal" role="dialog" style="margin-top:80px;text-align:right;direction:rtl;">
             <div class="modal-dialog">
-                <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">وضعیت تایید</h4>
+                        <h4 class="modal-title">وضعیت ورود</h4>
                     </div>
-                    <div class="modal-body">
-                        <p class="text-danger">@TempData["Error"]</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
-                    </div>
+                    <div class="modal-body"><p class="text-danger">@TempData["Error"]</p></div>
+                    <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">بستن</button></div>
                 </div>
             </div>
         </div>
     }
+
+    <script>$(function () { $("#myModal").modal(); });</script>
+
+    <!-- فعال‌سازی دکمه + آیکن بیرونی -->
     <script>
-        $(document).ready(function () {
-            $("#myModal").modal();
+        // تبدیل ارقام فارسی/عربی به انگلیسی
+        function toEnDigits(s) {
+            return s.replace(/[۰-۹]/g, d => String(d.charCodeAt(0) - 1776))
+                .replace(/[٠-٩]/g, d => String(d.charCodeAt(0) - 1632));
+        }
+
+        $(function () {
+            // آیکن موبایل بیرون از input
+            $('[name="PhoneNumber"]').closest('.form-left-to-w3l').addClass('icon-out-left');
+
+            const $f = $('form[action="/Account/LoginUser"]');
+            const $btn = $f.find('.btnn button[type="submit"]');
+            const $pn = $f.find('[name="PhoneNumber"]');
+
+            function isValidPhone(v) { return /^09\d{9}$/.test(v.replace(/\s|-/g, '')); }
+            function updateState() { $btn.prop('disabled', !isValidPhone($pn.val())); }
+
+            $pn.on('input', function () {
+                this.value = toEnDigits(this.value).replace(/[^\d]/g, '').slice(0, 11);
+                updateState();
+            });
+
+            updateState();
+
+            $f.on('submit', function () {
+                $btn.addClass('loading').html('<i class="fa fa-spinner fa-spin"></i> در حال ورود');
+            });
+
+            // برای مرورگرهایی که :focus-within ندارند
+            $('.form-left-to-w3l input').on('focus blur', function (e) {
+                $(this).closest('.form-left-to-w3l').toggleClass('is-focus', e.type === 'focus');
+            });
         });
     </script>
 </body>

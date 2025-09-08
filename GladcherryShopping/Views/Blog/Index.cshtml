@@ -25,6 +25,11 @@
         <meta property="og:image" content="http://motoreto.ir/images/sadr_logo.png" />
         <meta name="twitter:image" content="http://motoreto.ir/images/sadr_logo.png">
     }
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="موتورتو | @Model.Title">
+    <meta name="twitter:description" content="@Model.MetaDesc">
+    <link rel="canonical" href="@Url.Action("Details","Blog", new { id = Model.Id, sefUrl = Model.SefUrl }, Request.Url.Scheme)" />
     <meta property="article:tag" content="@Model.Title" />
     <meta property="article:published_time" content="@GladCherryShopping.Helpers.FunctionsHelper.GetPersianDateTime((DateTime)Model.CreateDate,true,true)" />
     <meta property="article:section" content="@Model.Category.PersianName" />
@@ -70,6 +75,10 @@
                 border-right-color: #ddd;
                 border-width: 8px;
             }
+
+        .card {
+            min-height: initial !important
+        }
     </style>
     @{
         var url = "motoreto.ir";
@@ -77,134 +86,47 @@
         var body2 = Html.Raw(Model.Body);
         <link href="~/Content/blog.css" rel="stylesheet" />
     }
-    @if (Model.Images.Count() > 0)
-    {
-        <script type="application/ld+json">
-            {
-            "@@context": "http://schema.org",
-            "author": {
-            "@@type": "Person",
-            "name": "موتورتو"
-            },
-            "@@type": "BlogPosting",
-            "mainEntityOfPage":"/blog/@Model.Id/@Model.SefUrl",
-            "headline": "@Model.Title",
-            "about": "@Model.Title",
-            "alternativeHeadline": "@Model.Title.ToString()",
-            "image": "@url@Model.Images.FirstOrDefault().FullPath",
-            "award": "Best article ever written",
-            "editor": "موتورتو",
-            "keywords": "@Model.MetaKey",
-            "publisher": {
-            "@@type": "organization",
-            "name": "موتورتو",
-            "logo": {
-            "@@type": "ImageObject",
-            "url": "http://motoreto.ir/images/sadr_logo.png"
-            }
-            },
-            "inLanguage":"fa-IR",
-            "wordcount": "@Model.Body.Count()",
-            "genre":"@Model.Category.PersianName",
-            "url": "@Request.Url.AbsoluteUri",
-            "datePublished": "@Model.CreateDate.Value.Date",
-            "dateCreated": "@Model.CreateDate.Value.Date",
-            "dateModified": "@Model.CreateDate.Value.Date",
-            "description": "@Model.Title.ToString()",
-            "articleBody": "@Model.Title"
-            }
-        </script>
+    @{
+        var hasImage = Model.Images.Any();
+        var absUrl = Url.Action("Details", "Blog", new { id = Model.Id, sefUrl = Model.SefUrl }, Request.Url.Scheme);
+        var imgUrl = hasImage ? $"{Request.Url.Scheme}://{Request.Url.Host}{Model.Images.First().FullPath}" : "https://motoreto.ir/images/sadr_logo.png";
+        var iso = Model.CreateDate?.ToString("yyyy-MM-ddTHH:mm:ssK") ?? "";
+        var wordCount = (Model.Body ?? "").Split(new[] { ' ', '\n', '\r', '\t' }, StringSplitOptions.RemoveEmptyEntries).Length;
     }
-    else
-    {
-        <script type="application/ld+json">
-            {
-            "@@context": "http://schema.org",
-            "author": {
-            "@@type": "Person",
-            "name": "موتورتو"
-            },
-            "@@type": "BlogPosting",
-            "mainEntityOfPage":"/blog/@Model.Id/@Model.SefUrl",
-            "headline": "@Model.Title",
-            "about": "@Model.Title",
-            "alternativeHeadline": "@Model.Title.ToString()",
-            "image": "http://motoreto.ir/images/sadr_logo.png",
-            "award": "Best article ever written",
-            "editor": "موتورتو",
-            "keywords": "@Model.MetaKey",
-            "publisher": {
-            "@@type": "organization",
-            "name": "موتورتو",
-            "logo": {
-            "@@type": "ImageObject",
-            "url": "http://motoreto.ir/images/sadr_logo.png"
-            }
-            },
-            "inLanguage":"fa-IR",
-            "wordcount": "@Model.Body.Count()",
-            "genre":"@Model.Category.PersianName",
-            "datePublished": "@Model.CreateDate.Value.Date",
-            "dateCreated": "@Model.CreateDate.Value.Date",
-            "dateModified": "@Model.CreateDate.Value.Date",
-            "description": "@Model.Title.ToString()",
-            "articleBody": "@Model.Title"
-            }
-        </script>
-    }
+    <script type="application/ld+json">
+{
+  "@@context": "https://schema.org",
+  "@@type": "BlogPosting",
+  "mainEntityOfPage": "@absUrl",
+  "headline": "@Model.Title",
+  "image": "@imgUrl",
+  "author": { "@@type": "Person", "name": "موتورتو" },
+  "publisher": {
+    "@@type": "Organization",
+    "name": "موتورتو",
+    "logo": { "@@type": "ImageObject", "url": "https://motoreto.ir/images/sadr_logo.png" }
+  },
+  "inLanguage": "fa-IR",
+  "wordcount": "@wordCount",
+  "articleSection": "@Model.Category.PersianName",
+  "datePublished": "@iso",
+  "dateModified": "@iso",
+  "description": "@Model.MetaDesc"
+}
+    </script>
 
-    @if (Model.Images.Count() > 0)
-    {
-        <script type="application/ld+json">
-            {
-            "@@context": "http://schema.org",
-            "@@type": "BreadcrumbList",
-            "itemListElement": [{
-            "@@type": "ListItem",
-            "position": 1,
-            "item": {
-            "@@id": "http://motoreto.ir",
-            "name": "موتورتو",
-            "image": "http://motoreto.ir/images/sadr_logo.png"
-            }
-            },{
-            "@@type": "ListItem",
-            "position": 2,
-            "item": {
-            "@@id": "@Request.Url.AbsoluteUri",
-            "name": "موتورتو",
-            "image": "@url@Model.Images.FirstOrDefault().FullPath"
-            }
-            }]
-            }
-        </script>
-    }
-    else
-    {
-        <script type="application/ld+json">
-            {
-            "@@context": "http://schema.org",
-            "@@type": "BreadcrumbList",
-            "itemListElement": [{
-            "@@type": "ListItem",
-            "position": 1,
-            "item": {
-            "@@id": "http://motoreto.ir",
-            "name": "موتورتو",
-            "image": "http://motoreto.ir/images/sadr_logo.png"
-            }
-            },{
-            "@@type": "ListItem",
-            "position": 2,
-            "item": {
-            "@@id": "@Request.Url.AbsoluteUri",
-            "name": "موتورتو",
-            "image": "http://motoreto.ir/images/sadr_logo.png"
-            }
-            }]
-            }
-        </script>
-    }
+    <script type="application/ld+json">
+{
+  "@@context": "https://schema.org",
+  "@@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@@type": "ListItem", "position": 1,
+      "item": { "@@id": "https://motoreto.ir", "name": "موتورتو" } },
+    { "@@type": "ListItem", "position": 2,
+      "item": { "@@id": "@absUrl", "name": "@Model.Title" } }
+  ]
+}
+    </script>
 }
 
 <!-- single -->
@@ -369,32 +291,32 @@
                         <h4>موتورتو در شبکه های اجتماعی</h4>
                         <ul>
                             <li>
-                                <a target="_blank" class="twitter" href="#">
+                                <a rel="noopener noreferrer nofollow" target="_blank" class="twitter" href="#">
                                     <span class="count">توئیتر</span>
                                 </a>
                             </li>
                             <li>
-                                <a target="_blank" class="facebook" href="#">
+                                <a rel="noopener noreferrer nofollow" target="_blank" class="facebook" href="#">
                                     <span class="count">فیس بوک</span>
                                 </a>
                             </li>
                             <li>
-                                <a target="_blank" class="instagram" href="https://www.instagram.com/motoreto.ir">
+                                <a rel="noopener noreferrer nofollow" target="_blank" class="instagram" href="https://www.instagram.com/motoreto.ir">
                                     <span class="count">اینستاگرام</span>
                                 </a>
                             </li>
                             <li>
-                                <a target="_blank" class="telegram" href="https://telegram.me/motoreto.ir">
+                                <a rel="noopener noreferrer nofollow" target="_blank" class="telegram" href="https://telegram.me/motoreto.ir">
                                     <span class="count">تلگرام</span>
                                 </a>
                             </li>
                             <li>
-                                <a target="_blank" class="youtube" href="#">
+                                <a rel="noopener noreferrer nofollow" target="_blank" class="youtube" href="#">
                                     <span class="count">یوتیوب</span>
                                 </a>
                             </li>
                             <li>
-                                <a target="_blank" class="linkedin-in" href="#">
+                                <a rel="noopener noreferrer nofollow" target="_blank" class="linkedin-in" href="#">
                                     <span class="count">لینکدین</span>
                                 </a>
                             </li>

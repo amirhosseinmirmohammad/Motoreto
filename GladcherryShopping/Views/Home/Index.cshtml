@@ -53,7 +53,7 @@
     <div class="zigzag-bottom"></div>
     <div class="container">
         <div class="text-center main_h1">
-            <h1 title="موتورتو ، فروش آنلاین قطعات خودرو | Motoreto">موتورتو ، سامانه جامع تهیه و توزیع قطعات خودرویی | Motoreto</h1>
+            <h1 title="موتورتو ، فروش آنلاین قطعات خودرو | Motoreto">موتورتو ، فروش آنلاین قطعات خودرو | Motoreto</h1>
             <h2>هوای ماشینتو داریم</h2>
             <div class="wow bounceIn">
                 <img src="~/images/sadr_logo.png" width="100" height="100" style="padding-top:unset !important;background-color:#ffffff;border-radius:25px;padding-top:unset !important;" />
@@ -409,62 +409,6 @@
         </div>
     </div>
 }
-
-@if (content.Blogs.Where(current => current.IsVisible == true).Count() > 0)
-{
-    <section id="blog">
-        <br />
-        <div class="container-fluid">
-            <div class="text-center">
-                <h3>اخبار</h3>
-            </div>
-        </div>
-        <div class="container grids wow bounceInDown">
-            <div class="row">
-                @foreach (var item in content.Blogs.Include(current => current.Images).OrderByDescending(current => current.CreateDate).Where(current => current.IsVisible == true).Take(4).ToList())
-                {
-                    <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
-                        <div class="product-grid5 card">
-                            <div class="product-image5 image-cropper text-center">
-                                <a hreflang="fa-IR" title="@item.Title | موتورتو" href="/blog/@item.Id/@item.SefUrl">
-                                    @{
-                                        var ig = item.Images.Where(current => current.Extension.Contains("jpeg") || current.Extension.Contains("gif") || current.Extension.Contains("png") || current.Extension.Contains("jpg")).FirstOrDefault();
-                                        if (ig != null)
-                                        {
-                                            string img = ig.FullPath;
-                                            <img src="@img" alt="@item.Title" title="@item.Title" class="pic-1 img-rounded" />
-                                        }
-                                    }
-                                    @{
-                                        var vd = item.Images.Where(current => current.Extension.Contains("mp4") || current.Extension.Contains("mpeg") || current.Extension.Contains("wmv")).FirstOrDefault();
-                                        if (vd != null)
-                                        {
-                                            string vid = vd.FullPath;
-                                            <video src="@vid" controls style="height:auto !important;width:240px !important;"></video>
-                                        }
-                                    }
-                                </a>
-                            </div>
-                            <div class="product-content text-center">
-                                <div class="price text-center rent name_item"> @item.Title </div>
-                                <h3 class="title">
-                                    <a hreflang="fa-IR" title="@item.Title | موتورتو" href="/blog/@item.Id/@item.SefUrl">
-                                        @GladCherryShopping.Helpers.FunctionsHelper.Truncate(item.ShortDesc, 45)
-                                    </a>
-                                </h3>
-                                <span class="badge badge-white ml-2">@item.Survey <i class="fa fa-bar-chart-o"></i></span>
-                                <div class="price to-bottom text-center"> @GladCherryShopping.Helpers.FunctionsHelper.GetPersianDateTime((DateTime)item.CreateDate, false, false) </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-        <br />
-    </section>
-
-}
-
 
 @if (TempData["Success"] != null)
 {
