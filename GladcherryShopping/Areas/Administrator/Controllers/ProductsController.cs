@@ -386,7 +386,7 @@ namespace GladcherryShopping.Areas.Administrator.Controllers
                 slug = slug.Trim('-');
 
                 // ۷. بررسی تکراری نبودن SefUrl
-                bool exists = db.Products.Any(p => p.SefUrl == slug);
+                bool exists = db.Products.Any(p => p.SefUrl == slug && p.Id != editedProduct.Id);
                 if (exists)
                 {
                     TempData["Error"] = "این آدرس (SefUrl) قبلاً استفاده شده است. لطفاً یک آدرس دیگر وارد کنید.";
