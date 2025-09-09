@@ -5,6 +5,10 @@
     Layout = "~/Areas/Administrator/Views/Shared/_Layout.cshtml";
 }
 
+@section Styles{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+}
+
 <h2>مدیریت دسته بندی ها</h2>
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
@@ -60,21 +64,21 @@
                             </div>
 
                             @*<div class="form-group">
-                                @Html.LabelFor(model => model.Icon, htmlAttributes: new { @class = "control-label col-md-2 text-right" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Icon, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Icon, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-xs-10 pull-left">
-                                    <div class="alert alert-info text-right">
-                                        <strong> توجه! </strong>  کاربر گرامی جهت مشاهده آیکون های قابل استفاده از لینک زیر استفاده کنید . <br /><br />
-                                        <p style="text-indent:10px;"><a href="http://fontawesome.io/icons" style="font-weight:bold;color:#31708f"> لینک آیکون های قابل استفاده </a></p>
+                                    @Html.LabelFor(model => model.Icon, htmlAttributes: new { @class = "control-label col-md-2 text-right" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Icon, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Icon, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                            </div>*@
+
+                                <div class="row">
+                                    <div class="col-xs-10 pull-left">
+                                        <div class="alert alert-info text-right">
+                                            <strong> توجه! </strong>  کاربر گرامی جهت مشاهده آیکون های قابل استفاده از لینک زیر استفاده کنید . <br /><br />
+                                            <p style="text-indent:10px;"><a href="http://fontawesome.io/icons" style="font-weight:bold;color:#31708f"> لینک آیکون های قابل استفاده </a></p>
+                                        </div>
+                                    </div>
+                                </div>*@
                             <div class="row">
                                 <div class="col-xs-10 pull-left">
                                     <div class="text-right">
@@ -150,3 +154,21 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
+    <script>
+        $(function () {
+            $('#ParentId').select2({
+                dir: 'rtl',
+                width: '100%',
+                placeholder: 'لطفا انتخاب کنید',
+                allowClear: true,
+                language: {
+                    noResults: function () { return "چیزی پیدا نشد"; },
+                    searching: function () { return "در حال جستجو..."; }
+                }
+            });
+        });
+    </script>
+}

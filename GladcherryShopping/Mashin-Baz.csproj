@@ -1104,6 +1104,10 @@
     <Content Include="images\pr_bk1.jpg" />
     <Content Include="images\pr_mk.jpg" />
     <Content Include="images\pt3.png" />
+    <Content Include="images\pwa\cart.png" />
+    <Content Include="images\pwa\cat.png" />
+    <Content Include="images\pwa\icon-192-maskable.png" />
+    <Content Include="images\pwa\icon-512-maskable.png" />
     <Content Include="images\qua.jpg" />
     <Content Include="images\quality.jpg" />
     <Content Include="images\reza.png" />
@@ -1206,6 +1210,7 @@
     <Content Include="library\engine1\wowslider.mod.js" />
     <Content Include="library\engine1\ws-ctrl-dodgy.svg" />
     <Content Include="favicon.ico" />
+    <Content Include="offline.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Administrator\Views\web.config" />
@@ -1503,6 +1508,7 @@
     <Content Include="images\motoreto1.webp" />
     <Content Include="images\motoreto2.webp" />
     <Content Include="images\motoreto3.webp" />
+    <Content Include="manifest.webmanifest" />
     <None Include="Properties\PublishProfiles\GladCherry Co.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\calendar-fa.js" />
@@ -1715,6 +1721,7 @@
     </None>
     <Content Include="Sounds\yourturn.wav" />
     <Content Include="Sounds\your_turn.mp3" />
+    <Content Include="sw.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

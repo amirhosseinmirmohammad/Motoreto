@@ -1,0 +1,53 @@
+﻿{
+  "name": "موتورتو | فروش آنلاین قطعات خودرو",
+  "short_name": "موتورتو",
+  "dir": "rtl",
+  "lang": "fa-IR",
+  "start_url": "/?utm_source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#00016e",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/images/pwa/icon-192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/images/pwa/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "سبد خرید",
+      "short_name": "سبد",
+      "url": "/Home/Cart",
+      "icons": [
+        {
+          "src": "/images/pwa/cart.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "دسته‌بندی‌ها",
+      "short_name": "دسته‌ها",
+      "url": "/#categories",
+      "icons": [
+        {
+          "src": "/images/pwa/cat.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "categories": [ "shopping", "automotive", "business" ]
+}

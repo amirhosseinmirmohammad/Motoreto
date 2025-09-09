@@ -1395,7 +1395,7 @@ input[type="submit"], button[type=submit], button[type=button] {
     .product-gallery img {
         height: auto;
         margin-left: 15px;
-        width: 76px;
+        width: 220px;
     }
 
 .product-name {
@@ -2067,6 +2067,7 @@ a {
 
 .navbar-default .navbar-toggle {
     border-color: #fff;
+    z-index: 1 !important;
     background: none !important;
 }
     /*Toggle Button*/
@@ -3626,7 +3627,7 @@ p.text-sty-banner {
     display: flex;
     align-items: center;
     justify-content: center;
-    direction: rtl; /* کل اسلایدر راست‌چین */
+    /*direction: rtl;*/ /* کل اسلایدر راست‌چین */
 }
 
 .car-slider {
@@ -5256,6 +5257,7 @@ h1, h3 {
     }
 
 .faq-item {
+    line-height: 30px;
     margin-bottom: 15px;
     padding: 12px;
     background: #f8f9fa;
@@ -5269,6 +5271,7 @@ h1, h3 {
     }
 
     .faq-item h4 {
+        line-height: 30px;
         font-size: 16px;
         font-weight: bold;
         color: #333;
@@ -5923,4 +5926,491 @@ html, body {
         .text-center.main_h1 .en {
             display: none !important;
         }
+}
+
+.car-slider {
+    direction: rtl;
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    justify-content: flex-start;
+}
+
+.car-category-item {
+    flex: 0 0 auto;
+}
+
+/* ==== Review Fancy ==== */
+.rtl {
+    direction: rtl;
+    text-align: right;
+}
+
+.fancy-review {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    padding: clamp(18px, 2.5vw, 28px);
+    background: radial-gradient(1200px 400px at 100% 0%, #eef7ff 0%, #ffffff 50%);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.05);
+    margin-top: 28px;
+}
+
+    .fancy-review .review-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .fancy-review .review-head {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .fancy-review .review-icon {
+        width: 52px;
+        height: 52px;
+        display: grid;
+        place-items: center;
+        background: #fff;
+        border: 1px solid rgba(0,0,0,0.06);
+        border-radius: 14px;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+    }
+
+.badge-svg {
+    width: 30px;
+    height: 30px;
+}
+
+    .badge-svg .badge, .badge-svg .star {
+        stroke: #0ea5e9;
+    }
+
+    .badge-svg .star {
+        animation: pulse 2.2s ease-in-out infinite;
+        transform-origin: 50% 50%;
+    }
+
+@keyframes pulse {
+    0%,100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.06);
+        opacity: .9;
+    }
+}
+
+.fancy-review h2 {
+    font-size: clamp(22px, 2.4vw, 22px);
+    margin: 0 0 6px;
+    line-height: 30px;
+}
+
+.fancy-review .subtitle {
+    margin: 0;
+    color: #ff7c12;
+    font-size: 1.3rem;
+    line-height: 30px;
+}
+
+.fancy-review .lead {
+    margin: 14px 0 16px;
+    color: #334;
+    line-height: 1.9;
+}
+
+.feature-list {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 12px;
+}
+
+@media (max-width: 992px) {
+    .feature-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+.feature-item {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 10px;
+    align-items: start;
+    background: rgba(14,165,233,0.06);
+    border: 1px solid rgba(14,165,233,0.15);
+    border-radius: 14px;
+    padding: 12px 12px;
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    backdrop-filter: saturate(120%) blur(2px);
+}
+
+    .feature-item:hover {
+        transform: translateY(-2px);
+        background: rgba(14,165,233,0.08);
+        box-shadow: 0 10px 22px rgba(14,165,233,0.12);
+    }
+
+    .feature-item h3 {
+        font-size: 2.02rem;
+        margin: 0 0 4px;
+    }
+
+    .feature-item p {
+        margin: 0;
+        color: #445;
+        font-size: 1.5rem;
+    }
+
+.icon {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+}
+
+.draw-svg {
+    width: 28px;
+    height: 28px;
+}
+
+    .draw-svg .path {
+        stroke: #0ea5e9;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 180;
+        stroke-dashoffset: 180;
+        animation: draw 1.2s ease forwards;
+    }
+
+.feature-item:nth-child(2) .draw-svg .path {
+    animation-delay: .15s;
+}
+
+.feature-item:nth-child(3) .draw-svg .path {
+    animation-delay: .3s;
+}
+
+@keyframes draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.cta-box {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 14px;
+}
+
+.cta-link {
+    padding: 10px 14px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 12px;
+    text-decoration: none;
+    color: #0f172a;
+    transition: background .2s ease, transform .2s ease;
+}
+
+    .cta-link:hover {
+        background: #f7fbff;
+        transform: translateY(-1px);
+    }
+
+.cta-btn {
+    border-radius: 12px !important;
+    padding: 10px 16px !important;
+    box-shadow: 0 10px 20px rgba(2,132,199,0.18);
+}
+
+/* ذرات معلق */
+.review-sparkles {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 120px;
+    width: 100%;
+    opacity: .55;
+}
+
+    .review-sparkles circle {
+        fill: #0ea5e9;
+        opacity: .6;
+    }
+
+.spark {
+    animation: rise 12s linear infinite;
+}
+
+    .spark.s2 {
+        animation-duration: 16s;
+        animation-delay: .4s;
+    }
+
+    .spark.s3 {
+        animation-duration: 14s;
+        animation-delay: .8s;
+    }
+
+@keyframes rise {
+    0% {
+        transform: translateY(0)
+    }
+
+    100% {
+        transform: translateY(-120px)
+    }
+}
+
+/* وسط‌چین کردن فقط همون 3 باکس مزیت */
+.fancy-review .feature-list {
+    max-width: 960px; /* پهنای منطقی برای 3 ستون */
+    margin-inline: auto; /* مرکز کردن گرید داخل کانتینر */
+    justify-content: center; /* اگر فضای خالی بود، گرید وسط بایستد */
+    grid-template-columns: repeat(3, minmax(260px, 1fr));
+}
+
+@media (max-width: 992px) {
+    .fancy-review .feature-list {
+        max-width: 640px;
+        grid-template-columns: repeat(2, minmax(260px, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .fancy-review .feature-list {
+        max-width: 460px;
+        grid-template-columns: minmax(260px, 1fr);
+    }
+}
+
+.pwa-card {
+    border: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(0,0,0,.15)
+}
+
+.pwa-header {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 14px 16px;
+    background: #00016e;
+    color: #fff
+}
+
+    .pwa-header img {
+        border-radius: 12px
+    }
+
+.pwa-title {
+    margin: 0;
+    font-weight: 700
+}
+
+.pwa-body {
+    padding: 14px 16px
+}
+
+.pwa-actions {
+    padding: 0 16px 16px
+}
+
+.pwa-steps {
+    padding-right: 18px;
+    margin: 8px 0
+}
+
+.pwa-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(1200px 600px at 80% -20%, rgba(255,255,255,.06), transparent 60%), radial-gradient(800px 500px at -20% 120%, rgba(255,255,255,.06), transparent 60%), #0b0f2a;
+}
+
+    .pwa-splash[hidden] {
+        display: none
+    }
+
+    .pwa-splash.hide {
+        animation: pwaFade .5s ease forwards
+    }
+
+@keyframes pwaFade {
+    to {
+        opacity: 0;
+        visibility: hidden
+    }
+}
+
+.pwa-splash__card {
+    position: relative;
+    text-align: center;
+    color: #fff;
+    padding: 28px 32px 36px;
+    background: rgba(0,1,110,.18);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 20px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,.35)
+}
+
+.pwa-splash__ring {
+    position: absolute;
+    inset: -22px;
+    border-radius: 24px;
+    box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset
+}
+
+.pwa-splash__logo {
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.35);
+    animation: pwaPop .6s ease both
+}
+
+@keyframes pwaPop {
+    0% {
+        transform: scale(.8);
+        opacity: 0
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1
+    }
+}
+
+.pwa-splash__title {
+    margin: 14px 0 2px;
+    font-weight: 800;
+    color: #fff !important;
+    margin-top: 5px;
+    margin-bottom: 50px;
+    letter-spacing: .5px
+}
+
+.pwa-splash__subtitle {
+    margin: 0 0 12px;
+    opacity: .85
+}
+
+/* ring pulse */
+.pwa-splash__card::after {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    border-radius: 16px;
+    box-shadow: 0 0 0 0 rgba(255,255,255,.25);
+    animation: pwaPulse 1.6s ease-out infinite
+}
+
+@keyframes pwaPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255,255,255,.25)
+    }
+
+    100% {
+        box-shadow: 0 0 0 24px rgba(255,255,255,0)
+    }
+}
+
+/* loader */
+.pwa-splash__loader {
+    width: 54px;
+    height: 54px;
+    margin: 2px auto 0;
+    border-radius: 50%;
+    border: 4px solid rgba(255,255,255,.25);
+    border-top-color: #fff;
+    animation: pwaSpin .9s linear infinite
+}
+
+@keyframes pwaSpin {
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+/* قفل اسکرول هنگامی‌که اسپلش باز است */
+html.pwa-noscroll, body.pwa-noscroll {
+    overflow: hidden
+}
+
+@media (min-width: 769px) {
+    #mb-loader {
+        display: none !important;
+    }
+}
+
+#mb-loader {
+    position: fixed;
+    background: rgb(27, 33, 74, 0.95) !important; /* عدد آخر رو کم/زیاد کن (0=شفاف تا 1=کاملاً مات) */
+    inset: 0;
+    z-index: 99999;
+    display: grid;
+    place-items: center;
+    background: #0b0f2a;
+    color: #fff;
+    transition: opacity .35s ease, visibility .35s ease;
+}
+
+    #mb-loader.hide {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+.mb-card {
+    text-align: center;
+    padding: 28px 24px 20px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 18px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+
+.mb-svg {
+    display: block;
+    margin: 0 auto;
+}
+
+/* انیمیشن‌ها */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.gear, .gear-teeth {
+    animation: spin 1.2s linear infinite;
+    transform-origin: 70px 70px;
+}
+
+.wheel {
+    animation: spin 1.1s linear infinite;
+    transform-origin: center;
+}
+
+.mb-caption {
+    margin-top: 8px;
+    font-size: 14px;
+    opacity: .9
+}
+
+/* اگر کاربر motion کم ترجیح می‌دهد، انیمیشن‌ها را متوقف کن */
+@media (prefers-reduced-motion: reduce) {
+    .gear, .gear-teeth, .wheel {
+        animation: none;
+    }
 }

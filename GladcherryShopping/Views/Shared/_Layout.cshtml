@@ -52,35 +52,92 @@
     <meta name="twitter:title" content="فروش آنلاین قطعات خودرو | Motoreto">
     <meta name="twitter:domain" content="فروش آنلاین قطعات خودرو | Motoreto">
     <meta property="twitter:app:country" content="ir" />
-    <meta name="theme-color" content="#00016e" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="#00016e">
-    <meta name="msapplication-navbutton-color" content="#00016e">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="apple-touch-icon" sizes="57x57" href="~/images/sadr_logo.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="~/images/sadr_logo.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="~/images/sadr_logo.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="~/images/sadr_logo.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="~/images/sadr_logo.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="~/images/sadr_logo.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="~/images/sadr_logo.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="~/images/sadr_logo.png">
-    <link rel="icon" type="image/png" href="~/images/sadr_logo.png" sizes="196x196">
-    <link rel="icon" type="image/png" href="~/images/sadr_logo.png" sizes="160x160">
-    <link rel="icon" type="image/png" href="~/images/sadr_logo.png" sizes="96x96">
-    <link rel="icon" type="image/png" href="~/images/sadr_logo.png" sizes="16x16">
-    <link rel="icon" type="image/png" href="~/images/sadr_logo.png" sizes="32x32">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#00016e">
+    <!-- iOS PWA -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="touch-icon" href="/images/pwa/icon-192-maskable.png">
     <!-- Bootstrap -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="~/Content/css/font-awesome.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="~/Content/css/owl.carousel.css">
-    <link href="~/Content/style.css?v=4.6" rel="stylesheet" />
+    <link href="~/Content/style.css?v=5.8" rel="stylesheet" />
     <link href="~/Content/css/nav.css" rel="stylesheet" />
     @*<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />*@
     @RenderSection("Styles", required: false)
 </head>
 <body id="totop">
+
+    <!-- Mobile Loader (shows only on small screens) -->
+    <div id="mb-loader" class="mb-loader" aria-live="polite" aria-busy="true">
+        <div class="mb-card">
+            <!-- SVG -->
+            <svg class="mb-svg" width="140" height="140" viewBox="0 0 140 140" aria-hidden="true">
+                <defs>
+                    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#ff4d4f" />
+                        <stop offset="100%" stop-color="#00016e" />
+                    </linearGradient>
+                </defs>
+
+                <!-- چرخ‌دنده -->
+                <g class="gear" transform="translate(70,70)">
+                    <circle r="44" fill="none" stroke="url(#g1)" stroke-width="10" opacity=".25" />
+                    <!-- دندانه‌ها -->
+                    <g class="teeth" fill="url(#g1)">
+                        <rect x="-4" y="-62" width="8" height="16" rx="2" />
+                        <use href="#t" />
+                    </g>
+                    <!-- 12 دندانه با چرخش‌های مساوی -->
+                    <g id="t" fill="url(#g1)">
+                        <!-- 12 clone via <use> -->
+                        <use href="#tooth" transform="rotate(30)" />
+                    </g>
+                    <g id="tooth" fill="url(#g1)">
+                        <rect x="-4" y="-62" width="8" height="16" rx="2" />
+                        <use href="#tooth2" />
+                    </g>
+                </g>
+
+                <!-- از آنجا که برخی مرورگرها از use تودرتو ایراد می‌گیرند، دندانه‌ها را دستی می‌سازیم -->
+                <g class="gear-teeth" transform="translate(70,70)" fill="url(#g1)">
+                    <rect x="-4" y="-62" width="8" height="16" rx="2" transform="rotate(0)" />
+                    <rect x="-4" y="-62" width="8" height="16" rx="2" transform="rotate(30)" />
+                    <rect x="-4" y="-62" width="8" height="16" rx="2" transform="rotate(60)" />
+                    <rect x="-4" y="-62" width="8" height="16" rx="2" transform="rotate(90)" />
+                    <rect x="-4" y="-62" width="8" height="16" rx="2" transform="rotate(120)" />
+                    <rect x="-4" y="-62" width="8" height="16" rx="2" transform="rotate(150)" />
+                    <rect x="-4" y="-62" width="8" height="16" rx="2" transform="rotate(180)" />
+                    <rect x="-4" y="-62" width="8" height="16" rx="2" transform="rotate(210)" />
+                    <rect x="-4" y="-62" width="8" height="16" rx="2" transform="rotate(240)" />
+                    <rect x="-4" y="-62" width="8" height="16" rx="2" transform="rotate(270)" />
+                    <rect x="-4" y="-62" width="8" height="16" rx="2" transform="rotate(300)" />
+                    <rect x="-4" y="-62" width="8" height="16" rx="2" transform="rotate(330)" />
+                </g>
+
+                <!-- خودرو ساده -->
+                <g class="car" transform="translate(18,70)">
+                    <rect x="8" y="-8" width="80" height="18" rx="8" fill="#ffffff" opacity=".95" />
+                    <rect x="24" y="-16" width="42" height="14" rx="6" fill="#ffffff" opacity=".95" />
+                    <!-- چرخ‌ها -->
+                    <g class="wheel" transform="translate(26,12)">
+                        <circle r="8" fill="#fff" />
+                        <circle r="4" fill="url(#g1)" />
+                    </g>
+                    <g class="wheel" transform="translate(70,12)">
+                        <circle r="8" fill="#fff" />
+                        <circle r="4" fill="url(#g1)" />
+                    </g>
+                </g>
+            </svg>
+
+            <div class="mb-caption">هوای ماشینتو داریم</div>
+        </div>
+    </div>
+
     <div id="header-area" class="header_area">
         <div class="header_bottom">
             <div class="container">
@@ -373,12 +430,62 @@
         </svg>
         @*<span class="fab-call__label">۰۹۱۲۸۰۴۹۹۴۶</span>*@
     </a>
+    <div id="pwa-install-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" dir="rtl">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content pwa-card">
+                <div class="pwa-header">
+                    <img src="/images/pwa/icon-192-maskable.png" alt="Motoreto" width="48" height="48">
+                    <div>
+                        <h4 class="pwa-title">نصب وب‌اپلیکیشن موتورتو</h4>
+                        <small>دسترسی سریع‌تر، تجربه بهتر</small>
+                    </div>
+                </div>
+
+                <div class="pwa-body">
+                    <p class="m-b-none">می‌خوای نسخه وب‌اپلیکیشن موتورتو رو نصب کنی؟</p>
+
+                    <!-- راهنمای iOS (فقط وقتی لازم شد نمایش می‌دیم) -->
+                    <div id="pwa-ios-steps" style="display:none; margin-top:10px;">
+                        <ol class="pwa-steps">
+                            <li>روی دکمه <b>Share</b> (آیکن مربع با فلش) بزن.</li>
+                            <li><b>Add to Home Screen</b> یا <b>افزودن به صفحهٔ اصلی</b> رو انتخاب کن.</li>
+                            <li>تأیید کن تا نصب شود.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="pwa-actions">
+                    <button id="pwa-install-yes" type="button" class="btn btn-primary btn-block">نصب کن</button>
+                    <button id="pwa-install-no" type="button" class="btn btn-link btn-block">فعلاً نه</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Splash -->
+    <div id="pwa-splash" class="pwa-splash" hidden aria-hidden="true" dir="rtl">
+        <div class="pwa-splash__card">
+            <div class="pwa-splash__ring"></div>
+            <img src="/images/pwa/icon-192-maskable.png" alt="Motoreto" class="pwa-splash__logo" width="96" height="96">
+            <h3 class="pwa-splash__title">موتورتو</h3>
+            <p class="pwa-splash__subtitle">هوای ماشینتو داریم</p>
+            <div class="pwa-splash__loader"></div>
+        </div>
+    </div>
+
     <!-- Latest jQuery form server -->
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <!-- Bootstrap JS form CDN -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <!-- jQuery sticky menu -->
     <script src="~/Content/js/owl.carousel.min.js"></script>
+    <script>
+        (function ($) {
+            if (!$.fn.owlCarousel) return;
+            // پیش‌فرض‌های Owl2 را تغییر بده
+            $.fn.owlCarousel.Constructor.Defaults.rtl = true;
+        })(jQuery);
+    </script>
     <script src="~/Content/js/jquery.sticky.js"></script>
     <!-- jQuery easing -->
     <script src="~/Content/js/jquery.easing.1.3.min.js"></script>
@@ -431,10 +538,10 @@
     <script>
         $(document).ready(function () {
             // فلش سمت راست = قبلی
-            $(".owl-next").html('<i class="fa fa-chevron-right"></i>');
+            $(".owl-prev").html('<i class="fa fa-chevron-right"></i>');
 
             // فلش سمت چپ = بعدی
-            $(".owl-prev").html('<i class="fa fa-chevron-left"></i>');
+            $(".owl-next").html('<i class="fa fa-chevron-left"></i>');
         });
     </script>
     <script>
@@ -626,6 +733,175 @@
                 $("#mobile-tabs .mobile-tab-wrapper[href='/']").addClass("active");
             }
         });
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .catch(err => console.warn('SW register failed', err));
+            });
+        }
+    </script>
+    <script>
+        (function () {
+            var MODAL = '#pwa-install-modal';
+            var BTN_YES = '#pwa-install-yes';
+            var BTN_NO = '#pwa-install-no';
+            var IOS_STEPS = '#pwa-ios-steps';
+
+            var DISMISS_COOKIE = 'pwa_prompt_dismissed';
+            var INSTALLED_COOKIE = 'pwa_installed';
+            var DISMISS_DAYS = 2;
+            var deferredPrompt = null;
+
+            function setCookie(name, value, days) {
+                var d = new Date(); d.setTime(d.getTime() + (days * 864e5));
+                document.cookie = name + "=" + encodeURIComponent(value) + ";expires=" + d.toUTCString() + ";path=/";
+            }
+            function getCookie(name) {
+                var v = ("; " + document.cookie).split("; " + name + "=");
+                return v.length === 2 ? decodeURIComponent(v.pop().split(";").shift()) : null;
+            }
+
+            function isStandalone() {
+                return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+            }
+            function isIOS() { return /iphone|ipad|ipod/i.test(navigator.userAgent); }
+            function isSafari() { return /^((?!chrome|android).)*safari/i.test(navigator.userAgent); }
+            function isIOSSafari() { return isIOS() && isSafari(); }
+
+            function shouldAsk() {
+                if (isStandalone()) return false;
+                if (getCookie(INSTALLED_COOKIE)) return false;
+                if (getCookie(DISMISS_COOKIE)) return false;
+                return true;
+            }
+
+            function openModal() {
+                if (!shouldAsk()) return;
+                if (!deferredPrompt && !isIOSSafari()) return;
+                if (isIOSSafari()) document.querySelector(IOS_STEPS).style.display = 'block';
+                if (window.jQuery && jQuery.fn && jQuery.fn.modal) {
+                    jQuery(MODAL).modal('show');
+                } else {
+                    // اگر بوت‌استرپ هنوز لود نشده، بعد از load باز کن
+                    window.addEventListener('load', function () { jQuery(MODAL).modal('show'); }, { once: true });
+                }
+            }
+
+            window.addEventListener('beforeinstallprompt', function (e) {
+                e.preventDefault();
+                deferredPrompt = e;
+                setTimeout(openModal, 600);
+            });
+
+            window.addEventListener('load', function () {
+                // برای iOS که beforeinstallprompt ندارد
+                setTimeout(openModal, 800);
+            });
+
+            document.addEventListener('click', async function (e) {
+                var yes = e.target.closest(BTN_YES);
+                var no = e.target.closest(BTN_NO);
+                if (yes) {
+                    if (deferredPrompt) {
+                        deferredPrompt.prompt();
+                        try {
+                            var choice = await deferredPrompt.userChoice;
+                            deferredPrompt = null;
+                            if (choice && choice.outcome === 'accepted') {
+                                setCookie(INSTALLED_COOKIE, '1', 3650);
+                            } else {
+                                setCookie(DISMISS_COOKIE, '1', DISMISS_DAYS);
+                            }
+                        } catch (_) {
+                            setCookie(DISMISS_COOKIE, '1', DISMISS_DAYS);
+                        }
+                        jQuery(MODAL).modal('hide');
+                    } // در iOS فقط راهنما نشان داده می‌شود
+                }
+                if (no) {
+                    setCookie(DISMISS_COOKIE, '1', DISMISS_DAYS);
+                    jQuery(MODAL).modal('hide');
+                }
+            });
+
+            window.addEventListener('appinstalled', function () {
+                setCookie(INSTALLED_COOKIE, '1', 3650);
+                if (window.jQuery) jQuery(MODAL).modal('hide');
+            });
+        })();
+    </script>
+    <!-- Splash فقط دسکتاپ -->
+    <script>
+        (function () {
+            var SPLASH_ID = 'pwa-splash';
+            var SEEN_COOKIE = 'pwa_splash_seen';
+            var SEEN_DAYS = 1;
+            var SHOW_MS = 5000;
+
+            function setCookie(n, v, d) {
+                var t = new Date(); t.setTime(t.getTime() + d * 864e5);
+                document.cookie = n + "=" + encodeURIComponent(v) + ";expires=" + t.toUTCString() + ";path=/";
+            }
+            function getCookie(n) { var m = ("; " + document.cookie).split("; " + n + "="); return m.length === 2 ? decodeURIComponent(m.pop().split(";").shift()) : null; }
+
+            // فقط دسکتاپ
+            var isDesktop = window.matchMedia('(min-width: 769px)').matches && !/Android|iPhone|iPad|iPod|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (!isDesktop) return;
+
+            function showSplash() {
+                var el = document.getElementById(SPLASH_ID);
+                if (!el || getCookie(SEEN_COOKIE)) return;
+                el.hidden = false;
+                document.documentElement.classList.add('pwa-noscroll');
+                document.body.classList.add('pwa-noscroll');
+                function hide() {
+                    el.classList.add('hide');
+                    document.documentElement.classList.remove('pwa-noscroll');
+                    document.body.classList.remove('pwa-noscroll');
+                    setCookie(SEEN_COOKIE, '1', SEEN_DAYS);
+                }
+                window.addEventListener('load', function () { setTimeout(hide, SHOW_MS); }, { once: true });
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.ready.then(function () { setTimeout(function () { if (!el.classList.contains('hide')) hide(); }, 600); });
+                }
+                setTimeout(function () { if (!el.classList.contains('hide')) hide(); }, SHOW_MS + 2500);
+            }
+
+            requestAnimationFrame(showSplash);
+        })();
+    </script>
+
+    <!-- Mobile Loader همان قبلی با پس‌زمینه نیمه‌شفاف -->
+    <script>
+        (function () {
+            var el = document.getElementById('mb-loader');
+            if (!el) return;
+
+            var isMobile = window.matchMedia('(max-width: 768px)').matches ||
+                /Android|iPhone|iPad|iPod|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (!isMobile) { if (el.parentNode) el.parentNode.removeChild(el); return; }
+
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+
+            function hideLoader() {
+                if (!el) return;
+                el.classList.add('hide');
+                setTimeout(function () {
+                    document.documentElement.style.overflow = '';
+                    document.body.style.overflow = '';
+                    if (el && el.parentNode) { el.parentNode.removeChild(el); el = null; }
+                }, 380);
+            }
+
+            window.addEventListener('load', hideLoader, { once: true });
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.ready.then(function () { setTimeout(hideLoader, 400); });
+            }
+            setTimeout(hideLoader, 7000);
+        })();
     </script>
 </body>
 </html>

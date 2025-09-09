@@ -198,17 +198,22 @@
 <div class="container">
     <h3 class="section-title text-center">دسته‌بندی بر اساس نوع خودرو</h3>
     <div class="car-slider-wrapper">
-        <button class="car-prev">‹</button>
+        <button class="car-prev">›</button>
+        @{
+            var carCats = content.Categories
+                .AsNoTracking()
+                .Where(c => c.ParentId != null)
+                .GroupBy(s => s.PersianName)
+                .Select(g => g.FirstOrDefault())
+                .OrderBy(s => s.PersianName == "بدون مدل" ? 1 : 0)
+                .ThenBy(s => s.PersianName)
+                .ToList();
+        }
         <div class="car-slider">
-            @foreach (var sub in content.Categories
-                                        .Where(c => c.ParentId != null)
-                                        .GroupBy(s => s.PersianName)
-                                        .Select(g => g.FirstOrDefault())
-                                        .OrderBy(s => s.PersianName == "بدون مدل" ? 1 : 0)  // "بدون مدل" آخر لیست
-                                        .ToList())
+            @foreach (var sub in carCats)
             {
                 <div class="car-category-item text-center">
-                    <a href="/product/bycar/@sub.PersianName">
+                    <a href="/product/bycar/@Uri.EscapeDataString(sub.PersianName)">
                         <div class="car-circle">
                             <img src="@(string.IsNullOrEmpty(sub.SmallImage) ? Url.Content("~/images/sadr_logo.png") : sub.SmallImage)"
                                  alt="@sub.PersianName" title="@sub.PersianName" />
@@ -218,7 +223,8 @@
                 </div>
             }
         </div>
-        <button class="car-next">›</button>
+
+        <button class="car-next">‹</button>
     </div>
 </div>
 
@@ -647,10 +653,10 @@
                         var html = "";
                         res.Data.forEach(function (item) {
                             html += `<li>
-                                             <a href="/product/all/${item.Id}">
-                                             <i class="fa fa-angle-left"></i> ${item.Name}
-                                             </a>
-                                        </li>`;
+                                            <a href="/product/all/${item.Id}">
+                                              <i class="fa fa-angle-left"></i> ${item.Name}
+                                            </a>
+                                         </li>`;
                         });
                         $list.html(html);
                     } else {
@@ -666,18 +672,20 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const slider = document.querySelector(".car-slider");
-            const prev = document.querySelector(".car-next");
-            const next = document.querySelector(".car-prev");
+            const prev = document.querySelector(".car-prev");   // دکمهٔ سمت چپ «‹»
+            const next = document.querySelector(".car-next");   // دکمهٔ سمت راست «›»
+            const scrollStep = 250;
 
-            const scrollStep = 250; // فاصله هر بار اسکرول
+            const isRTL = getComputedStyle(slider).direction === "rtl";
 
-            // در حالت RTL باید منطق دکمه‌ها رو برعکس کنیم
+            // دکمهٔ سمت راست ⇒ حرکت به راست
             next.addEventListener("click", () => {
-                slider.scrollLeft += scrollStep;
+                slider.scrollBy({ left: isRTL ? -scrollStep : scrollStep, behavior: "smooth" });
             });
 
+            // دکمهٔ سمت چپ ⇒ حرکت به چپ
             prev.addEventListener("click", () => {
-                slider.scrollLeft -= scrollStep;
+                slider.scrollBy({ left: isRTL ? scrollStep : -scrollStep, behavior: "smooth" });
             });
         });
     </script>

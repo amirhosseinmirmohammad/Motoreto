@@ -169,20 +169,90 @@
     }
 </div>
 
-<!-- Review -->
-<div class="product-review">
-    <h2>نقد و بررسی اجمالی @Model.product.PersianName</h2>
-    <p>
-        اگر به دنبال محصولی مطمئن و با کیفیت هستید،
-        <strong>@Model.product.PersianName</strong>
-        می‌تواند انتخابی عالی باشد.
-    </p>
-    <ul>
-        <li>کیفیت ساخت بالا</li>
-        <li>قیمت مناسب</li>
-        <li>سازگار با اکثر خودروها</li>
-    </ul>
-</div>
+<!-- Review (Fancy) -->
+<section class="fancy-review rtl" id="reviewSection" aria-labelledby="reviewTitle">
+    <!-- ذرات معلقِ سبک -->
+    <svg class="review-sparkles" viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true">
+        <g class="spark s1">
+            <circle cx="50" cy="180" r="2"></circle>
+            <circle cx="120" cy="170" r="3"></circle>
+            <circle cx="200" cy="190" r="2"></circle>
+        </g>
+        <g class="spark s2">
+            <circle cx="300" cy="175" r="2"></circle>
+            <circle cx="360" cy="185" r="3"></circle>
+            <circle cx="420" cy="170" r="2"></circle>
+        </g>
+        <g class="spark s3">
+            <circle cx="500" cy="180" r="2"></circle>
+            <circle cx="560" cy="190" r="3"></circle>
+        </g>
+    </svg>
+
+    <div class="review-content">
+        <div class="review-head">
+            <div class="review-icon" aria-hidden="true">
+                <!-- ستاره/نشان با انیمیشن پالس -->
+                <svg viewBox="0 0 24 24" class="badge-svg">
+                    <path class="badge" d="M12 2l6 3v4.8c0 4.7-3.2 8.6-6 9.4-2.8-.8-6-4.7-6-9.4V5l6-3z" fill="none" stroke-width="1.8" />
+                    <path class="star" d="M12 7.8l1.6 3.2 3.5.5-2.6 2.5.6 3.5-3.1-1.6-3.1 1.6.6-3.5-2.6-2.5 3.5-.5L12 7.8z" fill="none" stroke-width="1.6" />
+                </svg>
+            </div>
+            <div>
+                <h2 id="reviewTitle">نقد و بررسی اجمالی @Model.product.PersianName</h2>
+                <p class="subtitle">جمع‌بندی کوتاه و شفاف از مهم‌ترین مزایای <strong>@Model.product.PersianName</strong> برای انتخاب سریع.</p>
+            </div>
+        </div>
+
+        <p class="lead">
+            اگر به‌دنبال محصولی مطمئن و باکیفیت هستید، <strong>@Model.product.PersianName</strong> می‌تواند انتخابی عالی باشد.
+        </p>
+
+        <ul class="feature-list">
+            <li class="feature-item">
+                <span class="icon">
+                    <!-- آیکن تیک داخل دایره با Line-Drawing -->
+                    <svg viewBox="0 0 24 24" class="draw-svg" aria-hidden="true">
+                        <circle cx="12" cy="12" r="9" fill="none" stroke-width="2" class="path"></circle>
+                        <path d="M8 12l3 3 5-6" fill="none" stroke-width="2" class="path"></path>
+                    </svg>
+                </span>
+                <div>
+                    <h3>کیفیت ساخت بالا</h3>
+                    <p>متریال استاندارد و کنترل کیفی منظم برای دوام طولانی‌مدت.</p>
+                </div>
+            </li>
+            <li class="feature-item">
+                <span class="icon">
+                    <!-- آیکن تگ قیمت ساده -->
+                    <svg viewBox="0 0 24 24" class="draw-svg" aria-hidden="true">
+                        <path d="M3 12l7-7a2 2 0 0 1 2.8 0l6.2 6.2a2 2 0 0 1 0 2.8l-7 7H5a2 2 0 0 1-2-2z" fill="none" stroke-width="2" class="path"></path>
+                        <circle cx="13" cy="7" r="1.5" fill="none" stroke-width="2" class="path"></circle>
+                    </svg>
+                </span>
+                <div>
+                    <h3>قیمت مناسب</h3>
+                    <p>بازه‌ی قیمتی رقابتی با حفظ کیفیت و ارزش خرید مطلوب.</p>
+                </div>
+            </li>
+            <li class="feature-item">
+                <span class="icon">
+                    <!-- آیکن خودرو مینیمال -->
+                    <svg viewBox="0 0 24 24" class="draw-svg" aria-hidden="true">
+                        <path d="M3 14l2-5.5A3 3 0 0 1 7.8 6H16a3 3 0 0 1 2.8 2l2.2 6" fill="none" stroke-width="2" class="path"></path>
+                        <rect x="5" y="13" width="14" height="4" rx="1.5" fill="none" stroke-width="2" class="path"></rect>
+                        <circle cx="8.5" cy="18" r="1.5" class="path" fill="none" stroke-width="2"></circle>
+                        <circle cx="15.5" cy="18" r="1.5" class="path" fill="none" stroke-width="2"></circle>
+                    </svg>
+                </span>
+                <div>
+                    <h3>سازگار با اکثر خودروها</h3>
+                    <p>پوشش گسترده‌ی مدل‌های رایج و نصب آسان بدون دردسر.</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
 
 <div class="product-faq">
     <h2>سؤالات متداول</h2>
