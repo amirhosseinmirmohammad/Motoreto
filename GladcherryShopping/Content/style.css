@@ -3456,7 +3456,7 @@ p.text-sty-banner {
     z-index: 9999;
     display: flex;
     justify-content: space-around;
-    padding: 8px 0;
+    padding: 12px 0;
     box-shadow: 0 -4px 12px rgba(0,0,0,0.15); /* به جای border */
     animation: slideUp 0.5s ease-out; /* انیمیشن ورود */
     border-radius: 16px 16px 0 0; /* گردی گوشه‌ها */

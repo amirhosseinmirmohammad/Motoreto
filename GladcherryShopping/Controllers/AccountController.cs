@@ -19,6 +19,9 @@ using System.Net;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web.Security;
 using SmsIrRestful;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Formatting; // برای PostAsJsonAsync (نیاز به پکیج جدا داره)
 
 namespace GladcherryShopping.Controllers
 {
@@ -189,20 +192,14 @@ namespace GladcherryShopping.Controllers
             #endregion Validation
 
             #region SMS
-            Application application = db.Applications.FirstOrDefault();
-            Random random = new Random();
-            var randomNumber = random.Next(10000, 99999);
-            if (application != null && application.FromNumber != null)
+            string smsCode = SendOtpMelipayamak(PhoneNumber);
+
+            if (string.IsNullOrEmpty(smsCode))
             {
-                //sms.ir
-                string SMSDescription = "کد تایید شما در موتورتو : " + randomNumber;
-                bool smsResult = UltraFastSms(PhoneNumber, randomNumber.ToString());
-            }
-            else
-            {
-                TempData["Error"] = "تنظیمات کلی اپلیکیشن هنوز تعیین نشده است .";
+                TempData["Error"] = "ارسال پیامک با خطا مواجه شد، لطفاً دوباره تلاش کنید.";
                 return RedirectToAction("RegisterAccount");
             }
+
             #endregion SMS
 
             #region HashPassword
@@ -217,7 +214,7 @@ namespace GladcherryShopping.Controllers
                 Mobile = PhoneNumber,
                 UserName = PhoneNumber,
                 UserScore = 0,
-                AccessCode = "Motoreto_" + randomNumber,
+                AccessCode = "Motoreto_" + PhoneNumber,
                 //AccessCode = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 8),
                 Credit = 0,
                 IsActive = true,
@@ -229,7 +226,7 @@ namespace GladcherryShopping.Controllers
                 //Mobile = موبایل کاربر
                 //PhoneNumber = تلفن ثابت کاربر
                 //تایید شماره کاربر
-                VerificationCode = FunctionsHelper.Encrypt(randomNumber.ToString(), "Gladcherry"),
+                VerificationCode = FunctionsHelper.Encrypt(smsCode, "Motoreto"), // 🔹 اینجا code برگردونده‌شده ذخیره میشه
                 PhoneNumberConfirmed = false,
                 RegistrationDate = DateTime.Now,
                 FirstName = Name,
@@ -239,12 +236,15 @@ namespace GladcherryShopping.Controllers
 
             #region Create
             IdentityResult result;
+            var application = db.Applications.FirstOrDefault();
+
             try
             {
                 UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
                 result = UserManager.Create(user);
                 UserManager.AddToRole(user.Id, "User");
                 #region IntroCode
+
                 if (!string.IsNullOrEmpty(IntroCode) && FriendUser != null)
                 {
                     //افزایش امتیاز و اعتبار معرف
@@ -275,6 +275,7 @@ namespace GladcherryShopping.Controllers
                 TempData["Error"] = "متاسفانه ثبت نام شما انجام نشد لطفا مجدد تلاش فرمایید .";
                 return RedirectToAction("RegisterAccount");
             }
+
             if (application != null && application.SuccessfullRegisterationText != null)
             {
                 IHtmlString htmlString = new HtmlString(application.SuccessfullRegisterationText);
@@ -336,17 +337,15 @@ namespace GladcherryShopping.Controllers
             if (application != null && application.FromNumber != null)
             {
 
-                //sms.ir
-                string SMSDescription = "کد تایید شما در موتورتو : " + randomNumber;
-                bool smsResult = UltraFastSms(PhoneNumber, randomNumber.ToString());
-                if (smsResult == false)
+                string smsCode = SendOtpMelipayamak(PhoneNumber);
+                if (string.IsNullOrEmpty(smsCode))
                 {
-                    TempData["Error"] = "سامانه پیامکی با خطا رو به رو است لطفا مجدد تلاش فرمایید .";
+                    TempData["Error"] = "ارسال پیامک تایید با خطا مواجه شد.";
                     return RedirectToAction("LoginAccount");
                 }
 
                 #region EditUserCode
-                users.FirstOrDefault().VerificationCode = FunctionsHelper.Encrypt(randomNumber.ToString(), "Gladcherry");
+                users.FirstOrDefault().VerificationCode = FunctionsHelper.Encrypt(smsCode, "Motoreto");
                 db.Entry(users.FirstOrDefault()).State = EntityState.Modified;
                 db.SaveChanges();
                 #endregion EditUserCodde
@@ -445,7 +444,7 @@ namespace GladcherryShopping.Controllers
             #endregion Validation
 
             #region Login
-            string UserVerificationCode = FunctionsHelper.Decrypt(users.FirstOrDefault().VerificationCode, "Gladcherry");
+            string UserVerificationCode = FunctionsHelper.Decrypt(users.FirstOrDefault().VerificationCode, "Motoreto");
             if (UserVerificationCode != null)
             {
                 if (UserVerificationCode != Code)
@@ -558,7 +557,7 @@ namespace GladcherryShopping.Controllers
                 }
 
                 #region EditUserCode
-                users.FirstOrDefault().VerificationCode = FunctionsHelper.Encrypt(randomNumber.ToString(), "Gladcherry");
+                users.FirstOrDefault().VerificationCode = FunctionsHelper.Encrypt(randomNumber.ToString(), "Motoreto");
                 db.Entry(users.FirstOrDefault()).State = EntityState.Modified;
                 db.SaveChanges();
                 #endregion EditUserCodde
@@ -1074,6 +1073,143 @@ namespace GladcherryShopping.Controllers
                 return Redirect(returnUrl);
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult GenerateOrLogin(string phoneNumber)
+        {
+            if (string.IsNullOrWhiteSpace(phoneNumber))
+                return Json(new { success = false, message = "شماره وارد نشده است" });
+
+            phoneNumber = Regex.Replace(phoneNumber, @"[^\d]", "");
+            if (!Regex.IsMatch(phoneNumber, @"^09\d{9}$"))
+                return Json(new { success = false, message = "شماره موبایل معتبر نیست" });
+
+            var user = db.Users.FirstOrDefault(u => u.Mobile == phoneNumber);
+
+            // کد یکبارمصرف
+            string otpCode = SendOtpMelipayamak(phoneNumber);
+
+            if (string.IsNullOrEmpty(otpCode))
+                return Json(new { success = false, message = "ارسال پیامک با خطا مواجه شد" });
+
+            if (user == null)
+            {
+                // اگر کاربر وجود نداشت بساز
+                var security = Guid.NewGuid().ToString("N");
+                var hashedPassword = new PasswordHasher().HashPassword("Temp@" + otpCode);
+
+                var defaultCity = db.Cities.FirstOrDefault();
+                var defaultState = db.States.FirstOrDefault();
+
+                user = new ApplicationUser
+                {
+                    Mobile = phoneNumber,
+                    UserName = phoneNumber,
+                    UserScore = 0,
+                    AccessCode = "Motoreto_" + otpCode,
+                    Credit = 0,
+                    IsActive = true,
+                    BirthDate = DateTime.Now,
+                    CityId = defaultCity?.Id ?? 1,
+                    StateId = defaultState?.Id ?? 1,
+                    SecurityStamp = security,
+                    PasswordHash = hashedPassword,
+                    VerificationCode = FunctionsHelper.Encrypt(otpCode, "Motoreto"),
+                    PhoneNumberConfirmed = false,
+                    RegistrationDate = DateTime.Now,
+                    FirstName = "",
+                    LastName = ""
+                };
+
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+                var result = userManager.Create(user);
+                if (result.Succeeded)
+                    userManager.AddToRole(user.Id, "User");
+            }
+            else
+            {
+                // اگر بود، فقط کد جدید بده
+                user.VerificationCode = FunctionsHelper.Encrypt(otpCode, "Motoreto");
+                db.Entry(user).State = EntityState.Modified;
+            }
+
+            db.SaveChanges();
+
+            return Json(new { success = true });
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult ApproveQuick(string phoneNumber, string code)
+        {
+            if (string.IsNullOrWhiteSpace(phoneNumber) || string.IsNullOrWhiteSpace(code))
+                return Json(new { success = false, message = "شماره یا کد نامعتبر است" });
+
+            phoneNumber = Regex.Replace(phoneNumber, @"[^\d]", "");
+            var user = db.Users.FirstOrDefault(u => u.Mobile == phoneNumber);
+
+            if (user == null)
+                return Json(new { success = false, message = "کاربر یافت نشد" });
+
+            var decryptedCode = FunctionsHelper.Decrypt(user.VerificationCode, "Motoreto");
+            if (decryptedCode != code)
+                return Json(new { success = false, message = "کد اشتباه است" });
+
+            // تایید شماره
+            user.PhoneNumberConfirmed = true;
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+
+            // ورود کاربر
+            SignInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
+
+            return Json(new { success = true });
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public JsonResult IsAuthenticated()
+        {
+            return Json(new { isAuth = User.Identity.IsAuthenticated }, JsonRequestBehavior.AllowGet);
+        }
+
+        public static string SendOtpMelipayamak(string phoneNumber)
+        {
+            try
+            {
+                Uri apiBaseAddress = new Uri("https://console.melipayamak.com");
+
+                using (HttpClient client = new HttpClient() { BaseAddress = apiBaseAddress })
+                {
+                    // توجه: باید Microsoft.AspNet.WebApi.Client نصب باشه
+                    var result = client.PostAsJsonAsync(
+                        "api/send/otp/896d2b4ac27f48c9a42183ce5f482db6",
+                        new { to = phoneNumber }).Result;
+
+                    var response = result.Content.ReadAsStringAsync().Result;
+
+                    // پارس JSON
+                    dynamic obj = Newtonsoft.Json.JsonConvert.DeserializeObject(response);
+
+                    if (obj != null && obj.code != null)
+                    {
+                        // یعنی ارسال موفق بوده و code برگشته
+                        return obj.code.ToString();
+                    }
+                    else
+                    {
+                        return null; // ارسال ناموفق
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // لاگ خطا
+                return null;
+            }
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

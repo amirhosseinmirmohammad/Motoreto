@@ -524,8 +524,7 @@ namespace GladcherryShopping.Controllers
         public ActionResult InsertOrder(byte? PaymentType, byte? Type)
         {
             ViewBag.StateId = new SelectList(db.States.OrderByDescending(current => current.Name), "Id", "Name");
-            if (!User.Identity.IsAuthenticated)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
             if (PaymentType == null || PaymentType == 0 || Type == null || Type == 0)
             {
                 TempData["error"] = "لطفا روش ارسال و پرداخت را تعیین نمایید .";

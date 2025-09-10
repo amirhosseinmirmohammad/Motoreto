@@ -21,13 +21,7 @@
 
 @section Styles{
     <style>
-        .col-md-4 {
-            -webkit-box-shadow: 0 0 10px 0 rgba(47,48,51,.2);
-            padding: 30px;
-            margin-bottom: 40px;
-        }
-
-        .col-12:first-child {
+        .col-md-4, .col-12:first-child {
             -webkit-box-shadow: 0 0 10px 0 rgba(47,48,51,.2);
             padding: 30px;
             margin-bottom: 40px;
@@ -35,6 +29,79 @@
 
         p, a {
             line-height: 35px;
+        }
+
+        @@media (max-width: 768px) {
+            .place-order {
+                margin-bottom: 60px !important;
+            }
+        }
+
+        /* استایل مودال لاگین */
+        #loginModal .modal-content {
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        #loginModal input[type="tel"] {
+            border-radius: 10px;
+            height: 45px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        /* گروه OTP */
+        #otpInputs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+            #otpInputs .otp-input {
+                width: 48px;
+                height: 55px;
+                font-size: 22px;
+                font-weight: bold;
+                text-align: center;
+                border-radius: 10px;
+                border: 1px solid #ddd;
+                transition: all 0.2s ease-in-out;
+            }
+
+                #otpInputs .otp-input:focus {
+                    border-color: #1a56db;
+                    box-shadow: 0 0 5px rgba(26,86,219,0.5);
+                    transform: translateY(-2px);
+                }
+
+        /* خطا */
+        #loginModal .invalid-feedback {
+            display: none;
+            color: #d9534f;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        #loginModal input.is-invalid + .invalid-feedback {
+            display: block;
+        }
+
+        #loginModal #otpError {
+            display: none;
+        }
+
+            #loginModal #otpError.show {
+                display: block;
+            }
+
+        #loginModal a.disabled {
+            pointer-events: none;
+            opacity: .5;
+        }
+        #otpError {
+            margin-top: 10px !important;
         }
     </style>
 }
@@ -50,8 +117,6 @@
 </div>
 @if (Model.basket.Count() > 0)
 {
-    string UserId = User.Identity.GetUserId();
-    var user = content.Users.Where(current => current.Id == UserId).FirstOrDefault();
     <div class="single-product-area">
         <div class="zigzag-bottom"></div>
         <div class="container">
@@ -78,15 +143,6 @@
 
                                                 <input type="hidden" name="Order.PaymentType" value="@x" />
                                                 <input type="hidden" name="Order.Type" value="@y" />
-
-                                                @if (string.IsNullOrEmpty(user.AddressLine))
-                                                {
-                                                    <p class="form-row form-row-wide">
-                                                        <label class="" for="shipping_company">آدرس کامل جهت ارسال <abbr title="required" class="required">(اجباری)</abbr></label>
-                                                        @Html.TextBoxFor(model => model.order.UserAddress, new { @class = "input-text address", @id = "UserAddress", @placeholder = "آدرس کامل جهت ارسال", required = "required" })
-                                                        @Html.ValidationMessageFor(model => model.order.UserAddress, "", new { @class = "text-danger" })
-                                                    </p>
-                                                }
 
                                                 <p class="form-row form-row-wide">
                                                     <label class="input-text" for="shipping_company"> کد تخفیف <abbr title="required" class="required">(اختیاری)</abbr></label>
@@ -121,7 +177,6 @@
                                         <thead>
                                             <tr>
                                                 <th class="product-name">هزینه حمل</th>
-                                                <th class="product-name">اعتبار شما</th>
                                                 <th class="product-total">جمع کل</th>
                                             </tr>
                                         </thead>
@@ -149,23 +204,17 @@
                                                     }
                                                 </td>
 
-                                                <td data-title="اعتبار شما">
-                                                    <span class="amount">
-                                                        @string.Format("{0:n0}", user.Credit) ریال
-                                                    </span>
-                                                </td>
-
                                                 <td class="product-total" data-title="جمع کل">
                                                     @if (Convert.ToInt32(Type) == 2)
                                                     {
                                                         <span class="amount highlight">
-                                                            @string.Format("{0:n0}", (Model.FinalPrice + application.Transferring + application.SpecialTransport) - (user.Credit)) ریال
+                                                            @string.Format("{0:n0}", (Model.FinalPrice + application.Transferring + application.SpecialTransport)) ریال
                                                         </span>
                                                     }
                                                     else
                                                     {
                                                         <span class="amount highlight">
-                                                            @string.Format("{0:n0}", (Model.FinalPrice + application.Transferring) - (user.Credit)) ریال
+                                                            @string.Format("{0:n0}", (Model.FinalPrice + application.Transferring)) ریال
                                                         </span>
                                                     }
                                                 </td>
@@ -176,7 +225,7 @@
                                         <div class="col-md-12 text-right" style="display:inline-flex;">
                                             &nbsp;&nbsp;
                                             <input oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا این گزینه را تیک بزنید .')" type="checkbox" style="width:30px;" required />
-                                            <label style="margin-right: 10px;text-align:justify;">با فشردن دکمه ثبت سفارش تمامی <a href="/terms">قوانین و مقررات</a> سامانه را میپذیرم .</label>
+                                            <label style="margin-right:10px;text-align:justify;">با فشردن دکمه ثبت سفارش تمامی <a href="/terms">قوانین و مقررات</a> سامانه را میپذیرم .</label>
                                         </div>
                                     </div><br />
                                     @if (Convert.ToInt32(PaymentType) == 1)
@@ -189,7 +238,7 @@
                                                 </li>
                                             </ul>
                                             <div class="form-row place-order">
-                                                <input type="submit" value="ثبت سفارش" id="place_order" name="woocommerce_checkout_place_order" class="button alt">
+                                                <input style="background-color: #05bd1de1 !important;" type="submit" value="ثبت سفارش" id="place_order" name="woocommerce_checkout_place_order" class="button alt">
                                                 <a class="preOrder" href="/Home/Cart">بازگشت</a>
                                             </div>
                                             <div class="clear"></div>
@@ -208,7 +257,7 @@
                                                 </li>
                                             </ul>
                                             <div class="form-row place-order">
-                                                <input type="submit" value="پرداخت" id="place_order" name="woocommerce_checkout_place_order" class="button alt">
+                                                <input style="background-color: #05bd1de1 !important;" type="submit" value="پرداخت" id="place_order" name="woocommerce_checkout_place_order" class="button alt">
                                                 <a class="preOrder" href="/Home/Cart">بازگشت</a>
                                             </div>
                                             <div class="clear"></div>
@@ -257,26 +306,47 @@ else
 }
 
 <!-- Modal تایید سفارش -->
-<div class="modal fade" id="confirmOrderModal" tabindex="-1" role="dialog" aria-labelledby="confirmOrderLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="confirmOrderModal">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmOrderLabel">تایید نهایی</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="بستن">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body text-center">
-                <p>آیا از ثبت این سفارش مطمئن هستید؟</p>
-            </div>
-
+            <div class="modal-header"><h5 class="modal-title">تایید نهایی</h5></div>
+            <div class="modal-body text-center"><p>آیا از ثبت این سفارش مطمئن هستید؟</p></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
                 <button type="button" class="btn btn-success" id="confirmSubmit">بله، تایید میکنم</button>
             </div>
+        </div>
+    </div>
+</div>
 
+<!-- Modal ورود/ثبت‌نام سریع -->
+<div class="modal fade" id="loginModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- مرحله شماره -->
+            <div class="modal-body p-4" id="stepPhone">
+                <h5 class="text-center">ورود / ثبت‌نام</h5>
+                <p class="text-muted small text-center">لطفاً شماره موبایل خود را وارد کنید</p>
+                <div class="form-group mb-3 position-relative">
+                    <input type="tel" id="phoneInput" class="form-control text-center"
+                           placeholder="۰۹xxxxxxxxx" inputmode="numeric" maxlength="11" dir="rtl" required>
+                    <div class="invalid-feedback">شماره موبایل معتبر وارد کنید</div>
+                </div>
+                <button id="sendCodeBtn" class="btn btn-primary w-100">دریافت کد تایید</button>
+            </div>
+
+            <!-- مرحله OTP -->
+            <div class="modal-body p-4 d-none" id="stepOtp">
+                <h5 class="text-center">کد تایید</h5>
+                <p class="text-muted small text-center">کدی که برایتان پیامک شد را وارد کنید</p>
+                <div id="otpInputs"></div>
+                <div id="otpError" class="text-danger small text-center">کد اشتباه است</div>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <span id="otpTimer" class="fw-bold text-muted"></span>
+                    <a href="#" id="resendCode" class="text-primary small disabled">ارسال مجدد</a>
+                </div>
+                <button id="verifyCodeBtn" class="btn btn-success w-100 mt-3">تایید و ادامه</button>
+            </div>
         </div>
     </div>
 </div>
@@ -315,17 +385,163 @@ else
     </script>
     <script>
         $(document).ready(function () {
-            // وقتی روی ثبت سفارش یا پرداخت کلیک شد → مودال باز شه
+            // وقتی روی ثبت سفارش یا پرداخت کلیک شد → مودال تایید باز شه
             $("#place_order").on("click", function (e) {
                 e.preventDefault();
                 $("#confirmOrderModal").modal("show");
             });
 
-            // تایید نهایی → فرم ارسال شه
+            // وقتی روی "بله، تایید میکنم" کلیک شد
             $("#confirmSubmit").on("click", function () {
-                $("#myform").submit();
+                $("#confirmOrderModal").modal("hide");
+
+                // چک کن که کاربر لاگین هست یا نه
+                $.get("/Account/IsAuthenticated", function (res) {
+                    if (res.isAuth) {
+                        // اگر لاگین بود → مستقیم فرم رو بفرست
+                        $("#myform").submit();
+                    } else {
+                        // اگر لاگین نبود → مودال لاگین/OTP باز کن
+                        $("#loginModal").modal("show");
+                    }
+                });
             });
         });
     </script>
+    <script>
+        $(function () {
+            const OTP_LEN = 5; let phone = "";
+            function toEN(s) { return s.replace(/[۰-۹]/g, d => String(d.charCodeAt(0) - 1776)).replace(/[٠-٩]/g, d => String(d.charCodeAt(0) - 1632)); }
+            function isValidPhone(v) { return /^09\d{9}$/.test(v); }
+
+            // باز شدن مودال → ریست
+            $('#loginModal').on('show.bs.modal', function () {
+                $('#phoneInput').val('').removeClass('is-invalid');
+                $('#stepPhone').show(); $('#stepOtp').hide();
+                $('#otpInputs').empty(); $('#otpError').hide();
+                $('#otpTimer').text(''); $('#resendCode').addClass('disabled');
+            });
+
+            // فقط اعداد در ورودی
+            $('#phoneInput').on('input', function () {
+                let v = toEN(this.value).replace(/\D/g, '').slice(0, 11);
+                this.value = v; this.style.direction = v ? 'ltr' : 'rtl';
+                $(this).removeClass('is-invalid');
+            });
+
+            // دکمه ارسال کد
+            $('#sendCodeBtn').click(function () {
+                let v = toEN($('#phoneInput').val().trim());
+                if (!isValidPhone(v)) { $('#phoneInput').addClass('is-invalid').focus(); return; }
+                phone = v;
+                $.post('/Account/GenerateOrLogin', { phoneNumber: v }).done(function () {
+                    buildOtp(); $('#stepPhone').hide(); $('#stepOtp').show(); startTimer(120);
+                });
+            });
+
+            function buildOtp() {
+                const $w = $('#otpInputs').empty();
+                for (let i = 0; i < OTP_LEN; i++) {
+                    $('<input>', { class: 'form-control otp-input', maxlength: 1, inputmode: 'numeric' })
+                        .css({ width: '45px', height: '55px', fontSize: '22px', fontWeight: 'bold', textAlign: 'center' })
+                        .appendTo($w);
+                }
+                $w.find('input').first().focus();
+            }
+
+            $(document).on('input', '.otp-input', function () {
+                this.value = toEN(this.value).replace(/\D/g, '').slice(0, 1);
+                if (this.value && this.nextElementSibling) this.nextElementSibling.focus();
+            });
+
+            // تایید کد
+            $('#verifyCodeBtn').click(function () {
+                let code = $('.otp-input').map(function () { return this.value; }).get().join('');
+                if (code.length !== OTP_LEN) return;
+                $.post('/Account/ApproveQuick', { phoneNumber: phone, code: code }).done(function (r) {
+                    if (r && r.success) { $('#loginModal').modal('hide'); $('#myform').submit(); }
+                    else $('#otpError').show();
+                });
+            });
+
+            // ارسال مجدد
+            $('#resendCode').click(function (e) {
+                e.preventDefault(); if ($(this).hasClass('disabled')) return;
+                $.get('/Account/ResendVerificationCode', { phoneNumber: phone });
+                startTimer(120);
+            });
+
+            function startTimer(sec) {
+                let t = sec; $('#resendCode').addClass('disabled');
+                let iv = setInterval(function () {
+                    let m = String(Math.floor(t / 60)).padStart(2, '0'), s = String(t % 60).padStart(2, '0');
+                    $('#otpTimer').text(m + ':' + s);
+                    if (--t < 0) { clearInterval(iv); $('#otpTimer').text(''); $('#resendCode').removeClass('disabled'); }
+                }, 1000);
+            }
+
+            // سفارش
+            $('#place_order').click(function (e) { e.preventDefault(); $('#confirmOrderModal').modal('show'); });
+            $('#confirmSubmit').click(function () {
+                $('#confirmOrderModal').modal('hide');
+                $.get('/Account/IsAuthenticated', function (r) {
+                    if (r.isAuth) $('#myform').submit();
+                    else $('#loginModal').modal('show');
+                });
+            });
+        });
+    </script>
+    <script>
+        (function () {
+            function toEN(s) {
+                return String(s)
+                    .replace(/[۰-۹]/g, d => String(d.charCodeAt(0) - 1776))
+                    .replace(/[٠-٩]/g, d => String(d.charCodeAt(0) - 1632));
+            }
+            function isValidPhone(v) { return /^09\d{9}$/.test(v); }
+
+            var $pn = $('#phoneInput');
+
+            // هر ورودی را به عدد پاک‌سازی کن (حروف حذف می‌شوند)
+            $pn.on('input', function () {
+                var v = toEN(this.value);
+                v = v.replace(/[^\d]/g, '').slice(0, 11);
+                this.value = v;
+                // UX: وقتی خالیه راست‌چین، وقتی پر شد LTR
+                this.style.direction = v ? 'ltr' : 'rtl';
+                $(this).removeClass('is-invalid'); // تا زمانی که ارسال نکرده، خطا نشان نده
+            });
+
+            // جلوی تایپ حروف را همزمان بگیر (فیلتر لحظه‌ای صفحه‌کلید)
+            $pn.on('keypress', function (e) {
+                var ch = String.fromCharCode(e.which);
+                // اجازه فقط به رقم (با تبدیل احتمالی)
+                if (!/[0-9]/.test(toEN(ch))) e.preventDefault();
+            });
+
+            // اگر صفحه‌کلید از beforeinput پشتیبانی کند، از همین‌جا جلوی حروف را بگیر
+            $pn.on('beforeinput', function (e) {
+                var data = e.originalEvent && e.originalEvent.data;
+                if (e.originalEvent && e.originalEvent.inputType === 'insertText' && data && !/^\d$/.test(toEN(data))) {
+                    e.preventDefault();
+                }
+            });
+
+            // موقع کلیک روی دکمه ارسال کد → اعتبارسنجی واقعی
+            $('#sendCodeBtn').on('click', function () {
+                var v = toEN($pn.val().trim());
+                if (!isValidPhone(v)) {
+                    $pn.addClass('is-invalid').focus(); // حالا فقط اینجاست که پیام خطا می‌آد
+                    return;
+                }
+                $pn.removeClass('is-invalid');
+
+                // ادامهٔ کار خودت (ارسال کد و رفتن به مرحله OTP)
+                $.post('/Account/GenerateOrLogin', { phoneNumber: v });
+                // ...
+            });
+        })();
+    </script>
+
 }
 

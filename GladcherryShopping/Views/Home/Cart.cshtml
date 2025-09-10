@@ -25,6 +25,12 @@
         select {
             width: 78% !important;
         }
+
+        @@media (max-width: 768px) {
+            .btn-order {
+                margin-bottom: 60px !important;
+            }
+        }
     </style>
 }
 
@@ -199,17 +205,7 @@
                                                 <option disabled value="2">پرداخت آنلاین (هزینه حمل +‌ هزینه سفارش)</option>
                                             </select>
                                         </p>
-                                        @if (User.Identity.IsAuthenticated)
-                                        {
-                                            <p><button class="button" value="1" type="submit"> تکمیل سفارش &nbsp;<i class="fa fa-arrow-left"></i></button></p>
-                                        }
-                                        else
-                                        {
-                                            <p>
-                                                لطفا جهت تکمیل سفارش ابتدا به حساب کاربری خود ورود کرده یا ثبت نام نمایید .
-                                                <a class="button" href="/account/loginaccount"> حساب کاربری &nbsp;<i class="fa fa-arrow-left"></i></a>
-                                            </p>
-                                        }
+                                        <p><button class="button btn-order" value="1" type="submit"> تکمیل سفارش &nbsp;<i class="fa fa-arrow-left"></i></button></p>
                                     </section>
                                 </form>
                             }
@@ -222,56 +218,56 @@
 </div>
 
 @*<div class="maincontent-area wow slideInRight" id="specialproducts">
-    <div class="zigzag-bottom"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="latest-product">
-                    <h3 class="section-title">محصولات پرفروش</h3>
-                    <div class="product-carousel">
-                        @foreach (var item in content.Products.Include(current => current.Orders).OrderByDescending(current => current.Orders.Count()).ToList())
-                        {
-                            <a href="/Product/@item.SefUrl">
-                                <div class="single-product">
-                                    <div class="product-f-image">
-                                        @if (item.SiteFirstImage != null)
-                                        {
-                                            <img src="@item.SiteFirstImage" alt="@item.PersianName" title="@item.PersianName">
-                                        }
-                                        else
-                                        {
-                                            <img src="~/images/sadr_logo.png" alt="@item.PersianName" title="@item.PersianName">
-                                        }
-                                    </div>
-
-                                    <div class="product-title">
-
-                                        <h2>@GladCherryShopping.Helpers.FunctionsHelper.Truncate(item.PersianName, 25)</h2>
-
-                                        <div class="product-carousel-price">
-                                            @if (item.DiscountPercent > 0)
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="latest-product">
+                        <h3 class="section-title">محصولات پرفروش</h3>
+                        <div class="product-carousel">
+                            @foreach (var item in content.Products.Include(current => current.Orders).OrderByDescending(current => current.Orders.Count()).ToList())
+                            {
+                                <a href="/Product/@item.SefUrl">
+                                    <div class="single-product">
+                                        <div class="product-f-image">
+                                            @if (item.SiteFirstImage != null)
                                             {
-                                                int pricewithdiscount = item.UnitPrice - (item.UnitPrice) * (item.DiscountPercent) / 100;
-
-                                                <ins>@string.Format("{0:n0}", pricewithdiscount) ریال</ins>
-                                                <del>@string.Format("{0:n0}", item.UnitPrice)</del>
-
+                                                <img src="@item.SiteFirstImage" alt="@item.PersianName" title="@item.PersianName">
                                             }
                                             else
                                             {
-                                                <ins>@string.Format("{0:n0}", item.UnitPrice) ریال</ins>
+                                                <img src="~/images/sadr_logo.png" alt="@item.PersianName" title="@item.PersianName">
                                             }
                                         </div>
+
+                                        <div class="product-title">
+
+                                            <h2>@GladCherryShopping.Helpers.FunctionsHelper.Truncate(item.PersianName, 25)</h2>
+
+                                            <div class="product-carousel-price">
+                                                @if (item.DiscountPercent > 0)
+                                                {
+                                                    int pricewithdiscount = item.UnitPrice - (item.UnitPrice) * (item.DiscountPercent) / 100;
+
+                                                    <ins>@string.Format("{0:n0}", pricewithdiscount) ریال</ins>
+                                                    <del>@string.Format("{0:n0}", item.UnitPrice)</del>
+
+                                                }
+                                                else
+                                                {
+                                                    <ins>@string.Format("{0:n0}", item.UnitPrice) ریال</ins>
+                                                }
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        }
+                                </a>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>*@
+    </div>*@
 
 <!-- Modal حذف -->
 <div class="modal fade" id="removeConfirmModal" tabindex="-1" role="dialog">
