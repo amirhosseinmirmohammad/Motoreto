@@ -238,7 +238,7 @@
                                                 </li>
                                             </ul>
                                             <div class="form-row place-order">
-                                                <input style="background-color: #05bd1de1 !important;" type="submit" value="ثبت سفارش" id="place_order" name="woocommerce_checkout_place_order" class="button alt">
+                                                <input style="background-color: #05bd1de1 !important;" type="button" value="ثبت سفارش" id="place_order" name="woocommerce_checkout_place_order" class="button alt">
                                                 <a class="preOrder" href="/Home/Cart">بازگشت</a>
                                             </div>
                                             <div class="clear"></div>
@@ -257,7 +257,7 @@
                                                 </li>
                                             </ul>
                                             <div class="form-row place-order">
-                                                <input style="background-color: #05bd1de1 !important;" type="submit" value="پرداخت" id="place_order" name="woocommerce_checkout_place_order" class="button alt">
+                                                <input style="background-color: #05bd1de1 !important;" type="button" value="پرداخت" id="place_order" name="woocommerce_checkout_place_order" class="button alt">
                                                 <a class="preOrder" href="/Home/Cart">بازگشت</a>
                                             </div>
                                             <div class="clear"></div>
@@ -384,27 +384,22 @@ else
         });
     </script>
     <script>
-        $(document).ready(function () {
-            // وقتی روی ثبت سفارش یا پرداخت کلیک شد → مودال تایید باز شه
-            $("#place_order").on("click", function (e) {
-                e.preventDefault();
-                $("#confirmOrderModal").modal("show");
-            });
+        $('#confirmSubmit').click(function () {
+            // بستن مودال تایید
+            $('#confirmOrderModal').modal('hide');
 
-            // وقتی روی "بله، تایید میکنم" کلیک شد
-            $("#confirmSubmit").on("click", function () {
-                $("#confirmOrderModal").modal("hide");
-
-                // چک کن که کاربر لاگین هست یا نه
-                $.get("/Account/IsAuthenticated", function (res) {
-                    if (res.isAuth) {
-                        // اگر لاگین بود → مستقیم فرم رو بفرست
-                        $("#myform").submit();
-                    } else {
-                        // اگر لاگین نبود → مودال لاگین/OTP باز کن
-                        $("#loginModal").modal("show");
-                    }
-                });
+            // بررسی لاگین بودن کاربر
+            $.get('/Account/IsAuthenticated', function (r) {
+                if (r && r.isAuth) {
+                    // اگر لاگین بود → فرم رو بفرست
+                    document.getElementById("myform").submit();
+                } else {
+                    // اگر لاگین نبود → مودال ورود/OTP رو نشون بده
+                    $('#loginModal').modal('show');
+                }
+            }).fail(function () {
+                // اگر خطا در سرور یا شبکه بود
+                alert('خطا در بررسی وضعیت ورود. لطفاً دوباره تلاش کنید.');
             });
         });
     </script>
