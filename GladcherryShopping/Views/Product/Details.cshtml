@@ -109,8 +109,17 @@
                         <span class="out-of-stock">ناموجود</span>
                     }
                 </div>
-                <button class="btn-addcart btncard" productid="@Model.product.Id">
-                    افزودن به سبد خرید
+                <button class="btn-addcartdetail" productid="@Model.product.Id">
+                    <span class="btn-icon" aria-hidden="true">
+                        <!-- SVG سبد خرید راست‌چین -->
+                        <svg viewBox="0 0 24 24" width="22" height="22" class="cart-svg">
+                            <path d="M7 7h14l-1.5 8.5a2 2 0 0 1-2 1.6H9.2a2 2 0 0 1-2-1.6L5.3 4.8H3"
+                                  fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                            <circle cx="10" cy="19.5" r="1.5" fill="currentColor" />
+                            <circle cx="18" cy="19.5" r="1.5" fill="currentColor" />
+                        </svg>
+                    </span>
+                    <span class="btn-label">افزودن به سبد خرید</span>
                 </button>
             </div>
         </div>
@@ -335,5 +344,62 @@
             'fadeDuration': 200,
             'albumLabel': "تصویر %1 از %2"  // ← فارسی
         })
+    </script>
+    <script>
+        $(document).on("click", ".btn-addcartdetail", function (e) {
+            e.preventDefault();
+            var $btn = $(this);
+            var productId = $btn.attr("productid");
+            var $cartTarget = $("#shoppingCount"); // هدف پرواز (شمارنده/آیکن سبد)
+
+            // reduced-motion
+            var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+            if (!reduceMotion && $cartTarget.length) {
+                var $start = $btn.find(".btn-icon");
+                if (!$start.length) $start = $btn;
+
+                var startOff = $start.offset();
+                var endOff = $cartTarget.offset();
+
+                var flySvg = '' +
+                    '<svg viewBox="0 0 24 24" width="22" height="22">' +
+                    ' <path d="M7 7h14l-1.5 8.5a2 2 0 0 1-2 1.6H9.2a2 2 0 0 1-2-1.6L5.3 4.8H3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>' +
+                    ' <circle cx="10" cy="19.5" r="1.5" fill="currentColor"/>' +
+                    ' <circle cx="18" cy="19.5" r="1.5" fill="currentColor"/>' +
+                    '</svg>';
+
+                var $fly = $('<div class="cart-fly" aria-hidden="true">' + flySvg + '</div>').appendTo("body");
+
+                $fly.css({
+                    left: startOff.left + ($start.outerWidth() / 2) - 11,
+                    top: startOff.top + ($start.outerHeight() / 2) - 11
+                });
+
+                $fly.animate({
+                    left: endOff.left + ($cartTarget.outerWidth() / 2) - 11,
+                    top: endOff.top + ($cartTarget.outerHeight() / 2) - 11,
+                    opacity: 0
+                }, 800, function () { $fly.remove(); });
+            }
+
+            // Ajax اضافه‌کردن به سبد
+            $.ajax({
+                url: "/Home/AddToShoppingCart",
+                data: { Id: productId },
+                type: "POST",
+                dataType: "json",
+                success: function (result) {
+                    if (result && result.Success) {
+                        if (typeof updateCartBadge === "function") {
+                            updateCartBadge(result.CountHtml);
+                        }
+                        if ($("#success-modal").length) $("#success-modal").modal("show");
+                    }
+                },
+                error: function () { console.warn("AddToShoppingCart failed"); }
+            });
+        });
+
     </script>
 }

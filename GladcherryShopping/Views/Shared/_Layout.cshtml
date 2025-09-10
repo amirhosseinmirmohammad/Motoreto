@@ -57,14 +57,69 @@
     <!-- iOS PWA -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="touch-icon" href="/images/pwa/icon-192-maskable.png">
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#d4df21">
+    <meta name="apple-mobile-web-app-title" content="Motoreto">
+    <link rel="touch-icon" href="~/images/pwa/ban-192.png">
+    <link rel="apple-touch-startup-image" href="/images/pwa/splash-640x1136.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)">
+    <link rel="apple-touch-startup-image" href="/images/pwa/splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)">
+    <link rel="apple-touch-startup-image" href="/images/pwa/splash-1242x2208.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)">
+    <link rel="apple-touch-startup-image" href="/images/pwa/splash-1125x2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)">
+    <link rel="apple-touch-startup-image" href="/images/pwa/splash-828x1792.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)">
+    <link rel="apple-touch-startup-image" href="/images/pwa/splash-1242x2688.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)">
+    <link rel="apple-touch-startup-image" href="/images/pwa/splash-1536x2048.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)">
+    <link rel="apple-touch-startup-image" href="/images/pwa/splash-1668x2224.png" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)">
+    <link rel="apple-touch-startup-image" href="/images/pwa/splash-1668x2388.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)">
+    <link rel="apple-touch-startup-image" href="/images/pwa/splash-2048x2732.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="images/pwa/splash_screens/iPhone_17_Pro_Max__iPhone_16_Pro_Max_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="images/pwa/splash_screens/iPhone_17_Pro__iPhone_17__iPhone_16_Pro_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="images/pwa/splash_screens/iPhone_17_Air__iPhone_16_Plus__iPhone_15_Pro_Max__iPhone_15_Plus__iPhone_14_Pro_Max_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="images/pwa/splash_screens/iPhone_16__iPhone_15_Pro__iPhone_15__iPhone_14_Pro_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="images/pwa/splash_screens/iPhone_14_Plus__iPhone_13_Pro_Max__iPhone_12_Pro_Max_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="images/pwa/splash_screens/iPhone_16e__iPhone_14__iPhone_13_Pro__iPhone_13__iPhone_12_Pro__iPhone_12_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="images/pwa/splash_screens/iPhone_13_mini__iPhone_12_mini__iPhone_11_Pro__iPhone_XS__iPhone_X_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="images/pwa/splash_screens/iPhone_11_Pro_Max__iPhone_XS_Max_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="images/pwa/splash_screens/iPhone_11__iPhone_XR_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="images/pwa/splash_screens/iPhone_8_Plus__iPhone_7_Plus__iPhone_6s_Plus__iPhone_6_Plus_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="images/pwa/splash_screens/iPhone_8__iPhone_7__iPhone_6s__iPhone_6__4.7__iPhone_SE_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="images/pwa/splash_screens/4__iPhone_SE__iPod_touch_5th_generation_and_later_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 1032px) and (device-height: 1376px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="images/pwa/splash_screens/13__iPad_Pro_M4_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="images/pwa/splash_screens/12.9__iPad_Pro_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1210px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="images/pwa/splash_screens/11__iPad_Pro_M4_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="images/pwa/splash_screens/11__iPad_Pro__10.5__iPad_Pro_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="images/pwa/splash_screens/10.9__iPad_Air_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="images/pwa/splash_screens/10.5__iPad_Air_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="images/pwa/splash_screens/10.2__iPad_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="images/pwa/splash_screens/9.7__iPad_Pro__7.9__iPad_mini__9.7__iPad_Air__9.7__iPad_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="images/pwa/splash_screens/8.3__iPad_Mini_landscape.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="images/pwa/splash_screens/iPhone_17_Pro_Max__iPhone_16_Pro_Max_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="images/pwa/splash_screens/iPhone_17_Pro__iPhone_17__iPhone_16_Pro_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="images/pwa/splash_screens/iPhone_17_Air__iPhone_16_Plus__iPhone_15_Pro_Max__iPhone_15_Plus__iPhone_14_Pro_Max_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="images/pwa/splash_screens/iPhone_16__iPhone_15_Pro__iPhone_15__iPhone_14_Pro_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="images/pwa/splash_screens/iPhone_14_Plus__iPhone_13_Pro_Max__iPhone_12_Pro_Max_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="images/pwa/splash_screens/iPhone_16e__iPhone_14__iPhone_13_Pro__iPhone_13__iPhone_12_Pro__iPhone_12_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="images/pwa/splash_screens/iPhone_13_mini__iPhone_12_mini__iPhone_11_Pro__iPhone_XS__iPhone_X_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="images/pwa/splash_screens/iPhone_11_Pro_Max__iPhone_XS_Max_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/pwa/splash_screens/iPhone_11__iPhone_XR_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="images/pwa/splash_screens/iPhone_8_Plus__iPhone_7_Plus__iPhone_6s_Plus__iPhone_6_Plus_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/pwa/splash_screens/iPhone_8__iPhone_7__iPhone_6s__iPhone_6__4.7__iPhone_SE_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/pwa/splash_screens/4__iPhone_SE__iPod_touch_5th_generation_and_later_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 1032px) and (device-height: 1376px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/pwa/splash_screens/13__iPad_Pro_M4_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/pwa/splash_screens/12.9__iPad_Pro_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1210px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/pwa/splash_screens/11__iPad_Pro_M4_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/pwa/splash_screens/11__iPad_Pro__10.5__iPad_Pro_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/pwa/splash_screens/10.9__iPad_Air_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/pwa/splash_screens/10.5__iPad_Air_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/pwa/splash_screens/10.2__iPad_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/pwa/splash_screens/9.7__iPad_Pro__7.9__iPad_mini__9.7__iPad_Air__9.7__iPad_portrait.png">
+    <link rel="apple-touch-startup-image" media="screen and (device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/pwa/splash_screens/8.3__iPad_Mini_portrait.png">
     <!-- Bootstrap -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="~/Content/css/font-awesome.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="~/Content/css/owl.carousel.css">
-    <link href="~/Content/style.css?v=5.8" rel="stylesheet" />
+    <link href="~/Content/style.css?v=5.9" rel="stylesheet" />
     <link href="~/Content/css/nav.css" rel="stylesheet" />
     @*<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />*@
     @RenderSection("Styles", required: false)
@@ -138,94 +193,86 @@
         </div>
     </div>
 
-    <div id="header-area" class="header_area">
-        <div class="header_bottom">
-            <div class="container">
-                <div class="row">
-                    <nav role="navigation" class="navbar navbar-default mainmenu">
-                        <div class="navbar-header">
-                            @*<a href="/"><img src="~/images/sadr_logo.png" title="موتورتو ، فروش آنلاین قطعات خودرو | Motoreto" alt="موتورتو ، فروش آنلاین قطعات خودرو | Motoreto" id="main_logo" /></a>*@
-                            <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                        </div>
-                        <div id="navbarCollapse" class="collapse navbar-collapse">
-                            <ul id="fresponsive" class="nav navbar-nav dropdown">
-                                <li class="@(Request.Url.AbsolutePath == "/" ? "active" : "")">
-                                    <a href="/">صفحه اصلی</a>
-                                </li>
+    <!-- دکمه باز کردن منو -->
+    <button id="openMenuBtn" class="btn btn-default">
+        <i class="fa fa-bars"></i>
+    </button>
 
-                                <li class="dropdown @(Request.Url.AbsolutePath.ToLower().Contains("aboutus")
-                          || Request.Url.AbsolutePath.ToLower().Contains("faq")
-                          || Request.Url.AbsolutePath.ToLower().Contains("terms")
-                          || Request.Url.AbsolutePath.ToLower().Contains("contactus")
-                          || Request.Url.AbsolutePath.ToLower().Contains("app") ? "active" : "")">
-                                    <a data-toggle="dropdown" class="dropdown-toggle">بیشتر<span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li class="drop-menu"><a href="/aboutus">درباره ما</a></li>
-                                        <li class="drop-menu"><a href="/app">دانلود اپلیکیشن</a></li>
-                                        <li class="drop-menu"><a href="/faq">سوالات متداول</a></li>
-                                        <li class="drop-menu"><a href="/terms">قوانین و مقررات</a></li>
-                                        <li class="drop-menu"><a href="/contactus">تماس با ما</a></li>
-                                    </ul>
-                                </li>
+    <!-- سایدبار -->
+    <div id="menuOverlay"></div>
 
-                                <li class="@(Request.Url.AbsolutePath.ToLower().Contains("blog") ? "active" : "")">
-                                    <a href="/blog/all">وبلاگ</a>
-                                </li>
-
-                                <li class="dropdown @(Request.Url.AbsolutePath.ToLower().Contains("account") ? "active" : "")">
-                                    <a data-toggle="dropdown" class="dropdown-toggle">حساب کاربری<span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        @if (User.Identity.IsAuthenticated)
-                                        {
-                                            string UserId = User.Identity.GetUserId();
-                                            var Adminrole = content.Roles.Where(p => p.Name == "Administrator").FirstOrDefault();
-                                            var Userrole = content.Roles.Where(p => p.Name == "User").FirstOrDefault();
-                                            ApplicationUser user = content.Users.Where(current => current.Id == UserId).Include(current => current.Roles).FirstOrDefault();
-                                            if (user != null)
-                                            {
-                                                if (user.Roles.FirstOrDefault().RoleId == Adminrole.Id)
-                                                {
-                                                    <li class="drop-menu">
-                                                        <a href="/Account/AdminPanel">پنل مدیریت</a>
-                                                    </li>
-                                                }
-                                                else if (user.Roles.FirstOrDefault().RoleId == Userrole.Id)
-                                                {
-                                                    <li class="drop-menu">
-                                                        <a href="/Account/UserAccount">پنل کاربری</a>
-                                                    </li>
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <li class="drop-menu"><a href="/account/loginaccount">ورود</a></li>
-                                            <li class="drop-menu"><a href="/account/registeraccount">ثبت نام</a></li>
-                                        }
-                                    </ul>
-                                </li>
-
-                                <li class="@(Request.Url.AbsolutePath.ToLower().Contains("cart") ? "active" : "")">
-                                    <a href="/Home/Cart" style="position:relative; display:inline-block;">
-                                        <i class="glyphicon glyphicon-shopping-cart" style="font-size:30px;"></i>
-                                        <span id="shoppingCount" class="cart-badge">
-                                            @{ Html.RenderAction("CartCount", "Home"); }
-                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
-
-                        </div>
-                    </nav>
-                </div>
-            </div>
+    <aside id="sideMenu" class="side-menu">
+        <!-- هدر -->
+        <div class="side-menu-header">
+            <img src="/images/sadr_logo.png" alt="لوگو">
+            <h3>منو سایت</h3>
+            <button id="closeMenuBtn" class="close-btn">&times;</button>
         </div>
-    </div>
+
+        <!-- آیتم‌ها -->
+        <ul class="side-menu-list">
+            <li>
+                <a href="/">
+                    <span class="menu-icon-wrap">
+                        <span class="menu-icon"><i class="fa fa-home"></i></span>
+                    </span>
+                    صفحه اصلی
+                </a>
+            </li>
+
+            <li>
+                <a href="/blog/all">
+                    <span class="menu-icon-wrap">
+                        <span class="menu-icon"><i class="fa fa-book"></i></span>
+                    </span>
+                    وبلاگ
+                </a>
+            </li>
+
+            <li>
+                <a href="/account/loginaccount">
+                    <span class="menu-icon-wrap">
+                        <span class="menu-icon"><i class="fa fa-user"></i></span>
+                    </span>
+                    حساب کاربری
+                </a>
+            </li>
+
+            <li class="has-submenu">
+                <a href="javascript:void(0);" class="submenu-toggle">
+                    <span class="menu-icon-wrap">
+                        <span class="menu-icon"><i class="fa fa-ellipsis-h"></i></span>
+                    </span>
+                    بیشتر
+                    <i class="fa fa-angle-down submenu-arrow"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="/aboutus">درباره ما</a></li>
+                    <li><a href="/app">دانلود اپلیکیشن</a></li>
+                    <li><a href="/faq">سوالات متداول</a></li>
+                    <li><a href="/terms">قوانین و مقررات</a></li>
+                    <li><a href="/contactus">تماس با ما</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="/Home/Cart" style="position:relative;">
+                    <span class="menu-icon-wrap">
+                        <span class="menu-icon"><i class="fa fa-shopping-cart"></i></span>
+                        <span id="shoppingCount" class="cart-badge">1</span>
+                    </span>
+                    سبد خرید
+                </a>
+            </li>
+        </ul>
+        <!-- شبکه‌های اجتماعی -->
+        <div class="side-menu-social">
+            <a href="https://instagram.com/motoreto.ir" target="_blank"><i class="fa fa-instagram"></i></a>
+            <a href="https://t.me/motoreto_ir" target="_blank"><i class="fa fa-paper-plane"></i></a> <!-- تلگرام -->
+            <a href="https://wa.me/989128049946" target="_blank"><i class="fa fa-phone"></i></a> <!-- واتساپ -->
+        </div>
+    </aside>
+
     @RenderBody()
     @*<div class="map">
             <div id="map" style="width:100%;height:300px"></div>
@@ -447,7 +494,18 @@
                     <!-- راهنمای iOS (فقط وقتی لازم شد نمایش می‌دیم) -->
                     <div id="pwa-ios-steps" style="display:none; margin-top:10px;">
                         <ol class="pwa-steps">
-                            <li>روی دکمه <b>Share</b> (آیکن مربع با فلش) بزن.</li>
+                            <li>
+                                <span class="ios-share-icon" aria-hidden="true">
+                                    <!-- iOS Share SVG -->
+                                    <svg viewBox="0 0 24 24" width="18" height="18" focusable="false">
+                                        <!-- پیکان رو به بالا -->
+                                        <path d="M12 3l3.5 3.5-.7.7L12.5 4.6V14h-1V4.6L9.2 7.2l-.7-.7L12 3z" />
+                                        <!-- جعبه پایین -->
+                                        <path d="M6 10h1v9h10v-9h1v10a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V10z" />
+                                    </svg>
+                                </span>
+                                روی دکمه <b>Share</b> (آیکن مربع با فلش) بزن.
+                            </li>
                             <li><b>Add to Home Screen</b> یا <b>افزودن به صفحهٔ اصلی</b> رو انتخاب کن.</li>
                             <li>تأیید کن تا نصب شود.</li>
                         </ol>
@@ -497,17 +555,23 @@
     @RenderSection("Scripts", required: false)
     <script>
         function updateCartBadge(count) {
-            // هدر (navbar)
+            // هدر
             const badgeHeader = $("#shoppingCount");
-            badgeHeader.text(count);
-            badgeHeader.addClass("update");
+            badgeHeader.text(count).addClass("update");
             setTimeout(() => badgeHeader.removeClass("update"), 400);
 
-            // موبایل (bottom nav)
+            // موبایل
             const badgeMobile = $("#shoppingCountMobile");
-            badgeMobile.text(count);
-            badgeMobile.addClass("update");
+            badgeMobile.text(count).addClass("update");
             setTimeout(() => badgeMobile.removeClass("update"), 400);
+
+            // سایدمنو (جدید)
+            const badgeSide = $("#shoppingCountSide");
+            if (badgeSide.length) {
+                badgeSide.text(count);
+                // اگر 0 بود مخفی شود
+                badgeSide.toggleClass("hidden", parseInt(count, 10) <= 0);
+            }
         }
     </script>
     <script>
@@ -766,8 +830,8 @@
             function isStandalone() {
                 return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
             }
-            function isIOS() { return /iphone|ipad|ipod/i.test(navigator.userAgent); }
-            function isSafari() { return /^((?!chrome|android).)*safari/i.test(navigator.userAgent); }
+            function isIOS() { return /iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase()); }
+            function isSafari() { return /^((?!chrome|android).)*safari/i.test(navigator.userAgent.toLowerCase()); }
             function isIOSSafari() { return isIOS() && isSafari(); }
 
             function shouldAsk() {
@@ -779,12 +843,26 @@
 
             function openModal() {
                 if (!shouldAsk()) return;
+
+                if (isIOSSafari()) {
+                    // دکمه نصب کن رو مخفی کن
+                    var btnYes = document.querySelector(BTN_YES);
+                    if (btnYes) btnYes.style.display = 'none';
+
+                    // متن دکمه نه → متوجه شدم
+                    var btnNo = document.querySelector(BTN_NO);
+                    if (btnNo) btnNo.textContent = 'متوجه شدم';
+
+                    // راهنما رو نشون بده
+                    var iosSteps = document.querySelector(IOS_STEPS);
+                    if (iosSteps) iosSteps.style.display = 'block';
+                }
+
                 if (!deferredPrompt && !isIOSSafari()) return;
-                if (isIOSSafari()) document.querySelector(IOS_STEPS).style.display = 'block';
+
                 if (window.jQuery && jQuery.fn && jQuery.fn.modal) {
                     jQuery(MODAL).modal('show');
                 } else {
-                    // اگر بوت‌استرپ هنوز لود نشده، بعد از load باز کن
                     window.addEventListener('load', function () { jQuery(MODAL).modal('show'); }, { once: true });
                 }
             }
@@ -803,23 +881,23 @@
             document.addEventListener('click', async function (e) {
                 var yes = e.target.closest(BTN_YES);
                 var no = e.target.closest(BTN_NO);
-                if (yes) {
-                    if (deferredPrompt) {
-                        deferredPrompt.prompt();
-                        try {
-                            var choice = await deferredPrompt.userChoice;
-                            deferredPrompt = null;
-                            if (choice && choice.outcome === 'accepted') {
-                                setCookie(INSTALLED_COOKIE, '1', 3650);
-                            } else {
-                                setCookie(DISMISS_COOKIE, '1', DISMISS_DAYS);
-                            }
-                        } catch (_) {
+
+                if (yes && !isIOSSafari() && deferredPrompt) {
+                    deferredPrompt.prompt();
+                    try {
+                        var choice = await deferredPrompt.userChoice;
+                        deferredPrompt = null;
+                        if (choice && choice.outcome === 'accepted') {
+                            setCookie(INSTALLED_COOKIE, '1', 3650);
+                        } else {
                             setCookie(DISMISS_COOKIE, '1', DISMISS_DAYS);
                         }
-                        jQuery(MODAL).modal('hide');
-                    } // در iOS فقط راهنما نشان داده می‌شود
+                    } catch (_) {
+                        setCookie(DISMISS_COOKIE, '1', DISMISS_DAYS);
+                    }
+                    jQuery(MODAL).modal('hide');
                 }
+
                 if (no) {
                     setCookie(DISMISS_COOKIE, '1', DISMISS_DAYS);
                     jQuery(MODAL).modal('hide');
@@ -832,6 +910,7 @@
             });
         })();
     </script>
+
     <!-- Splash فقط دسکتاپ -->
     <script>
         (function () {
@@ -902,6 +981,49 @@
             }
             setTimeout(hideLoader, 7000);
         })();
+    </script>
+    <script>
+        const sideMenu = document.getElementById("sideMenu");
+        const overlay = document.getElementById("menuOverlay");
+
+        document.getElementById("openMenuBtn").addEventListener("click", function () {
+            sideMenu.classList.add("open");
+            overlay.classList.add("show");
+        });
+
+        document.getElementById("closeMenuBtn").addEventListener("click", closeMenu);
+        overlay.addEventListener("click", closeMenu);
+
+        function closeMenu() {
+            sideMenu.classList.remove("open");
+            overlay.classList.remove("show");
+        }
+
+    </script>
+    <script>
+        document.querySelectorAll(".submenu-toggle").forEach(function (toggle) {
+            toggle.addEventListener("click", function (e) {
+                e.preventDefault();
+                let parent = this.parentElement;
+                let submenu = parent.querySelector(".submenu");
+                let arrow = this.querySelector(".submenu-arrow");
+
+                // بستن ساب‌منوهای دیگر
+                document.querySelectorAll(".submenu").forEach(s => {
+                    if (s !== submenu) s.style.display = "none";
+                });
+
+                // باز/بسته کردن این ساب‌منو
+                if (submenu.style.display === "block") {
+                    submenu.style.display = "none";
+                    arrow.style.transform = "rotate(0deg)";
+                } else {
+                    submenu.style.display = "block";
+                    arrow.style.transform = "rotate(180deg)";
+                }
+            });
+        });
+
     </script>
 </body>
 </html>
