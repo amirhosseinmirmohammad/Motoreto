@@ -119,7 +119,7 @@
     <link rel="stylesheet" href="~/Content/css/font-awesome.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="~/Content/css/owl.carousel.css">
-    <link href="~/Content/style.css?v=6.4" rel="stylesheet" />
+    <link href="~/Content/style.css?v=6.5" rel="stylesheet" />
     <link href="~/Content/css/nav.css" rel="stylesheet" />
     @*<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />*@
     @RenderSection("Styles", required: false)
@@ -220,30 +220,12 @@
                 </a>
             </li>
 
-            <li>
-                <a href="/blog/all">
-                    <span class="menu-icon-wrap">
-                        <span class="menu-icon"><i class="fa fa-book"></i></span>
-                    </span>
-                    وبلاگ
-                </a>
-            </li>
-
-            <li>
-                <a href="/account/loginaccount">
-                    <span class="menu-icon-wrap">
-                        <span class="menu-icon"><i class="fa fa-user"></i></span>
-                    </span>
-                    حساب کاربری
-                </a>
-            </li>
-
             <li class="has-submenu">
                 <a href="javascript:void(0);" class="submenu-toggle">
                     <span class="menu-icon-wrap">
                         <span class="menu-icon"><i class="fa fa-ellipsis-h"></i></span>
                     </span>
-                    بیشتر
+                    معرفی موتورتو
                     <i class="fa fa-angle-down submenu-arrow"></i>
                 </a>
                 <ul class="submenu">
@@ -254,6 +236,58 @@
                     <li><a href="/contactus">تماس با ما</a></li>
                 </ul>
             </li>
+
+            <li>
+                <a href="/blog/all">
+                    <span class="menu-icon-wrap">
+                        <span class="menu-icon"><i class="fa fa-book"></i></span>
+                    </span>
+                    وبلاگ
+                </a>
+            </li>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                string UserId = User.Identity.GetUserId();
+                var Adminrole = content.Roles.Where(p => p.Name == "Administrator").FirstOrDefault();
+                var Userrole = content.Roles.Where(p => p.Name == "User").FirstOrDefault();
+                ApplicationUser user = content.Users.Where(current => current.Id == UserId).Include(current => current.Roles).FirstOrDefault();
+                if (user != null)
+                {
+                    if (user.Roles.FirstOrDefault().RoleId == Adminrole.Id)
+                    {
+                        <li class="drop-menu">
+                            <a href="/Account/AdminPanel">
+                                <span class="menu-icon-wrap">
+                                    <span class="menu-icon"><i class="fa fa-user"></i></span>
+                                </span>پنل مدیریت
+                            </a>
+                        </li>
+                    }
+                    else if (user.Roles.FirstOrDefault().RoleId == Userrole.Id)
+                    {
+                        <li class="drop-menu">
+                            <a href="/Account/UserAccount">
+                                <span class="menu-icon-wrap">
+                                    <span class="menu-icon"><i class="fa fa-user"></i></span>
+                                </span>
+                                حساب من
+                            </a>
+                        </li>
+                    }
+                }
+            }
+            else
+            {
+                <li>
+                    <a href="/account/loginaccount">
+                        <span class="menu-icon-wrap">
+                            <span class="menu-icon"><i class="fa fa-user"></i></span>
+                        </span>
+                        حساب کاربری
+                    </a>
+                </li>
+            }
 
             <li>
                 <a href="/Home/Cart" style="position:relative;">
@@ -448,11 +482,6 @@
             </ul>*@
     </div>
     <div id="mobile-tabs">
-        <a class="mobile-tab-wrapper link @(Request.Url.AbsolutePath == "/" ? "active" : "")" href="/">
-            <i class="fa fa-home"></i>
-            <small>خانه</small>
-        </a>
-
         <a class="mobile-tab-wrapper @(Request.Url.AbsolutePath.ToLower().Contains("product") ? "active" : "")" href="/#categories">
             <i class="fa fa-bars"></i>
             <small>دسته بندی</small>
@@ -463,6 +492,45 @@
             <span id="shoppingCountMobile" class="cart-badge">@{ Html.RenderAction("CartCount", "Home"); }</span>
             <small>سبد خرید</small>
         </a>
+
+        <!-- خانه (وسط و دایره‌ای) -->
+        <div class="nav-home">
+            <a href="/" class="home-btn @(Request.Url.AbsolutePath == "/" ? "active" : "")">
+                <i class="fa fa-home"></i>
+            </a>
+        </div>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            string UserId = User.Identity.GetUserId();
+            var Adminrole = content.Roles.Where(p => p.Name == "Administrator").FirstOrDefault();
+            var Userrole = content.Roles.Where(p => p.Name == "User").FirstOrDefault();
+            ApplicationUser user = content.Users.Where(current => current.Id == UserId).Include(current => current.Roles).FirstOrDefault();
+            if (user != null)
+            {
+                if (user.Roles.FirstOrDefault().RoleId == Adminrole.Id)
+                {
+                    <a class="mobile-tab-wrapper" href="/Account/AdminPanel">
+                        <i class="fa fa-user"></i>
+                        <small>پنل مدیریت</small>
+                    </a>
+                }
+                else if (user.Roles.FirstOrDefault().RoleId == Userrole.Id)
+                {
+                    <a class="mobile-tab-wrapper" href="/Account/UserAccount">
+                        <i class="fa fa-user"></i>
+                        <small>حساب من</small>
+                    </a>
+                }
+            }
+        }
+        else
+        {
+            <a class="mobile-tab-wrapper" href="/account/loginaccount">
+                <i class="fa fa-user"></i>
+                <small>حساب کاربری</small>
+            </a>
+        }
 
         <a class="mobile-tab-wrapper link @(Request.Url.AbsolutePath.ToLower().Contains("contactus") ? "active" : "")" href="/contactus">
             <i class="fa fa-user"></i>
