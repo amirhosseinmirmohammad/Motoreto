@@ -31,38 +31,13 @@
                 margin-bottom: 60px !important;
             }
         }
+
+        .btnRemove:hover {
+            background: initial !important;
+            background-color: initial !important;
+        }
     </style>
 }
-
-<div class="checkout-steps" dir="rtl" aria-label="مراحل خرید">
-    <div class="step">
-        <div class="step-link" role="textbox">
-            <a class="step-link" href="/home/cart" asp-controller="Home" asp-action="Cart" aria-label="رفتن به سبد خرید">
-                <span class="icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
-                <span class="text">سبد خرید</span>
-            </a>
-        </div>
-    </div>
-
-    <div class="line" role="presentation"></div>
-
-    <div class="step ">
-        <a class="step-link" style="color: #05bd1de1 !important;" asp-controller="Home" asp-action="Cart" aria-label="رفتن به سبد خرید">
-            <span class="icon"><i class="fa fa-credit-card" aria-hidden="true"></i></span>
-            <span class="text">ثبت سفارش</span>
-        </a>
-    </div>
-</div>
-
-<div class="container blog_header">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="text-center">
-                <h1>تکمیل سفارش</h1>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="container blog_header">
     <div class="row">
@@ -136,7 +111,7 @@
                                 <table cellspacing="0" class="shop_table cart table-hover">
                                     <thead>
                                         <tr>
-                                            <th class="product-remove">&nbsp;</th>
+                                            <th class="product-remove">حذف</th>
                                             <th class="product-thumbnail">تصویر</th>
                                             <th class="product-name">عنوان</th>
                                             <th class="product-quantity">تعداد</th>
@@ -154,7 +129,7 @@
                                             <tr class="RMNT_item" id="cart-item-@item.Product.Id">
                                                 <td class="product-remove" data-label="حذف">
                                                     <a title="حذف محصول از سبد خرید" class="remove btnRemove" productid="@item.Product.Id">
-                                                        <i class="fa fa-close"></i>
+                                                        <i class="fa fa-trash" style="color: red; font-size: 20px !important;"></i>
                                                     </a>
                                                 </td>
                                                 <td class="product-thumbnail" data-label="تصویر">
@@ -180,7 +155,7 @@
                                                     </div>
                                                 </td>
                                                 <td class="product-subtotal" data-label="مجموع">
-                                                    <span class="amount">@string.Format("{0:n0}", resultcount)</span>
+                                                    <span class="amount">@string.Format("{0:n0}", resultcount) ریال</span>
                                                 </td>
                                             </tr>
                                         }
@@ -210,7 +185,7 @@
 
                                 <div class="empty-cta">
                                     <a href="/#categories" class="btn btn-warning">مشاهده دسته‌بندی‌ها</a>
-                                    <a href="/#specialproducts" class="btn btn-primary" style="background-color:#00016e;border-color:#00016e">محصولات جدید</a>
+                                    <a href="/#specialproducts" class="btn btn-primary" style="background-color: #ff740a !important; border-color: #ff740a !important;">محصولات جدید</a>
                                 </div>
                             </div>
                         }
