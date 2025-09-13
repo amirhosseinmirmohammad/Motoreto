@@ -209,6 +209,10 @@ body {
     body {
         padding-bottom: 70px;
     }
+
+    #openMenuBtn {
+        right: 15px !important;
+    }
 }
 
 .header-area {
@@ -3960,6 +3964,10 @@ p.text-sty-banner {
         display: none;
     }
 
+    .text-center.main_h1 h1 {
+        margin: 20px 5px 8px !important;
+    }
+
     .shop_table, .shop_table tbody, .shop_table tr, .shop_table td {
         display: block;
         width: 100%;
@@ -6587,6 +6595,7 @@ html.pwa-noscroll, body.pwa-noscroll {
 }
 
     .side-menu-header img {
+        border-radius: 10px;
         height: 40px;
     }
 
@@ -6678,13 +6687,18 @@ html.pwa-noscroll, body.pwa-noscroll {
 #openMenuBtn {
     position: fixed;
     top: 15px;
-    right: 15px; /* از سمت راست */
+    right: 25px; /* از سمت راست */
     background: none; /* بک‌گراند حذف */
     border: none;
     font-size: 22px;
     cursor: pointer;
     z-index: 1001;
     color: #00016e;
+    background-color: #e9e9e9a6;
+    border-radius: 25px;
+    width: 45px;
+    height: 45px;
+    padding: 0;
 }
 
 /* سایدبار */
